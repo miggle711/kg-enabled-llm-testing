@@ -305,7 +305,7 @@ class TestContextExtractor:
             self.engine.nodes_by_id,
             self.engine.edges,
             depth=depth,
-            edge_filter=edge_filter if edge_filter else None,
+            edge_filter=edge_filter,
             directions={"outgoing", "incoming"},
         )
 
