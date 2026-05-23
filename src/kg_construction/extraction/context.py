@@ -19,9 +19,9 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Dict, Optional, Set
-from collections import deque
 
 from kg_construction.kg.query import KGQueryEngine
+from kg_construction.kg.traversal import GraphTraversal
 
 
 @dataclass
@@ -369,9 +369,9 @@ class TestContextExtractor:
     ) -> tuple:
         """BFS traversal from seeds, filtered by edge type.
 
-        Expands outward from seed nodes up to `depth` hops, including only
-        edges whose relation is in edge_filter. Both directions are traversed
-        (incoming and outgoing).
+        Uses GraphTraversal utility for generic BFS. Expands outward from
+        seed nodes up to `depth` hops, including only edges whose relation
+        is in edge_filter. Both directions are traversed (incoming and outgoing).
 
         Args:
             seed_ids: Starting node IDs.
@@ -384,55 +384,21 @@ class TestContextExtractor:
         if edge_filter is None:
             edge_filter = set()
 
-        visited_nodes: Set[str] = set()
-        visited_edges: Set[tuple] = set()
-        nodes_list: List[Dict] = []
-        edges_list: List[Dict] = []
+        # Filter seed IDs to those that exist in the KG
+        valid_seed_ids = [nid for nid in seed_ids if nid in self.engine.nodes_by_id]
 
-        frontier = deque([(nid, 0) for nid in seed_ids if nid in self.engine.nodes_by_id])
+        # Use GraphTraversal for BFS
+        traversal = GraphTraversal()
+        visited_node_ids, traversed_edges = traversal.bfs(
+            valid_seed_ids,
+            self.engine.nodes_by_id,
+            self.engine.edges,
+            depth=depth,
+            edge_filter=edge_filter if edge_filter else None,
+            directions={"outgoing", "incoming"},
+        )
 
-        while frontier:
-            node_id, current_depth = frontier.popleft()
+        # Convert visited node IDs to node dicts
+        nodes_list = [self.engine.nodes_by_id[nid] for nid in visited_node_ids]
 
-            if node_id in visited_nodes:
-                continue
-
-            visited_nodes.add(node_id)
-            nodes_list.append(self.engine.nodes_by_id[node_id])
-
-            if current_depth >= depth:
-                continue
-
-            # Outgoing edges
-            for edge in self.engine.edges_by_source.get(node_id, []):
-                if edge['relation'] not in edge_filter:
-                    continue
-
-                target_id = edge['target']
-                edge_key = (edge['source'], target_id, edge['relation'])
-
-                if edge_key not in visited_edges and target_id in self.engine.nodes_by_id:
-                    visited_edges.add(edge_key)
-                    edges_list.append(edge)
-
-                    if target_id not in visited_nodes:
-                        frontier.append((target_id, current_depth + 1))
-
-            # Incoming edges (for call graph, tests, etc.)
-            for edge in self.engine.edges_by_target.get(node_id, []):
-                if edge['relation'] not in edge_filter:
-                    continue
-
-                # TODO: need to finalise directionality of edges in the KG. 
-                # TODO: Im not sure if imports should be source->target or if sometimes target->source.
-                source_id = edge['source'] 
-                edge_key = (source_id, edge['target'], edge['relation'])
-
-                if edge_key not in visited_edges and source_id in self.engine.nodes_by_id:
-                    visited_edges.add(edge_key)
-                    edges_list.append(edge)
-
-                    if source_id not in visited_nodes:
-                        frontier.append((source_id, current_depth + 1))
-
-        return nodes_list, edges_list
+        return nodes_list, traversed_edges
