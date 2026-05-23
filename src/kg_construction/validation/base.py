@@ -13,7 +13,7 @@ while inheriting consistent error handling and reporting.
 """
 
 from abc import ABC, abstractmethod
-from typing import Tuple, List
+from typing import Tuple, List, Optional
 
 
 class ValidationBase(ABC):
@@ -49,7 +49,7 @@ class ValidationBase(ABC):
         self,
         title: str,
         stats_line: str = "",
-        is_valid: bool = None,
+        is_valid: Optional[bool] = None,
     ) -> Tuple[bool, str]:
         """Format a standard validation report.
 
