@@ -1,0 +1,154 @@
+digraph Methodology_Overview {
+    rankdir=TB;
+    bgcolor=white;
+    node [shape=box, style=filled, fontname="Helvetica", fontsize=10];
+    edge [fontname="Helvetica", fontsize=9];
+
+    // Phase 1: KG Construction
+    subgraph cluster_phase1 {
+        style=filled;
+        fillcolor="#E8F4F8";
+        label="Phase 1: Knowledge Graph Construction";
+        color=black;
+        fontsize=11;
+        fontname="Helvetica";
+
+        repo [label="Repository\n(Source Code)", fillcolor=lightblue, shape=cylinder];
+        ast_parse [label="AST Parsing\n(Parallel)", fillcolor=lightyellow];
+        resolve_edges [label="Edge Resolution\n(Sequential)", fillcolor=lightyellow];
+        kg_full [label="Full KG\n(~5MB JSON)\n960 nodes, 3603 edges", fillcolor=gold, style="filled,bold"];
+
+        repo -> ast_parse;
+        ast_parse -> resolve_edges;
+        resolve_edges -> kg_full;
+    }
+
+    // Phase 2: Patch Parsing & Seed Identification
+    subgraph cluster_phase2 {
+        style=filled;
+        fillcolor="#F0E8F8";
+        label="Phase 2: Patch Parsing & Seed Identification";
+        color=black;
+        fontsize=11;
+        fontname="Helvetica";
+
+        patch [label="GitHub Issue\nUnified Diff", fillcolor=lightblue, shape=box];
+        parse_patch [label="Parse Hunks\nExtract Changed Names", fillcolor=lightyellow];
+        query_kg [label="Query KG\nLocate Seed Nodes", fillcolor=lightyellow];
+        test_file [label="Test File\n(if exists)", fillcolor=lightcyan, shape=box];
+        add_test_seed [label="Add Test File\nas Seed", fillcolor=lightyellow];
+        seeds [label="Seed Nodes\n(Changed Functions\n+ Tests)", fillcolor=gold, style="filled,bold"];
+
+        patch -> parse_patch;
+        parse_patch -> query_kg;
+        kg_full -> query_kg;
+        query_kg -> add_test_seed;
+        test_file -> add_test_seed;
+        add_test_seed -> seeds;
+    }
+
+    // Phase 3: Subgraph Extraction
+    subgraph cluster_phase3 {
+        style=filled;
+        fillcolor="#F8F4E8";
+        label="Phase 3: Subgraph Extraction";
+        color=black;
+        fontsize=11;
+        fontname="Helvetica";
+
+        bfs [label="BFS Traversal\n(Configurable Depth)", fillcolor=lightyellow];
+        edge_filter [label="Edge Filtering\n(calls, inherits, tests, ...)", fillcolor=lightyellow];
+        subgraph_extract [label="Extracted Subgraph\n(~600KB JSON)\n293 nodes, 880 edges", fillcolor=gold, style="filled,bold"];
+
+        seeds -> bfs;
+        kg_full -> bfs;
+        bfs -> edge_filter;
+        edge_filter -> subgraph_extract;
+    }
+
+    // Phase 4: Subgraph Validation
+    subgraph cluster_phase4 {
+        style=filled;
+        fillcolor="#F8E8E8";
+        label="Phase 4: Subgraph Validation";
+        color=black;
+        fontsize=11;
+        fontname="Helvetica";
+
+        validate_must [label="Validate Must-Haves\n(Blocking Errors)", fillcolor=lightyellow];
+        validate_should [label="Validate Should-Haves\n(Warnings)", fillcolor=lightyellow];
+        validated_sg [label="Validated Subgraph\n(Ready for LLM)", fillcolor=gold, style="filled,bold"];
+
+        subgraph_extract -> validate_must;
+        validate_must -> validate_should;
+        validate_should -> validated_sg;
+    }
+
+    // Phase 5: LLM-Based Test Generation
+    subgraph cluster_phase5 {
+        style=filled;
+        fillcolor="#E8F8E8";
+        label="Phase 5: LLM-Based Test Generation";
+        color=black;
+        fontsize=11;
+        fontname="Helvetica";
+
+        hierarchy [label="Hierarchical JSON\n(Seed / Context / Instructions)", fillcolor=lightyellow];
+        llm_prompt [label="LLM Prompt\n+ Structured Context", fillcolor=lightyellow];
+        llm_call [label="LLM API\nTest Generation", fillcolor=lightyellow];
+        test_code [label="Generated Test Code", fillcolor=gold, style="filled,bold"];
+
+        validated_sg -> hierarchy;
+        hierarchy -> llm_prompt;
+        llm_prompt -> llm_call;
+        llm_call -> test_code;
+    }
+
+    // Phase 6: Test Execution & Validation
+    subgraph cluster_phase6 {
+        style=filled;
+        fillcolor="#F8E8F8";
+        label="Phase 6: Test Execution & Validation";
+        color=black;
+        fontsize=11;
+        fontname="Helvetica";
+
+        execute [label="Execute Tests\nAgainst Patched Code", fillcolor=lightyellow];
+        verify [label="Verify:\nSyntax / Executability\nAssertions / Isolation", fillcolor=lightyellow];
+        exec_results [label="Test Results\n(Pass/Fail)", fillcolor=gold, style="filled,bold"];
+
+        test_code -> execute;
+        execute -> verify;
+        verify -> exec_results;
+    }
+
+    // Phase 7: Evaluation Metrics
+    subgraph cluster_phase7 {
+        style=filled;
+        fillcolor="#F8F4E8";
+        label="Phase 7: Evaluation Metrics";
+        color=black;
+        fontsize=11;
+        fontname="Helvetica";
+
+        coverage [label="Coverage Metrics\n(Line / Branch / Exception)", fillcolor=lightyellow];
+        quality [label="Quality Metrics\n(Assertions / Diversity / Docstrings)", fillcolor=lightyellow];
+        efficiency [label="Efficiency Metrics\n(Build / Extraction / LLM Time)", fillcolor=lightyellow];
+        validation [label="Validation Metrics\n(Subgraph Validity / Test Success)", fillcolor=lightyellow];
+
+        exec_results -> coverage;
+        exec_results -> quality;
+        exec_results -> efficiency;
+        exec_results -> validation;
+
+        final [label="Final Report\n(Quality Assessment)", fillcolor=gold, style="filled,bold"];
+        coverage -> final;
+        quality -> final;
+        efficiency -> final;
+        validation -> final;
+    }
+
+    // Legend
+    legend [label="Edge Colors:\n  Black = Primary flow\n  Dashed = Optional inputs",
+            shape=box, fillcolor=white, style=filled, fontsize=8];
+}

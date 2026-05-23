@@ -1,0 +1,42 @@
+digraph BFS_Session_send_simplified {
+    rankdir=TB;
+    bgcolor=white;
+    node [shape=box, style=filled, fontname="Helvetica", fontsize=10];
+    edge [fontname="Helvetica", fontsize=9];
+    
+    // Seed node
+    node_seed [label="Session.send()", fillcolor=gold, shape=box, style="filled,bold", fontsize=12];
+
+    subgraph cluster_callers {
+        style=filled; fillcolor="#E8F4F8"; label="Direct Callers (sample)"; color=black;
+        node [fillcolor=lightblue];
+        node_caller_0 [label="send (Session)"];
+        node_caller_1 [label="echo_response_handler"];
+        node_caller_2 [label="test_chunked_encoding_error"];
+        node_caller_3 [label="test_conflicting_content_lengths"];
+        node_caller_4 [label="test_digestauth_401_count_reset_on_redirect"];
+    }
+
+    subgraph cluster_callees {
+        style=filled; fillcolor="#E8F8E8"; label="Direct Callees (sample)"; color=black;
+        node [fillcolor=lightgreen];
+        node_callee_0 [label="get (RequestsCookieJar)"];
+        node_callee_1 [label="get"];
+        node_callee_2 [label="get (Session)"];
+        node_callee_3 [label="get (LookupDict)"];
+        node_callee_4 [label="get_adapter (Session)"];
+    }
+    node_caller_0 -> node_seed [label="calls"];
+    node_caller_1 -> node_seed [label="calls"];
+    node_caller_2 -> node_seed [label="calls"];
+    node_caller_3 -> node_seed [label="calls"];
+    node_caller_4 -> node_seed [label="calls"];
+    node_seed -> node_callee_0 [label="calls"];
+    node_seed -> node_callee_1 [label="calls"];
+    node_seed -> node_callee_2 [label="calls"];
+    node_seed -> node_callee_3 [label="calls"];
+    node_seed -> node_callee_4 [label="calls"];
+
+    legend [label="Full KG (depth=2):\n32 callers, 14 callees\n(showing top 5 of each)",
+            shape=box, fillcolor=white, style=filled, fontsize=9];
+}
