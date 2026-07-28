@@ -20,6 +20,7 @@ from pathlib import Path
 from typing import List, Dict, Optional, Set
 
 from kg_construction.kg.query import KGQueryEngine
+from kg_construction.kg.repo_manager import RepoManager
 from kg_construction.kg.traversal import GraphTraversal
 from kg_construction.extraction.patch import PatchParser
 
@@ -123,13 +124,20 @@ class TestContext:
 class TestContextExtractor:
     """Extract KG subgraphs from dataset instances for test generation."""
 
-    def __init__(self, engine: KGQueryEngine):
+    def __init__(self, engine: KGQueryEngine, repo_manager: Optional[RepoManager] = None):
         """
         Args:
             engine: Loaded KGQueryEngine on the pre-built KG.
+            repo_manager: Used to fetch each instance's pre-patch source
+                         (kg_construction#75: PatchParser resolves changed
+                         functions by real ast line ranges, which requires
+                         the pre-patch file's actual text). Defaults to a
+                         fresh RepoManager() -- injectable for tests to
+                         avoid a real network clone.
         """
         self.engine = engine
         self.patch_parser = PatchParser()
+        self.repo_manager = repo_manager or RepoManager()
 
     def extract(
         self,
@@ -162,15 +170,20 @@ class TestContextExtractor:
             edge_filter = {'contains', 'calls', 'accesses', 'inherits', 'tests', 'uses'}
 
         # Extract changed function/class names from the patch, with the
-        # enclosing class name too when the diff hunk makes it available
-        # (kg_construction#63): a bare name can match more than one class'
-        # same-named method in the same file (e.g. a real encode/httpx
-        # patch to AsyncClient.aclose also matched the unrelated
-        # BoundAsyncStream.aclose) -- the class hint, when known, resolves
-        # that instead of adding every same-named match as a seed.
+        # enclosing class name too when there is one (kg_construction#63:
+        # a bare name can match more than one class' same-named method in
+        # the same file -- e.g. a real encode/httpx patch to
+        # AsyncClient.aclose also matched the unrelated
+        # BoundAsyncStream.aclose). Resolved via the pre-patch file's real
+        # AST line ranges (kg_construction#75), not the diff text alone --
+        # requires fetching code_file's own pre-patch content.
+        pre_patch_source = self.repo_manager.read_file_at_commit(
+            instance['repo'], instance['base_commit'], instance['code_file']
+        )
         changed = self.patch_parser.extract_changed_functions_with_scope(
             instance['patch'],
-            instance['code_file']
+            instance['code_file'],
+            pre_patch_source,
         )
 
         # Find the code file node

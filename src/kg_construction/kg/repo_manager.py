@@ -107,3 +107,48 @@ class RepoManager:
             # filter='data' prevents path traversal attacks from malicious tarballs
             tar.extractall(dest, filter='data')
         archive_path.unlink()
+
+    def read_file_at_commit(self, repo: str, commit: str, path: str) -> str:
+        """Read a single file's content at a specific commit, without
+        extracting the whole tree.
+
+        Uses `git show <commit>:<path>` -- much cheaper than
+        extract_at_commit when only one file's text is actually needed
+        (e.g. resolving a changed function's real line range via AST,
+        kg_construction#75).
+
+        Args:
+            repo: GitHub repo in 'owner/name' format.
+            commit: Full or abbreviated commit SHA.
+            path: Repo-relative file path (e.g. 'requests/sessions.py').
+
+        Returns:
+            The file's raw text content.
+
+        Raises:
+            ValueError: If the file isn't found at that commit, even after
+                        fetching once (same retry convention as
+                        extract_at_commit).
+        """
+        repo_path = self.ensure_clone(repo)
+        try:
+            return self._show(repo_path, commit, path)
+        except subprocess.CalledProcessError:
+            subprocess.run(
+                ['git', '--git-dir', str(repo_path), 'fetch', 'origin'],
+                check=True, timeout=GIT_TIMEOUT
+            )
+            try:
+                return self._show(repo_path, commit, path)
+            except subprocess.CalledProcessError as e:
+                raise ValueError(
+                    f"'{path}' not found in {repo} at '{commit}' after "
+                    f"fetching origin. Verify the path and commit are correct."
+                ) from e
+
+    def _show(self, repo_path: Path, commit: str, path: str) -> str:
+        result = subprocess.run(
+            ['git', '--git-dir', str(repo_path), 'show', f'{commit}:{path}'],
+            check=True, timeout=GIT_TIMEOUT, capture_output=True, text=True,
+        )
+        return result.stdout

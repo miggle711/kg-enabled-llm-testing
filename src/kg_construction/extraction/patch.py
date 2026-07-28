@@ -3,349 +3,215 @@ patch.py
 
 Unified diff parsing for code change extraction.
 
-Parses GitHub-style unified diffs to identify which functions/classes were
-modified in a given code file. Used in Phase 2 (Seed Identification) to find
-which nodes in the KG correspond to the changed code.
+Identifies which functions/classes in code_file were genuinely changed by a
+patch, by parsing the PRE-PATCH source file's real AST and mapping each
+changed line number (from the diff) against each function/class's actual
+lineno/end_lineno range -- rather than inferring boundaries from whatever
+happens to be visible in a hunk's small, variable context window.
+
+Replaces an earlier hunk/line-scanning approach that inferred boundaries
+from the diff text alone. That approach caused four distinct bugs over
+time (kg_construction#14, #43, #63, #71), all from the same root cause: a
+diff's context window can miss a real def/class line, or sweep in an
+unrelated one, and there was no way to tell the two apart from the diff
+text alone. Resolving by real line ranges eliminates that whole class --
+see kg_construction#75 for the investigation and rationale.
 """
 
+import ast
 import re
 from typing import List, NamedTuple, Optional, Set, Tuple
 
 
-class _HunkLine(NamedTuple):
-    """A single hunk line, its diff marker preserved separately from its
-    content so later analysis can tell "genuinely added/removed" apart
-    from "unchanged context that happens to be visible in this hunk"."""
-    marker: str  # '+', '-', or ' '
-    content: str  # line text with the marker stripped
-    indent: int  # leading whitespace width of content
+class _FunctionRange(NamedTuple):
+    """A function/class's real line range in the pre-patch source, plus its
+    enclosing scope. start_line includes any decorators (their own lines
+    are part of "this function changed" just as much as the def line
+    itself), even though ast.FunctionDef.lineno alone points only at the
+    def line.
+    """
+    name: str
+    is_class: bool
+    enclosing_class: Optional[str]
+    enclosing_function: Optional[str]
+    start_line: int
+    end_line: int
+
+
+def _function_ranges(source: str) -> List[_FunctionRange]:
+    """Collect every function/class definition's real line range in source,
+    recursively (including nested functions and methods), via ast.
+
+    Returns:
+        List of _FunctionRange, in no particular order. A name can appear
+        more than once (same-named methods on different classes, or a
+        name reused at different nesting levels) -- callers match by line
+        number, not name, so this ambiguity is resolved by construction
+        rather than needing to be disambiguated after the fact.
+    """
+    tree = ast.parse(source)
+    ranges: List[_FunctionRange] = []
+
+    def visit(node: ast.AST, enclosing_class: Optional[str], enclosing_function: Optional[str]):
+        for child in ast.iter_child_nodes(node):
+            if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                start_line = child.lineno
+                if child.decorator_list:
+                    start_line = min(start_line, child.decorator_list[0].lineno)
+                ranges.append(_FunctionRange(
+                    name=child.name, is_class=False,
+                    enclosing_class=enclosing_class, enclosing_function=enclosing_function,
+                    start_line=start_line, end_line=child.end_lineno,
+                ))
+                visit(child, enclosing_class=None, enclosing_function=child.name)
+            elif isinstance(child, ast.ClassDef):
+                start_line = child.lineno
+                if child.decorator_list:
+                    start_line = min(start_line, child.decorator_list[0].lineno)
+                ranges.append(_FunctionRange(
+                    name=child.name, is_class=True,
+                    enclosing_class=enclosing_class, enclosing_function=enclosing_function,
+                    start_line=start_line, end_line=child.end_lineno,
+                ))
+                visit(child, enclosing_class=child.name, enclosing_function=None)
+            else:
+                visit(child, enclosing_class, enclosing_function)
+
+    visit(tree, enclosing_class=None, enclosing_function=None)
+    return ranges
+
+
+def _innermost_range(ranges: List[_FunctionRange], line: int) -> Optional[_FunctionRange]:
+    """Return the smallest range containing line, or None if no range
+    contains it (e.g. the line is a module-level statement, outside any
+    function/class).
+    """
+    containing = [r for r in ranges if r.start_line <= line <= r.end_line]
+    if not containing:
+        return None
+    return min(containing, key=lambda r: r.end_line - r.start_line)
+
+
+def _changed_pre_patch_lines(patch: str, code_file: str) -> Set[int]:
+    """Return the set of pre-patch line numbers, in code_file, that a
+    changed line should be attributed against.
+
+    A '-' (removed) line has its own real pre-patch line number, used
+    directly. A '+' (added) line has no pre-patch line number of its own
+    (it doesn't exist in the pre-patch file) -- its insertion POINT is used
+    instead: the pre-patch line immediately after which it was inserted
+    (old_lineno at the moment it's encountered, before advancing past any
+    following context line). This correctly anchors a pure addition (no
+    matching '-' line at all) to whichever function's range contains that
+    insertion point.
+    """
+    changed_lines: Set[int] = set()
+    current_file = None
+    old_lineno = None
+
+    for line in patch.split('\n'):
+        if line.startswith('+++'):
+            match = re.match(r'^\+\+\+ b/(.+)$', line)
+            current_file = match.group(1) if match else None
+            continue
+
+        if current_file != code_file:
+            continue
+
+        if line.startswith('@@'):
+            match = re.match(r'^@@ -(\d+)', line)
+            old_lineno = int(match.group(1)) if match else None
+            continue
+
+        if old_lineno is None:
+            continue
+
+        if line.startswith('-') and not line.startswith('---'):
+            changed_lines.add(old_lineno)
+            old_lineno += 1
+        elif line.startswith('+') and not line.startswith('+++'):
+            # Anchor to the insertion point: both the pre-patch line just
+            # before it and just after it, since either can be the one
+            # actually inside the enclosing function's range (an addition
+            # at the very first or very last line of a function's body
+            # only has one real neighbor on the correct side).
+            changed_lines.add(old_lineno)
+            if old_lineno > 1:
+                changed_lines.add(old_lineno - 1)
+        elif line.startswith(' '):
+            old_lineno += 1
+
+    return changed_lines
 
 
 class PatchParser:
-    """Parse unified diffs to extract changed function/class names."""
+    """Parse unified diffs to extract changed function/class names, using
+    the pre-patch source's real AST rather than the diff text alone.
+    """
 
     @staticmethod
-    def extract_changed_functions(patch: str, code_file: str) -> Set[str]:
-        """Extract function and class names genuinely changed in a specific
-        file's hunks.
-
-        Parses unified diff hunks for code_file and identifies function/class
-        definitions where at least one line actually changed (was added or
-        removed) -- either the def/class line itself, its decorator, or a
-        line within its body -- as opposed to merely being visible in the
-        hunk as unchanged context. A wide diff context window can otherwise
-        sweep an entirely unmodified neighboring function's def line into the
-        hunk; such a function must not be reported as changed.
-
-        A changed line consisting only of a decorator (e.g. `@app.route(...)`)
-        carries no name of its own, so it is tracked as "pending" and resolved
-        against the next def/class line encountered, even if that def/class
-        falls in a later hunk of the same file's diff (small context windows
-        can put a hunk boundary between an added/modified decorator and the
-        otherwise-unchanged function it decorates). A function reached via a
-        pending changed decorator counts as changed even if its own def line
-        and body are pure context.
+    def extract_changed_functions(
+        patch: str, code_file: str, pre_patch_source: str
+    ) -> Set[str]:
+        """Extract function and class names genuinely changed in code_file.
 
         Args:
             patch: Unified diff string (multi-file).
             code_file: Relative path to the file to extract changes from
                       (e.g. 'requests/sessions.py').
+            pre_patch_source: code_file's actual text before the patch was
+                              applied -- required to resolve real function/
+                              class line ranges via ast (kg_construction#75).
 
         Returns:
-            Set of function/class name strings genuinely changed in code_file.
-            Bare names only -- callers needing to disambiguate a name that
-            matches more than one class' method (kg_construction#63) should
-            use extract_changed_functions_with_scope instead.
+            Set of function/class name strings genuinely changed in
+            code_file. Bare names only -- callers needing to disambiguate a
+            name that matches more than one class' method should use
+            extract_changed_functions_with_scope instead.
+
+        Raises:
+            SyntaxError: If pre_patch_source doesn't parse. Raised directly
+                         rather than silently falling back to a guess --
+                         a wrong guess here is exactly the bug class this
+                         AST-based approach replaces.
         """
-        return {name for name, _class_name in PatchParser.extract_changed_functions_with_scope(
-            patch, code_file
-        )}
+        return {
+            name for name, _class_name in PatchParser.extract_changed_functions_with_scope(
+                patch, code_file, pre_patch_source
+            )
+        }
 
     @staticmethod
     def extract_changed_functions_with_scope(
-        patch: str, code_file: str
+        patch: str, code_file: str, pre_patch_source: str
     ) -> Set[Tuple[str, Optional[str]]]:
         """Same as extract_changed_functions, but also reports the
-        enclosing class name for each changed method, when it can be
-        determined.
+        enclosing class name for each changed method, when there is one.
 
-        The enclosing class is only known when the hunk itself contains a
-        'class X:' line at a shallower indentation than the changed
-        def/class line -- true whenever the diff's context window happens
-        to reach back that far, but not guaranteed (a hunk deep inside a
-        long class body may never include its 'class X:' line at all).
-        When unknown, the class element of the tuple is None -- callers
-        must not assume every entry has a real class name, just that one
-        is reported when the hunk provides enough information to know it.
-
-        Added for kg_construction#63: TestContextExtractor.extract()'s
-        seed lookup previously had no way to prefer 'AsyncClient.aclose'
-        over an unrelated 'BoundAsyncStream.aclose' in the same file, once
-        extract_changed_functions returned the bare name 'aclose' with no
-        further information -- this gives it a real signal to disambiguate
-        with, when the diff happens to make it available; when it isn't
-        available, extract()/TestContextValidator's ambiguity check is
-        still the correct fallback (fail loud, not guess).
+        Each changed line's real pre-patch line number is looked up
+        against every function/class's real ast-derived range, and
+        attributed to the innermost (smallest) containing range -- so a
+        change inside a method is attributed to that method, not its
+        enclosing class, and a change inside a nested closure is
+        attributed to the closure, not its enclosing function
+        (kg_construction#74).
 
         Returns:
-            Set of (name, enclosing_class_or_None) tuples.
+            Set of (name, enclosing_class_or_None) tuples. A changed
+            nested function (not a class method) also has
+            enclosing_class=None -- the enclosing SCOPE information is
+            still real, just not a class; only kg_construction#63's
+            same-class-method-name ambiguity needs the class hint, and a
+            nested function can't collide with a class method that way.
         """
+        ranges = _function_ranges(pre_patch_source)
+        changed_lines = _changed_pre_patch_lines(patch, code_file)
+
         changed: Set[Tuple[str, Optional[str]]] = set()
-
-        current_file = None
-        current_hunk: List[_HunkLine] = []
-        pending_decorator = False
-        # git's own "which function/class is this hunk inside" hints, from
-        # the trailing text on an '@@ ... @@' line (e.g.
-        # '@@ -470,11 +470,11 @@ def slugify(value, allow_unicode=False):' or
-        # '@@ -1976,10 +1976,11 @@ class AsyncClient(BaseClient):'). The
-        # function-name hint is a fallback ONLY when the hunk body itself
-        # contains no def/class line at all; the class-name hint is a
-        # fallback enclosing-class for a def line that IS found in the
-        # hunk body but has no preceding 'class X:' line within the same
-        # hunk -- see _extract_defs_from_hunk for both.
-        header_scope_name: Optional[str] = None
-        header_scope_class: Optional[str] = None
-
-        lines = patch.split('\n')
-        i = 0
-        while i < len(lines):
-            line = lines[i]
-
-            # Check for file boundary: +++ b/path
-            if line.startswith('+++'):
-                # Process accumulated hunk for previous file before switching
-                if current_hunk:
-                    pending_decorator = PatchParser._extract_defs_from_hunk(
-                        current_hunk, changed, pending_decorator,
-                        header_scope_name, header_scope_class,
-                    )
-                current_hunk = []
-                pending_decorator = False
-                header_scope_name = None
-                header_scope_class = None
-                # Extract the file path from '+++ b/path'
-                match = re.match(r'^\+\+\+ b/(.+)$', line)
-                if match:
-                    current_file = match.group(1)
-
-            # Within the target file, collect hunk lines
-            if current_file == code_file:
-                # Hunk header: @@ -start,count +start,count @@ [trailing context]
-                if line.startswith('@@'):
-                    if current_hunk:
-                        pending_decorator = PatchParser._extract_defs_from_hunk(
-                            current_hunk, changed, pending_decorator,
-                            header_scope_name, header_scope_class,
-                        )
-                    current_hunk = []
-                    header_scope_name = PatchParser._extract_header_scope_name(line)
-                    header_scope_class = PatchParser._extract_header_scope_class(line)
-                # Accumulate hunk lines: added, removed, or context.
-                # Removed ('-') lines are kept (unlike before) so body-change
-                # detection can see them; they carry no post-patch line
-                # number, but def/class matching only needs their text.
-                elif line.startswith(('+', '-', ' ')) and not line.startswith(('+++', '---')):
-                    marker = line[0]
-                    content = line[1:]
-                    indent = len(content) - len(content.lstrip())
-                    current_hunk.append(_HunkLine(marker, content, indent))
-
-            i += 1
-
-        # Process final hunk
-        if current_hunk:
-            PatchParser._extract_defs_from_hunk(
-                current_hunk, changed, pending_decorator,
-                header_scope_name, header_scope_class,
-            )
+        for line in changed_lines:
+            match = _innermost_range(ranges, line)
+            if match is None:
+                continue  # module-level change, not inside any function/class
+            changed.add((match.name, match.enclosing_class))
 
         return changed
-
-    @staticmethod
-    def _extract_header_scope_name(header_line: str) -> Optional[str]:
-        """Extract the enclosing FUNCTION name git prints as trailing
-        context on a hunk header line (e.g.
-        '@@ -470,11 +470,11 @@ def slugify(value, allow_unicode=False):'
-        -> 'slugify'), when git includes one. Returns None if the header's
-        trailing context is a class line instead -- see
-        _extract_header_scope_class for that case.
-
-        This is git's own "which function is this hunk inside" hint,
-        computed from its diff context algorithm -- independent of and a
-        fallback for the def/class-line-matching this parser does over
-        the hunk body itself, which fails silently whenever the changed
-        lines are far enough into a long function that its own def line
-        falls outside the (small) context window and never appears as a
-        hunk body line at all. Confirmed via a real django/django patch
-        (slugify(), kg_construction#60's second-repo check): identical
-        semantic change, changed_functions came back empty purely because
-        the def line wasn't within context, and only non-empty once a
-        wider context window happened to include it.
-        """
-        # Only match a def-shaped trailing context, not arbitrary trailing
-        # text (git falls back to the nearest preceding non-blank line for
-        # other languages/heuristic misses, which isn't necessarily a
-        # function signature at all).
-        match = re.match(r'^@@[^@]*@@\s*(?:async\s+)?def\s+(\w+)\s*\(', header_line)
-        if match:
-            return match.group(1)
-        return None
-
-    @staticmethod
-    def _extract_header_scope_class(header_line: str) -> Optional[str]:
-        """Extract the enclosing CLASS name from a hunk header's trailing
-        context (e.g. '@@ -1976,10 +1976,11 @@ class AsyncClient(BaseClient):'
-        -> 'AsyncClient'), when git's diff context algorithm reports one.
-
-        Used as a fallback enclosing-class hint for a def/class line found
-        within the hunk body when no 'class X:' line precedes it in the
-        SAME hunk (kg_construction#63) -- e.g. a hunk deep inside a class
-        body whose own 'class AsyncClient(BaseClient):' line is outside
-        the hunk's context window as a body line, but git's own header
-        hint still reports it (confirmed on the real patch that surfaced
-        #63: the class-scoped def wasn't visible as a hunk body line, but
-        WAS visible as the header's trailing context).
-        """
-        match = re.match(r'^@@[^@]*@@\s*class\s+(\w+)\s*[\(:]', header_line)
-        if match:
-            return match.group(1)
-        return None
-
-    @staticmethod
-    def _extract_defs_from_hunk(
-        hunk_lines: List[_HunkLine],
-        changed: Set[Tuple[str, Optional[str]]],
-        pending_decorator: bool,
-        header_scope_name: Optional[str] = None,
-        header_scope_class: Optional[str] = None,
-    ) -> bool:
-        """Extract function/class definitions genuinely changed within a hunk.
-
-        Looks for lines matching:
-          def function_name(...)
-          async def function_name(...)
-          class ClassName(...)
-          @decorator(...)
-
-        A def/class is only added to `changed` if it is genuinely changed:
-        its own line was added/removed, a changed decorator immediately
-        precedes it (including one carried over from a previous hunk via
-        `pending_decorator`), or at least one line within its body (up to
-        the next sibling def/class at the same or shallower indentation,
-        or the end of the hunk) was added/removed. A def/class line that is
-        pure unchanged context, with an unchanged body and no changed
-        decorator, is NOT added -- it's just visible because of the hunk's
-        context window, not because it changed.
-
-        If a changed line appears BEFORE the first def/class line in the
-        hunk (or there's no def/class line at all), header_scope_name
-        (git's '@@ ... @@ def name(...)' hint) is used instead -- the real
-        def line falls outside this hunk's context window entirely
-        (kg_construction#60/#71). This must trigger even if an unrelated,
-        unmodified sibling def/class appears LATER in the hunk
-        (kg_construction#71) -- its presence must not suppress the
-        fallback and silently drop the real, earlier change.
-
-        It must NOT trigger for a changed line AFTER a def/class's body has
-        already closed (e.g. a changed comment following an untouched
-        function) -- that's demonstrably outside the one boundary visible
-        in the hunk, so it's correctly left unattributed instead.
-
-        Each entry in `changed` is (name, enclosing_class_or_None):
-        - a 'class X:' line at a shallower indentation than a def,
-          appearing earlier in the SAME hunk, is the primary source for a
-          def's enclosing class (kg_construction#63).
-        - if no such in-hunk class line exists, header_scope_class (git's
-          own hint from the '@@ ... @@ class X(...):' trailing context) is
-          used instead -- confirmed necessary on the real patch that
-          surfaced #63: the hunk was deep enough into AsyncClient's body
-          that 'class AsyncClient(BaseClient):' never appeared as a hunk
-          BODY line, only as the header's trailing context.
-        - if neither is available, the class stays None (a bare name with
-          no disambiguating information -- same as before this was added).
-
-        Returns:
-            True if a decorator is still pending resolution at the end of
-            this hunk (i.e. no def/class line followed it), so the caller
-            can carry it into the next hunk of the same file.
-        """
-        def_pattern = re.compile(r'^\s*(async\s+)?def\s+(\w+)\s*\(')
-        class_pattern = re.compile(r'^\s*class\s+(\w+)\s*[\(:]')
-        decorator_pattern = re.compile(r'^\s*@\w')
-
-        # Stack of (indent, class_name) for classes seen so far in this
-        # hunk, innermost last -- popped whenever a later line dedents to
-        # or past that class's own indentation, so a def's enclosing class
-        # is always the innermost still-open one at the def's indent.
-        class_stack: List[Tuple[int, str]] = []
-
-        # Index of the first def/class line in the hunk, if any. A changed
-        # line strictly before it has no visible enclosing boundary, so
-        # it's a header-hint candidate; a changed line at or after it is
-        # either already handled above or past that def/class's body and
-        # correctly left unattributed (kg_construction#71).
-        first_def_or_class_idx: Optional[int] = None
-
-        for idx, hline in enumerate(hunk_lines):
-            def_match = def_pattern.match(hline.content)
-            class_match = class_pattern.match(hline.content)
-
-            if not (def_match or class_match):
-                if decorator_pattern.match(hline.content):
-                    pending_decorator = pending_decorator or hline.marker != ' '
-                continue
-
-            if first_def_or_class_idx is None:
-                first_def_or_class_idx = idx
-
-            # Close out any class whose body this line has dedented out of,
-            # BEFORE checking enclosure -- a class line itself is handled
-            # after (it may open a new scope, not belong to the old one).
-            while class_stack and class_stack[-1][0] >= hline.indent:
-                class_stack.pop()
-
-            name = def_match.group(2) if def_match else class_match.group(1)
-            own_line_changed = hline.marker != ' '
-            decorator_changed = pending_decorator
-            body_changed = PatchParser._body_has_change(hunk_lines, idx, hline.indent)
-
-            if own_line_changed or decorator_changed or body_changed:
-                if def_match:
-                    enclosing_class = (
-                        class_stack[-1][1] if class_stack else header_scope_class
-                    )
-                else:
-                    enclosing_class = None
-                changed.add((name, enclosing_class))
-
-            if class_match:
-                class_stack.append((hline.indent, name))
-
-            pending_decorator = False
-
-        scan_limit = first_def_or_class_idx if first_def_or_class_idx is not None else len(hunk_lines)
-        has_change_before_first_boundary = any(
-            hline.marker != ' ' for hline in hunk_lines[:scan_limit]
-        )
-        if has_change_before_first_boundary and header_scope_name is not None:
-            changed.add((header_scope_name, header_scope_class))
-
-        return pending_decorator
-
-    @staticmethod
-    def _body_has_change(hunk_lines: List[_HunkLine], def_idx: int, def_indent: int) -> bool:
-        """Return True if any line strictly after hunk_lines[def_idx], up to
-        the next sibling def/class at the same or shallower indentation (or
-        the end of the hunk), was added or removed.
-
-        Blank lines are skipped for the indentation check (they carry no
-        real indent signal) but still checked for a changed marker.
-        """
-        for hline in hunk_lines[def_idx + 1:]:
-            stripped = hline.content.strip()
-            if stripped and hline.indent <= def_indent:
-                break  # sibling or dedent: end of this def/class's body
-            if hline.marker != ' ':
-                return True
-        return False
