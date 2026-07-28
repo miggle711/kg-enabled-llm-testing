@@ -15,6 +15,10 @@ on:
       instances:
         description: "Comma-separated instance_ids to run instead of a random sample"
         default: ""
+      allow_rerun:
+        description: "Include previously-run instances in random sampling (true/false)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -48,7 +52,8 @@ jobs:
               --sample-size "${{ github.event.inputs.sample_size }}" \
               --seed "${{ github.event.inputs.seed }}" \
               --per-repo-cap "${{ github.event.inputs.per_repo_cap }}" \
-              --output validation_results.json
+              --output validation_results.json \
+              ${{ github.event.inputs.allow_rerun == 'true' && '--allow-rerun' || '' }}
           fi
 
       - name: Upload results
