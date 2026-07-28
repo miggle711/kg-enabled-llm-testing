@@ -1012,19 +1012,26 @@ def _build_func_metadata(
     rel_path: str,
     repo: str,
     parent_class: Optional[str] = None,
+    parent_function: Optional[str] = None,
     import_map: Optional[Dict[str, str]] = None,
     source_lines: Optional[List[str]] = None,
 ) -> Dict:
     """Build the full metadata dict for a function or method node.
 
     Centralises metadata construction to avoid duplication between the
-    top-level function and class method branches of _parse_file.
+    top-level function, class method, and nested-function branches of
+    _parse_file.
 
     Args:
         func_node: The AST function node.
         rel_path: Relative file path within the repo.
         repo: Repository name (e.g. 'psf/requests').
         parent_class: Class name if this is a method, else None.
+        parent_function: Enclosing function's name if this is a nested
+                         function/closure, else None (kg_construction#74).
+                         Mutually exclusive with parent_class in practice --
+                         a nested function's own enclosing scope is either
+                         a class method or a function, not both.
         import_map: {local_name: fully_qualified_name} dict for resolving
                     external type dependencies. Defaults to {}.
         source_lines: The enclosing file's source, split via
@@ -1039,7 +1046,8 @@ def _build_func_metadata(
         Dict with keys: filepath, repo, lineno, params, returns, signature,
         source_code, decorators, docstring, raises, catches, is_async,
         branches, assert_patterns, external_deps, side_effects, and
-        optionally 'class' if parent_class is provided.
+        optionally 'class' (parent_class) or 'parent_function'
+        (parent_function), whichever was given.
     """
     sig = _get_signature(func_node)
     exc = _get_exceptions(func_node)
@@ -1085,6 +1093,8 @@ def _build_func_metadata(
     }
     if parent_class is not None:
         meta['class'] = parent_class
+    if parent_function is not None:
+        meta['parent_function'] = parent_function
     return meta
 
 

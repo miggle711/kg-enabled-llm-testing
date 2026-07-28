@@ -423,6 +423,49 @@ def _parse_file(args: Tuple[str, str, str]) -> Optional[Dict]:
             if source_name:
                 factory_sites.append((line, col, None, source_name))
 
+    def _emit_nested_functions(
+        enclosing_node: Union[ast.FunctionDef, ast.AsyncFunctionDef],
+        enclosing_func_id: str,
+        enclosing_qualname: str,
+        class_name: Optional[str],
+    ):
+        """Emit nodes for functions defined inside enclosing_node's own body
+        (closures) -- previously never extracted at all, so a patch whose
+        changed function is a nested closure had no matching KG node to seed
+        from (kg_construction#74).
+
+        Only direct children of enclosing_node's body are handled here;
+        recursion (for a closure that itself contains another nested
+        function) happens by calling this again on each one found.
+
+        Args:
+            enclosing_qualname: Dotted qualified name of enclosing_node
+                                (e.g. 'outer' or 'Klass.method'), used to
+                                build a readable, unique node ID for each
+                                nested function found.
+        """
+        for child in ast.iter_child_nodes(enclosing_node):
+            if not isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                continue
+            child_qualname = f"{enclosing_qualname}.{child.name}"
+            func_id = _make_id(f"func_{repo}_{rel_path}_{child_qualname}")
+            nodes.append(asdict(KGNode(
+                id=func_id,
+                type='test_function' if child.name.startswith('test_') else 'function',
+                label=child.name,
+                metadata=_build_func_metadata(child, rel_path, repo,
+                                              parent_function=enclosing_node.name,
+                                              import_map=import_map,
+                                              source_lines=source_lines)
+            )))
+            edges.append(asdict(KGEdge(source=enclosing_func_id, target=func_id, relation='contains')))
+            child_local_types = _collect_local_types(child)
+            _emit_call_edges(func_id, child, child_local_types, class_name=class_name)
+            _emit_access_edges(func_id, child, child_local_types, class_name=class_name)
+            _emit_func_edges(func_id, child, class_name=class_name)
+
+            _emit_nested_functions(child, func_id, child_qualname, class_name=class_name)
+
     # Emit class, method, and top-level function nodes
     for node in ast.iter_child_nodes(tree):
         if isinstance(node, ast.ClassDef):
@@ -455,10 +498,11 @@ def _parse_file(args: Tuple[str, str, str]) -> Optional[Dict]:
 
             for child in ast.iter_child_nodes(node):
                 if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef)):
-                    func_type = 'test_function' if child.name.startswith('test_') else 'method'
                     func_id = _make_id(f"func_{repo}_{rel_path}_{node.name}_{child.name}")
                     nodes.append(asdict(KGNode(
-                        id=func_id, type=func_type, label=child.name,
+                        id=func_id,
+                        type='test_function' if child.name.startswith('test_') else 'method',
+                        label=child.name,
                         metadata=_build_func_metadata(child, rel_path, repo,
                                                       parent_class=node.name,
                                                       import_map=import_map,
@@ -479,6 +523,10 @@ def _parse_file(args: Tuple[str, str, str]) -> Optional[Dict]:
 
                     _record_factory_sites(child, enclosing_class_id=class_id)
 
+                    _emit_nested_functions(
+                        child, func_id, f"{node.name}.{child.name}", class_name=node.name
+                    )
+
         elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
             func_type = 'test_function' if node.name.startswith('test_') else 'function'
             func_id = _make_id(f"func_{repo}_{rel_path}_{node.name}")
@@ -494,6 +542,8 @@ def _parse_file(args: Tuple[str, str, str]) -> Optional[Dict]:
             _emit_func_edges(func_id, node)
 
             _record_factory_sites(node, enclosing_class_id=None)
+
+            _emit_nested_functions(node, func_id, node.name, class_name=None)
 
     factory_sites_out = [
         (rel_path, source_class_id, source_name, line, col)
