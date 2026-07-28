@@ -1,12 +1,14 @@
 {
   "astropy__astropy-12907": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "astropy/astropy",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "_cstack"
   },
   "astropy__astropy-14365": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "astropy/astropy",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "_get_tables_from_qdp_file"
@@ -35,18 +37,21 @@
   },
   "django__django-11910": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "django/django",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "generate_altered_fields"
   },
   "django__django-12700": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "django/django",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "cleanse_setting"
   },
   "django__django-12856": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "django/django",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "_check_constraints"
@@ -58,6 +63,7 @@
   },
   "django__django-13265": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "django/django",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "_detect_changes"
@@ -75,6 +81,7 @@
   },
   "django__django-13710": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "django/django",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "__init__"
@@ -98,6 +105,7 @@
   "django__django-14411": {
     "commit": "ci-run-30360577893-seed777",
     "error": "ValueError: No changed function found in django/contrib/auth/forms.py for this patch",
+    "repo": "django/django",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "resolve_target_function"
   },
@@ -110,18 +118,21 @@
   "django__django-14915": {
     "commit": "ci-run-30360577893-seed777",
     "error": "ValueError: TestContext validation failed for django/django @ 903aaa35:\n\n======================================================================\nTestContext Validation Report: django/django @ 903aaa35\n======================================================================\nSeeds: 1 | Context: 5 | Edges: 5 | Tests: 0\n\n\u274c ERRORS:\n  - Disconnected seeds (1): __eq__ \u2014 no outgoing edges (no context)\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "repo": "django/django",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "extract_and_validate",
     "target": "ModelChoiceIteratorValue"
   },
   "django__django-14997": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "django/django",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "rename_table_references"
   },
   "django__django-15252": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "django/django",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "migrate"
@@ -139,6 +150,7 @@
   },
   "django__django-16139": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "django/django",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "__init__"
@@ -166,12 +178,14 @@
   },
   "matplotlib__matplotlib-23913": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "matplotlib/matplotlib",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "__init__"
   },
   "matplotlib__matplotlib-24265": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "matplotlib/matplotlib",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "fix_style"
@@ -183,12 +197,14 @@
   },
   "matplotlib__matplotlib-25442": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "matplotlib/matplotlib",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "DraggableBase"
   },
   "matplotlib__matplotlib-25498": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "matplotlib/matplotlib",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "__init__"
@@ -196,6 +212,7 @@
   "matplotlib__matplotlib-26020": {
     "commit": "ci-run-30360577893-seed777",
     "error": "ValueError: TestContext validation failed for matplotlib/matplotlib @ f6a781f7:\n\n======================================================================\nTestContext Validation Report: matplotlib/matplotlib @ f6a781f7\n======================================================================\nSeeds: 1 | Context: 7 | Edges: 8 | Tests: 0\n\n\u274c ERRORS:\n  - Disconnected seeds (1): _tick_only \u2014 no outgoing edges (no context)\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "repo": "matplotlib/matplotlib",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "extract_and_validate",
     "target": "_tick_only"
@@ -208,12 +225,14 @@
   },
   "mwaskom__seaborn-3190": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "mwaskom/seaborn",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "_setup"
   },
   "pallets__flask-5063": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "pallets/flask",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "routes_command"
@@ -225,12 +244,14 @@
   },
   "pydata__xarray-4248": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "pydata/xarray",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "inline_variable_array_repr"
   },
   "pydata__xarray-5131": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "pydata/xarray",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "__repr__"
@@ -247,6 +268,7 @@
   },
   "pytest-dev__pytest-5221": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "pytest-dev/pytest",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "_showfixtures_main"
@@ -258,18 +280,21 @@
   },
   "pytest-dev__pytest-5692": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "pytest-dev/pytest",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "pytest_sessionfinish"
   },
   "pytest-dev__pytest-6116": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "pytest-dev/pytest",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "pytest_addoption"
   },
   "pytest-dev__pytest-7168": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "pytest-dev/pytest",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "_format_repr_exception"
@@ -287,30 +312,35 @@
   },
   "pytest-dev__pytest-7432": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "pytest-dev/pytest",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "pytest_runtest_makereport"
   },
   "pytest-dev__pytest-7490": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "pytest-dev/pytest",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "pytest_runtest_call"
   },
   "pytest-dev__pytest-8365": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "pytest-dev/pytest",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "getbasetemp"
   },
   "pytest-dev__pytest-8906": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "pytest-dev/pytest",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "_importtestmodule"
   },
   "pytest-dev__pytest-9359": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "pytest-dev/pytest",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "get_statement_startend2"
@@ -323,6 +353,7 @@
   },
   "scikit-learn__scikit-learn-10508": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "inverse_transform"
@@ -335,6 +366,7 @@
   },
   "scikit-learn__scikit-learn-13439": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "Pipeline"
@@ -368,18 +400,21 @@
   },
   "scikit-learn__scikit-learn-14092": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "_validate_params"
   },
   "scikit-learn__scikit-learn-14894": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "BaseLibSVM"
   },
   "scikit-learn__scikit-learn-14983": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "_build_repr"
@@ -396,12 +431,14 @@
   },
   "scikit-learn__scikit-learn-25500": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "IsotonicRegression"
   },
   "scikit-learn__scikit-learn-25570": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "_hstack"
@@ -413,18 +450,21 @@
   },
   "scikit-learn__scikit-learn-25747": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "_wrap_in_pandas_container"
   },
   "sphinx-doc__sphinx-7975": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "sphinx-doc/sphinx",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "create_index"
   },
   "sphinx-doc__sphinx-8627": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "sphinx-doc/sphinx",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "restify"
@@ -447,6 +487,7 @@
   },
   "sympy__sympy-14396": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "sympy/sympy",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "Domain"
@@ -465,18 +506,21 @@
   },
   "sympy__sympy-16792": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "sympy/sympy",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "routine"
   },
   "sympy__sympy-17022": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "sympy/sympy",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "NumPyPrinter"
   },
   "sympy__sympy-19007": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "sympy/sympy",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "_entry"
@@ -484,12 +528,14 @@
   "sympy__sympy-19487": {
     "commit": "ci-run-30360577893-seed777",
     "error": "ValueError: TestContext validation failed for sympy/sympy @ 25fbcce5:\n\n======================================================================\nTestContext Validation Report: sympy/sympy @ 25fbcce5\n======================================================================\nSeeds: 1 | Context: 39 | Edges: 41 | Tests: 0\n\n\u274c ERRORS:\n  - Disconnected seeds (1): _eval_simplify \u2014 no outgoing edges (no context)\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "repo": "sympy/sympy",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "extract_and_validate",
     "target": "_eval_simplify"
   },
   "sympy__sympy-20049": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "sympy/sympy",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "Point"
@@ -512,6 +558,7 @@
   "sympy__sympy-21171": {
     "commit": "ci-run-30360577893-seed777",
     "error": "ValueError: TestContext validation failed for sympy/sympy @ aa22709c:\n\n======================================================================\nTestContext Validation Report: sympy/sympy @ aa22709c\n======================================================================\nSeeds: 1 | Context: 296 | Edges: 299 | Tests: 0\n\n\u274c ERRORS:\n  - Disconnected seeds (1): _print_SingularityFunction \u2014 no outgoing edges (no context)\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "repo": "sympy/sympy",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "extract_and_validate",
     "target": "_print_SingularityFunction"
@@ -535,6 +582,7 @@
   "sympy__sympy-23117": {
     "commit": "ci-run-30360577893-seed777",
     "error": "ValueError: TestContext validation failed for sympy/sympy @ c5cef249:\n\n======================================================================\nTestContext Validation Report: sympy/sympy @ c5cef249\n======================================================================\nSeeds: 5 | Context: 907 | Edges: 1286 | Tests: 3\n\n\u274c ERRORS:\n  - Ambiguous seed names (1): f \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n======================================================================\n",
+    "repo": "sympy/sympy",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "extract_and_validate",
     "target": "_check_index_for_getitem"
@@ -546,12 +594,14 @@
   },
   "sympy__sympy-24066": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "sympy/sympy",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "_collect_factor_and_dimension"
   },
   "sympy__sympy-24213": {
     "commit": "ci-run-30360577893-seed777",
+    "repo": "sympy/sympy",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "_collect_factor_and_dimension"
