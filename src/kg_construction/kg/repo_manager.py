@@ -5,13 +5,15 @@ Git clone/extract operations for repo_kg_builder. Keeps network and
 subprocess concerns isolated from the AST parsing and KG assembly layers.
 """
 
+import shutil
 import subprocess
 import tarfile
 from pathlib import Path
 
 
-# Timeout in seconds for git subprocess calls (clone, archive)
-GIT_TIMEOUT = 120
+# Timeout in seconds for git subprocess calls (clone, archive). 120s was too
+# short for large repos (scikit-learn, sympy etc.)
+GIT_TIMEOUT = 600
 
 
 class RepoManager:
@@ -47,10 +49,18 @@ class RepoManager:
         """
         path = self._cache_path(repo)
         if not path.exists():
-            subprocess.run(
-                ['git', 'clone', '--bare', f"https://github.com/{repo}.git", str(path)],
-                check=True, timeout=GIT_TIMEOUT
-            )
+            try:
+                subprocess.run(
+                    ['git', 'clone', '--bare', f"https://github.com/{repo}.git", str(path)],
+                    check=True, timeout=GIT_TIMEOUT
+                )
+            except (subprocess.TimeoutExpired, subprocess.CalledProcessError):
+                # A killed/failed clone can leave a partial, corrupt bare
+                # repo on disk -- if left in place, path.exists() would make
+                # every future call trust it and retry doomed fetches
+                # against broken pack data forever (kg_construction#72).
+                shutil.rmtree(path, ignore_errors=True)
+                raise
         return path
 
     def _archive(self, repo_path: Path, commit: str, archive_path: Path):
