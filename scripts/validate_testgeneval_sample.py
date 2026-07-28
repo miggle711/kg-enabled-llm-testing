@@ -3,9 +3,14 @@ validate_testgeneval_sample.py
 
 Ad-hoc validation of this repo's KG construction + context extraction
 (RepoKGBuilder, PatchParser, extract_and_validate) against a sample of
-real TestGenEvalLite instances, across all 11 source repos -- independent
-of any hand-curated dataset, to check whether the pipeline holds up on
-real, unfiltered patches it wasn't specifically built against.
+real TestGenEval instances, across all 11 source repos -- independent of
+any hand-curated dataset, to check whether the pipeline holds up on real,
+unfiltered patches it wasn't specifically built against.
+
+Defaults to TestGenEvalLite (160 instances); pass --dataset
+kjain14/testgeneval for the full 1,210-instance benchmark. Lite's
+instance_ids are a strict subset of the full dataset's, so history
+entries are valid exclusions against either.
 
 Instances already run are tracked in HISTORY_PATH (committed to the repo)
 and automatically excluded from future random samples, so repeated runs
@@ -68,10 +73,10 @@ def _save_history(history: dict) -> None:
     HISTORY_PATH.write_text(json.dumps(history, indent=2, sort_keys=True))
 
 
-def _load_sample(sample_size: int, seed: int, per_repo_cap: int, exclude: set) -> list:
+def _load_sample(sample_size: int, seed: int, per_repo_cap: int, exclude: set, dataset_name: str) -> list:
     from datasets import load_dataset
 
-    dataset = load_dataset("kjain14/testgenevallite")
+    dataset = load_dataset(dataset_name)
     by_repo = defaultdict(list)
     for row in dataset["test"]:
         if row["instance_id"] in exclude:
@@ -91,10 +96,10 @@ def _load_sample(sample_size: int, seed: int, per_repo_cap: int, exclude: set) -
     return [_to_instance(row) for row in sample]
 
 
-def _load_specific(names: list) -> list:
+def _load_specific(names: list, dataset_name: str) -> list:
     from datasets import load_dataset
 
-    dataset = load_dataset("kjain14/testgenevallite")
+    dataset = load_dataset(dataset_name)
     wanted = set(names)
     instances = [_to_instance(row) for row in dataset["test"] if row["instance_id"] in wanted]
     missing = wanted - {i["name"] for i in instances}
@@ -125,6 +130,11 @@ def main():
     parser.add_argument("--allow-rerun", action="store_true",
                          help="Don't exclude previously-run instances when sampling. "
                               "Always applies when --instances is given explicitly.")
+    parser.add_argument("--dataset", type=str, default="kjain14/testgenevallite",
+                         help="HuggingFace dataset to sample from. TestGenEvalLite's "
+                              "160 instance_ids are a strict subset of the full "
+                              "kjain14/testgeneval (1,210) -- history entries from one "
+                              "are valid exclusions against the other.")
     parser.add_argument("--output", type=str, default="validation_results.json")
     args = parser.parse_args()
 
@@ -136,10 +146,10 @@ def main():
     print(f"Loaded history: {len(history)} instances previously run", flush=True)
 
     if args.instances:
-        instances = _load_specific(args.instances.split(","))
+        instances = _load_specific(args.instances.split(","), args.dataset)
     else:
         exclude = set() if args.allow_rerun else set(history)
-        instances = _load_sample(args.sample_size, args.seed, args.per_repo_cap, exclude)
+        instances = _load_sample(args.sample_size, args.seed, args.per_repo_cap, exclude, args.dataset)
 
     print(f"Running {len(instances)} instances...", flush=True)
 

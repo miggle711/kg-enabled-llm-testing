@@ -92,20 +92,40 @@ def _innermost_range(ranges: List[_FunctionRange], line: int) -> Optional[_Funct
     return min(containing, key=lambda r: r.end_line - r.start_line)
 
 
-def _changed_pre_patch_lines(patch: str, code_file: str) -> Set[int]:
-    """Return the set of pre-patch line numbers, in code_file, that a
-    changed line should be attributed against.
+def _changed_pre_patch_lines(patch: str, code_file: str) -> Tuple[Set[int], Set[int]]:
+    """Return (removed_lines, insertion_anchor_lines): pre-patch line
+    numbers, in code_file, that a changed line should be attributed
+    against -- split by how reliable that attribution is.
 
     A '-' (removed) line has its own real pre-patch line number, used
-    directly. A '+' (added) line has no pre-patch line number of its own
-    (it doesn't exist in the pre-patch file) -- its insertion POINT is used
-    instead: the pre-patch line immediately after which it was inserted
-    (old_lineno at the moment it's encountered, before advancing past any
-    following context line). This correctly anchors a pure addition (no
-    matching '-' line at all) to whichever function's range contains that
-    insertion point.
+    directly -- a removal's line genuinely IS the changed content, so a
+    range containing it is always a correct match.
+
+    A '+' (added) line has no pre-patch line number of its own (it doesn't
+    exist in the pre-patch file) -- its insertion POINT is used instead:
+    both the pre-patch line just before and just after it, since either
+    can be the one actually inside the enclosing function's range (an
+    addition at a function's very first or very last body line only has
+    one real neighbor on the correct side). This anchor is inherently
+    weaker than a real removal's line, though: if the insertion point
+    happens to land exactly on some OTHER function/class's own def line,
+    that's a false match (the insertion sits just before that function
+    starts, not inside it) -- kg_construction#84's follow-up finding,
+    confirmed directly on a real sympy patch inserting a new method
+    immediately before an existing one. Callers must reject a match
+    against an insertion-anchor line when line == match.start_line;
+    a real removal's line is never subject to this exclusion.
+
+    This anchor-based approach only finds a home for an addition when the
+    insertion point falls INSIDE some pre-patch function/class's range at
+    all -- a wholly new top-level function/class inserted in the
+    blank-line gap between two others has no such home (kg_construction#84);
+    that case is handled separately, against the reconstructed POST-patch
+    source, by _changed_post_patch_lines/_reconstruct_post_patch_source
+    below.
     """
-    changed_lines: Set[int] = set()
+    removed_lines: Set[int] = set()
+    insertion_anchor_lines: Set[int] = set()
     current_file = None
     old_lineno = None
 
@@ -127,19 +147,143 @@ def _changed_pre_patch_lines(patch: str, code_file: str) -> Set[int]:
             continue
 
         if line.startswith('-') and not line.startswith('---'):
-            changed_lines.add(old_lineno)
+            removed_lines.add(old_lineno)
             old_lineno += 1
         elif line.startswith('+') and not line.startswith('+++'):
-            # Anchor to the insertion point: both the pre-patch line just
-            # before it and just after it, since either can be the one
-            # actually inside the enclosing function's range (an addition
-            # at the very first or very last line of a function's body
-            # only has one real neighbor on the correct side).
-            changed_lines.add(old_lineno)
+            insertion_anchor_lines.add(old_lineno)
             if old_lineno > 1:
-                changed_lines.add(old_lineno - 1)
+                insertion_anchor_lines.add(old_lineno - 1)
         elif line.startswith(' '):
             old_lineno += 1
+
+    return removed_lines, insertion_anchor_lines
+
+    return changed_lines
+
+
+def _reconstruct_post_patch_source(pre_patch_source: str, patch: str, code_file: str) -> Optional[str]:
+    """Reconstruct code_file's post-patch text by applying patch's hunks
+    for that file directly to pre_patch_source, in memory.
+
+    Used to resolve a changed line that has no home in the pre-patch
+    source's own function/class ranges (kg_construction#84) -- a wholly
+    new top-level function/class doesn't exist yet in pre_patch_source, so
+    there's nothing there to attribute it to; parsing the file it WILL
+    become and re-checking against real ranges there finds it directly,
+    reusing the same range-matching logic as the pre-patch path rather
+    than a second, bespoke diff-scanning path.
+
+    Returns:
+        The reconstructed post-patch text, or None if patch has no hunks
+        for code_file at all (nothing to reconstruct).
+    """
+    pre_lines = pre_patch_source.split('\n')
+    out_lines: List[str] = []
+    pre_idx = 0  # 0-indexed cursor into pre_lines
+    current_file = None
+    saw_any_hunk = False
+
+    lines = patch.split('\n')
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+
+        if line.startswith('+++'):
+            match = re.match(r'^\+\+\+ b/(.+)$', line)
+            current_file = match.group(1) if match else None
+            i += 1
+            continue
+
+        if current_file != code_file:
+            i += 1
+            continue
+
+        if line.startswith('@@'):
+            match = re.match(r'^@@ -(\d+)', line)
+            if not match:
+                i += 1
+                continue
+            saw_any_hunk = True
+            hunk_start = int(match.group(1)) - 1  # 0-indexed
+            # Copy everything between the end of the last hunk (or file
+            # start) and the start of this one, unchanged.
+            out_lines.extend(pre_lines[pre_idx:hunk_start])
+            pre_idx = hunk_start
+            i += 1
+            continue
+
+        if not saw_any_hunk:
+            i += 1
+            continue
+
+        if line.startswith('-') and not line.startswith('---'):
+            pre_idx += 1  # removed: present in pre, absent from post
+        elif line.startswith('+') and not line.startswith('+++'):
+            out_lines.append(line[1:])  # added: present in post only
+        elif line.startswith(' '):
+            out_lines.append(pre_lines[pre_idx])
+            pre_idx += 1
+        # A blank line with no marker at all (some diffs omit the leading
+        # space on a genuinely empty context line) behaves like context.
+        elif line == '':
+            out_lines.append(pre_lines[pre_idx] if pre_idx < len(pre_lines) else '')
+            pre_idx += 1
+
+        i += 1
+
+    if not saw_any_hunk:
+        return None
+
+    out_lines.extend(pre_lines[pre_idx:])
+    return '\n'.join(out_lines)
+
+
+def _changed_post_patch_lines(patch: str, code_file: str) -> Set[int]:
+    """Return the set of POST-patch line numbers, in code_file, that a
+    changed line should be attributed against -- the mirror image of
+    _changed_pre_patch_lines, tracking the new-file side's line numbers
+    instead of the old-file side's.
+
+    A '+' (added) line has its own real post-patch line number, used
+    directly. A '-' (removed) line has no post-patch line number of its
+    own -- its removal POINT (new_lineno at the moment it's encountered)
+    is used instead. Unlike the pre-patch side's insertion-point anchor
+    (which also checks the line before, since an insertion's only real
+    neighbor can be on either side), a removal's anchor does NOT also
+    check new_lineno - 1: that would incorrectly pull in whatever
+    unrelated content precedes the removal point (confirmed directly: a
+    removed module-level comment right after a function's closing line
+    would otherwise misattribute to that function, reintroducing the
+    exact shape of bug kg_construction#71 fixed).
+    """
+    changed_lines: Set[int] = set()
+    current_file = None
+    new_lineno = None
+
+    for line in patch.split('\n'):
+        if line.startswith('+++'):
+            match = re.match(r'^\+\+\+ b/(.+)$', line)
+            current_file = match.group(1) if match else None
+            continue
+
+        if current_file != code_file:
+            continue
+
+        if line.startswith('@@'):
+            match = re.match(r'^@@ -\d+(?:,\d+)? \+(\d+)', line)
+            new_lineno = int(match.group(1)) if match else None
+            continue
+
+        if new_lineno is None:
+            continue
+
+        if line.startswith('+') and not line.startswith('+++'):
+            changed_lines.add(new_lineno)
+            new_lineno += 1
+        elif line.startswith('-') and not line.startswith('---'):
+            changed_lines.add(new_lineno)
+        elif line.startswith(' '):
+            new_lineno += 1
 
     return changed_lines
 
@@ -196,6 +340,21 @@ class PatchParser:
         attributed to the closure, not its enclosing function
         (kg_construction#74).
 
+        Changed lines are ALSO independently resolved against the
+        reconstructed POST-patch source's own ranges, and the two result
+        sets are unioned. This isn't just a fallback for when the
+        pre-patch pass finds nothing: a wholly new top-level function/class
+        (kg_construction#84) has no home in the pre-patch source at all, so
+        its OWN changed lines resolve to nothing there, while OTHER changed
+        lines in the same hunk can still resolve to a real (but wrong)
+        neighboring function -- meaning "the pre-patch pass matched
+        something" is not a reliable signal that it matched the right
+        thing. Checking both sides and taking the union catches this
+        without needing to first detect that the pre-patch pass "failed"
+        globally. For an ordinary modification (no new function), the
+        post-patch side re-derives the same (name, class) pair the
+        pre-patch side already found, adding nothing extra.
+
         Returns:
             Set of (name, enclosing_class_or_None) tuples. A changed
             nested function (not a class method) also has
@@ -204,14 +363,38 @@ class PatchParser:
             same-class-method-name ambiguity needs the class hint, and a
             nested function can't collide with a class method that way.
         """
-        ranges = _function_ranges(pre_patch_source)
-        changed_lines = _changed_pre_patch_lines(patch, code_file)
+        pre_ranges = _function_ranges(pre_patch_source)
+        removed_lines, insertion_anchor_lines = _changed_pre_patch_lines(patch, code_file)
 
         changed: Set[Tuple[str, Optional[str]]] = set()
-        for line in changed_lines:
-            match = _innermost_range(ranges, line)
+        for line in removed_lines:
+            match = _innermost_range(pre_ranges, line)
             if match is None:
-                continue  # module-level change, not inside any function/class
+                continue  # module-level change
             changed.add((match.name, match.enclosing_class))
+
+        for line in insertion_anchor_lines:
+            match = _innermost_range(pre_ranges, line)
+            if match is None or match.start_line == line:
+                # No home at all, or the anchor merely landed on a
+                # DIFFERENT sibling def/class's own start line -- not a
+                # real match, since the insertion sits just before that
+                # sibling begins, not inside it (kg_construction#84's
+                # follow-up finding). Left for the post-patch pass below.
+                continue
+            changed.add((match.name, match.enclosing_class))
+
+        post_patch_source = _reconstruct_post_patch_source(pre_patch_source, patch, code_file)
+        if post_patch_source is not None:
+            try:
+                post_ranges = _function_ranges(post_patch_source)
+            except SyntaxError:
+                post_ranges = []
+            post_changed_lines = _changed_post_patch_lines(patch, code_file)
+            for line in post_changed_lines:
+                match = _innermost_range(post_ranges, line)
+                if match is None:
+                    continue  # module-level change either way
+                changed.add((match.name, match.enclosing_class))
 
         return changed
