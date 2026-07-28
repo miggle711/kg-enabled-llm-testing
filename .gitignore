@@ -4,8 +4,9 @@ my-docs/
 # paper content, kept local-only
 docs/PAPER.md
 
-# scripts
-scripts/
+# scripts (ad-hoc local ones only -- real, checked-in tooling is un-ignored below)
+scripts/*
+!scripts/validate_testgeneval_sample.py
 
 # kg_output
 kg_output/
