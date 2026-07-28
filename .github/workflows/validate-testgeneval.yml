@@ -19,6 +19,13 @@ on:
         description: "Include previously-run instances in random sampling (true/false)"
         type: boolean
         default: false
+      dataset:
+        description: "HuggingFace dataset to sample from"
+        type: choice
+        options:
+          - kjain14/testgenevallite
+          - kjain14/testgeneval
+        default: kjain14/testgenevallite
 
 permissions:
   contents: write
@@ -46,12 +53,14 @@ jobs:
           if [ -n "${{ github.event.inputs.instances }}" ]; then
             PYTHONPATH=src python scripts/validate_testgeneval_sample.py \
               --instances "${{ github.event.inputs.instances }}" \
+              --dataset "${{ github.event.inputs.dataset }}" \
               --output validation_results.json
           else
             PYTHONPATH=src python scripts/validate_testgeneval_sample.py \
               --sample-size "${{ github.event.inputs.sample_size }}" \
               --seed "${{ github.event.inputs.seed }}" \
               --per-repo-cap "${{ github.event.inputs.per_repo_cap }}" \
+              --dataset "${{ github.event.inputs.dataset }}" \
               --output validation_results.json \
               ${{ github.event.inputs.allow_rerun == 'true' && '--allow-rerun' || '' }}
           fi
