@@ -11,7 +11,7 @@ Each test constructs BOTH a patch and its corresponding pre-patch source,
 since the new API requires the latter to resolve real ranges.
 """
 
-from kg_construction.extraction.patch import PatchParser
+from kg_construction.extraction.patch import PatchParser, _reconstruct_post_patch_source
 
 
 class TestPatchParser:
@@ -408,3 +408,217 @@ class TestExtractChangedFunctionsWithScope:
 """
         changed = PatchParser.extract_changed_functions(patch, 'mod.py', source)
         assert changed == {'build'}
+
+
+class TestReconstructPostPatchSource:
+    """_reconstruct_post_patch_source applies patch's hunks to
+    pre_patch_source in memory (kg_construction#84's fix depends on this
+    being an EXACT reconstruction, not an approximation -- a wrong
+    reconstruction would silently feed bad source into ast.parse and
+    produce wrong ranges). Verified directly against real GitHub patches
+    applied via `git apply` as ground truth (see #84's PR description) --
+    these are the synthetic, in-repo equivalents of that same check.
+    """
+
+    def test_single_hunk_addition_reconstructs_exactly(self):
+        pre = "def a():\n    return 1\n\n\ndef b():\n    return 2\n"
+        patch = """--- a/mod.py
++++ b/mod.py
+@@ -1,6 +1,10 @@
+ def a():
+     return 1
+
++
++def new_func():
++    return 42
+
+ def b():
+     return 2
+"""
+        post = _reconstruct_post_patch_source(pre, patch, 'mod.py')
+        assert post == (
+            "def a():\n    return 1\n\n\n"
+            "def new_func():\n    return 42\n\n"
+            "def b():\n    return 2\n"
+        )
+
+    def test_pure_removal_reconstructs_exactly(self):
+        pre = "def a():\n    x = 1\n    y = 2\n    return x + y\n"
+        patch = """--- a/mod.py
++++ b/mod.py
+@@ -1,4 +1,3 @@
+ def a():
+     x = 1
+-    y = 2
+-    return x + y
++    return x + 1
+"""
+        post = _reconstruct_post_patch_source(pre, patch, 'mod.py')
+        assert post == "def a():\n    x = 1\n    return x + 1\n"
+
+    def test_multiple_hunks_reconstruct_exactly(self):
+        pre = (
+            "def a():\n    return 1\n\n"
+            "def b():\n    return 2\n\n"
+            "def c():\n    return 3\n"
+        )
+        patch = """--- a/mod.py
++++ b/mod.py
+@@ -1,2 +1,2 @@
+ def a():
+-    return 1
++    return 100
+@@ -7,2 +7,2 @@
+ def c():
+-    return 3
++    return 300
+"""
+        post = _reconstruct_post_patch_source(pre, patch, 'mod.py')
+        assert post == (
+            "def a():\n    return 100\n\n"
+            "def b():\n    return 2\n\n"
+            "def c():\n    return 300\n"
+        )
+
+    def test_no_hunks_for_code_file_returns_none(self):
+        pre = "def a():\n    return 1\n"
+        patch = """--- a/other.py
++++ b/other.py
+@@ -1,2 +1,2 @@
+ def x():
+-    return 1
++    return 2
+"""
+        assert _reconstruct_post_patch_source(pre, patch, 'mod.py') is None
+
+
+class TestWhollyNewFunctionsAndClasses:
+    """kg_construction#84: a wholly new top-level function/class doesn't
+    exist anywhere in the pre-patch source, so it has no range to be
+    attributed against there. Resolved by also checking the reconstructed
+    POST-patch source's own ranges and unioning both result sets.
+    """
+
+    def test_new_module_level_function_between_two_others_is_detected(self):
+        """The exact real-world shape that surfaced #84 (a real sympy
+        patch, sympy__sympy-21055): a new function inserted in the
+        blank-line gap between two existing ones -- that gap isn't inside
+        EITHER neighboring function's pre-patch range, so there's nothing
+        there to attribute the insertion to on the pre-patch side alone.
+        """
+        source = (
+            "def before():\n"
+            "    return 1\n"
+            "\n"
+            "\n"
+            "def after():\n"
+            "    return 2\n"
+        )
+        patch = """--- a/mod.py
++++ b/mod.py
+@@ -1,6 +1,10 @@
+ def before():
+     return 1
+
++
++def new_function():
++    return 42
++
+
+ def after():
+     return 2
+"""
+        changed = PatchParser.extract_changed_functions(patch, 'mod.py', source)
+        assert 'new_function' in changed
+
+    def test_new_method_inserted_immediately_before_an_existing_one(self):
+        """kg_construction#84's follow-up finding: a new method inserted
+        directly before an existing sibling method must not be
+        misattributed to that sibling merely because the insertion point
+        lands on the sibling's own def line (which is trivially "inside"
+        the sibling's own range).
+        """
+        source = (
+            "class Printer:\n"
+            "    def existing_method(self, x):\n"
+            "        return x\n"
+        )
+        patch = """--- a/mod.py
++++ b/mod.py
+@@ -1,3 +1,6 @@
+ class Printer:
++    def new_method(self, x):
++        return x * 2
++
+     def existing_method(self, x):
+         return x
+"""
+        changed = PatchParser.extract_changed_functions_with_scope(patch, 'mod.py', source)
+        assert ('new_method', 'Printer') in changed
+        assert ('existing_method', 'Printer') not in changed
+
+    def test_new_method_added_at_end_of_existing_class(self):
+        """A new method appended after the class's existing method(s) --
+        the insertion point falls at/after the end of the pre-patch
+        class's own range, so it also has no home there."""
+        source = (
+            "class Widget:\n"
+            "    def build(self):\n"
+            "        return 1\n"
+        )
+        patch = """--- a/mod.py
++++ b/mod.py
+@@ -1,3 +1,6 @@
+ class Widget:
+     def build(self):
+         return 1
++
++    def new_method(self):
++        return 2
+"""
+        changed = PatchParser.extract_changed_functions_with_scope(patch, 'mod.py', source)
+        assert ('new_method', 'Widget') in changed
+
+    def test_new_class_between_two_others_is_detected(self):
+        source = (
+            "class Alpha:\n"
+            "    pass\n"
+            "\n"
+            "\n"
+            "class Beta:\n"
+            "    pass\n"
+        )
+        patch = """--- a/mod.py
++++ b/mod.py
+@@ -1,6 +1,10 @@
+ class Alpha:
+     pass
+
+
++class NewClass:
++    def method(self):
++        return 1
++
+
+ class Beta:
+     pass
+"""
+        changed = PatchParser.extract_changed_functions(patch, 'mod.py', source)
+        assert 'NewClass' in changed
+
+    def test_ordinary_modification_is_not_duplicated_by_post_patch_pass(self):
+        """An ordinary modification (no new function/class involved) must
+        not gain a spurious extra entry just because both the pre- and
+        post-patch passes independently resolve it -- the union must
+        still produce exactly the one real changed function.
+        """
+        source = "def target():\n    return 1\n"
+        patch = """--- a/mod.py
++++ b/mod.py
+@@ -1,2 +1,2 @@
+ def target():
+-    return 1
++    return 2
+"""
+        changed = PatchParser.extract_changed_functions(patch, 'mod.py', source)
+        assert changed == {'target'}
