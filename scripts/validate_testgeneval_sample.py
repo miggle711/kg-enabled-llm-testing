@@ -7,12 +7,19 @@ real TestGenEvalLite instances, across all 11 source repos -- independent
 of any hand-curated dataset, to check whether the pipeline holds up on
 real, unfiltered patches it wasn't specifically built against.
 
+Instances already run are tracked in HISTORY_PATH (committed to the repo)
+and automatically excluded from future random samples, so repeated runs
+expand real coverage instead of re-testing the same instances. Each run
+merges its results into that history rather than overwriting it.
+
 Usage:
     python scripts/validate_testgeneval_sample.py --sample-size 50 --seed 42
     python scripts/validate_testgeneval_sample.py --instances a,b,c   # specific instance_ids
+    python scripts/validate_testgeneval_sample.py --sample-size 50 --allow-rerun  # ignore history
 
 Writes:
-    validation_results.json -- {instance_name: {"stage": ..., "error": ...}}
+    validation_results.json -- this run's results only, for CI artifact upload
+    data/testgeneval_validation_history.json -- cumulative, merged across all runs
 """
 
 import argparse
@@ -22,13 +29,28 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
+HISTORY_PATH = Path(__file__).parent.parent / "data" / "testgeneval_validation_history.json"
 
-def _load_sample(sample_size: int, seed: int, per_repo_cap: int) -> list:
+
+def _load_history() -> dict:
+    if not HISTORY_PATH.exists():
+        return {}
+    return json.loads(HISTORY_PATH.read_text())
+
+
+def _save_history(history: dict) -> None:
+    HISTORY_PATH.parent.mkdir(parents=True, exist_ok=True)
+    HISTORY_PATH.write_text(json.dumps(history, indent=2, sort_keys=True))
+
+
+def _load_sample(sample_size: int, seed: int, per_repo_cap: int, exclude: set) -> list:
     from datasets import load_dataset
 
     dataset = load_dataset("kjain14/testgenevallite")
     by_repo = defaultdict(list)
     for row in dataset["test"]:
+        if row["instance_id"] in exclude:
+            continue
         by_repo[row["repo"]].append(row)
 
     rng = random.Random(seed)
@@ -75,6 +97,9 @@ def main():
                          help="Max instances taken from any single repo, for a spread sample.")
     parser.add_argument("--instances", type=str, default=None,
                          help="Comma-separated instance_ids to run instead of a random sample.")
+    parser.add_argument("--allow-rerun", action="store_true",
+                         help="Don't exclude previously-run instances when sampling. "
+                              "Always applies when --instances is given explicitly.")
     parser.add_argument("--output", type=str, default="validation_results.json")
     args = parser.parse_args()
 
@@ -82,10 +107,14 @@ def main():
     from kg_construction.kg.repo_manager import RepoManager
     from kg_construction.pipeline import extract_and_validate
 
+    history = _load_history()
+    print(f"Loaded history: {len(history)} instances previously run", flush=True)
+
     if args.instances:
         instances = _load_specific(args.instances.split(","))
     else:
-        instances = _load_sample(args.sample_size, args.seed, args.per_repo_cap)
+        exclude = set() if args.allow_rerun else set(history)
+        instances = _load_sample(args.sample_size, args.seed, args.per_repo_cap, exclude)
 
     print(f"Running {len(instances)} instances...", flush=True)
 
@@ -109,23 +138,29 @@ def main():
             target = sorted(changed_names)[0]
             print(f"  resolved target: {target}", flush=True)
         except Exception as e:
-            results[name] = {"stage": "resolve_target_function", "error": f"{type(e).__name__}: {e}"}
+            results[name] = {
+                "repo": instance["repo"], "stage": "resolve_target_function",
+                "error": f"{type(e).__name__}: {e}",
+            }
             print(f"  FAILED at resolve_target_function: {type(e).__name__}: {e}", flush=True)
             continue
 
         try:
             extract_and_validate(instance, depth=2, verbose=False, strict=True)
-            results[name] = {"stage": "ok", "target": target}
+            results[name] = {"repo": instance["repo"], "stage": "ok", "target": target}
             print("  OK", flush=True)
         except Exception as e:
             results[name] = {
-                "stage": "extract_and_validate",
-                "target": target,
+                "repo": instance["repo"], "stage": "extract_and_validate", "target": target,
                 "error": f"{type(e).__name__}: {e}",
             }
             print(f"  FAILED at extract_and_validate: {type(e).__name__}: {e}", flush=True)
 
     Path(args.output).write_text(json.dumps(results, indent=2))
+
+    history.update(results)
+    _save_history(history)
+    print(f"\nHistory updated: {len(history)} total instances tracked", flush=True)
 
     print()
     print("=== SUMMARY ===")

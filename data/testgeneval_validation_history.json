@@ -1,0 +1,419 @@
+{
+  "astropy__astropy-12907": {
+    "error": "CalledProcessError: Command '['git', '--git-dir', 'repo_cache/astropy__astropy', 'fetch', 'origin']' returned non-zero exit status 128.",
+    "repo": "astropy/astropy",
+    "stage": "build_kg_augmented_context",
+    "target": "_cstack"
+  },
+  "astropy__astropy-14365": {
+    "error": "TimeoutExpired: Command '['git', '--git-dir', 'repo_cache/astropy__astropy', 'fetch', 'origin']' timed out after 119.99991891602986 seconds",
+    "repo": "astropy/astropy",
+    "stage": "build_kg_augmented_context",
+    "target": "_get_tables_from_qdp_file"
+  },
+  "astropy__astropy-7746": {
+    "error": "TimeoutExpired: Command '['git', '--git-dir', 'repo_cache/astropy__astropy', 'fetch', 'origin']' timed out after 119.99992425000528 seconds",
+    "repo": "astropy/astropy",
+    "stage": "build_kg_augmented_context",
+    "target": "_return_list_of_arrays"
+  },
+  "django__django-11133": {
+    "repo": "django/django",
+    "stage": "ok",
+    "target": "make_bytes"
+  },
+  "django__django-11422": {
+    "error": "RuntimeError: \n        An attempt has been made to start a new process before the\n        current process has finished its bootstrapping phase.\n\n        This probably means that you are not using fork to start your\n        child processes and you have forgotten to use the proper idiom\n        in the main module:\n\n            if __name__ == '__main__':\n                freeze_support()\n                ...\n\n        The \"freeze_support()\" line can be omitted if the program\n        is not going to be frozen to produce an executable.\n\n        To fix this issue, refer to the \"Safe importing of main module\"\n        section in https://docs.python.org/3/library/multiprocessing.html\n        ",
+    "repo": "django/django",
+    "stage": "build_kg_augmented_context",
+    "target": "iter_modules_and_files"
+  },
+  "django__django-11848": {
+    "repo": "django/django",
+    "stage": "ok",
+    "target": "parse_http_date"
+  },
+  "django__django-12983": {
+    "repo": "django/django",
+    "stage": "ok",
+    "target": "slugify"
+  },
+  "django__django-13448": {
+    "repo": "django/django",
+    "stage": "ok",
+    "target": "create_test_db"
+  },
+  "django__django-13551": {
+    "error": "ValueError: TestContext validation failed for django/django @ 7f9e4524:\n\n======================================================================\nTestContext Validation Report: django/django @ 7f9e4524\n======================================================================\nSeeds: 1 | Context: 21 | Edges: 31 | Tests: 0\n\n\u274c ERRORS:\n  - Disconnected seeds (1): _make_hash_value \u2014 no outgoing edges (no context)\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "repo": "django/django",
+    "stage": "build_kg_augmented_context",
+    "target": "PasswordResetTokenGenerator"
+  },
+  "django__django-13757": {
+    "error": "ValueError: KG-augmented arm's seed selection {'as_sqlite', 'as_oracle'} does not include the canonically resolved target function 'KeyTransformIsNull' -- the patch is ambiguous enough that the two arms disagree (see issue #43 in repo-kg-construction). Refusing to silently generate tests for a different function than the baseline arm would.",
+    "repo": "django/django",
+    "stage": "build_kg_augmented_context",
+    "target": "KeyTransformIsNull"
+  },
+  "django__django-13933": {
+    "repo": "django/django",
+    "stage": "ok",
+    "target": "to_python"
+  },
+  "django__django-14017": {
+    "repo": "django/django",
+    "stage": "ok",
+    "target": "_combine"
+  },
+  "django__django-14752": {
+    "error": "ValueError: TestContext validation failed for django/django @ b64db05b:\n\n======================================================================\nTestContext Validation Report: django/django @ b64db05b\n======================================================================\nSeeds: 2 | Context: 102 | Edges: 474 | Tests: 11\n\n\u274c ERRORS:\n  - Disconnected seeds (1): get_paginator \u2014 no outgoing edges (no context)\n\n======================================================================\n",
+    "repo": "django/django",
+    "stage": "build_kg_augmented_context",
+    "target": "AutocompleteJsonView"
+  },
+  "django__django-15695": {
+    "repo": "django/django",
+    "stage": "ok",
+    "target": "database_forwards"
+  },
+  "django__django-15902": {
+    "error": "ValueError: KG-augmented arm's seed selection {'formsets.py'} does not include the canonically resolved target function 'ManagementForm' -- the patch is ambiguous enough that the two arms disagree (see issue #43 in repo-kg-construction). Refusing to silently generate tests for a different function than the baseline arm would.",
+    "repo": "django/django",
+    "stage": "build_kg_augmented_context",
+    "target": "ManagementForm"
+  },
+  "django__django-16873": {
+    "repo": "django/django",
+    "stage": "ok",
+    "target": "join"
+  },
+  "django__django-17051": {
+    "repo": "django/django",
+    "stage": "ok",
+    "target": "_batched_insert"
+  },
+  "django__django-17087": {
+    "error": "ValueError: Code file not found: django/db/migrations/serializer.py",
+    "repo": "django/django",
+    "stage": "build_kg_augmented_context",
+    "target": "serialize"
+  },
+  "matplotlib__matplotlib-22835": {
+    "repo": "matplotlib/matplotlib",
+    "stage": "ok",
+    "target": "format_cursor_data"
+  },
+  "matplotlib__matplotlib-23913": {
+    "repo": "matplotlib/matplotlib",
+    "stage": "ok",
+    "target": "__init__"
+  },
+  "matplotlib__matplotlib-24265": {
+    "error": "TimeoutExpired: Command '['git', '--git-dir', 'repo_cache/matplotlib__matplotlib', 'fetch', 'origin']' timed out after 119.99990529194474 seconds",
+    "repo": "matplotlib/matplotlib",
+    "stage": "build_kg_augmented_context",
+    "target": "_StyleLibrary"
+  },
+  "matplotlib__matplotlib-25433": {
+    "repo": "matplotlib/matplotlib",
+    "stage": "ok",
+    "target": "delaxes"
+  },
+  "matplotlib__matplotlib-25442": {
+    "error": "ValueError: KG-augmented arm's seed selection {'disconnect', 'on_motion', 'on_release', 'on_pick', '__init__'} does not include the canonically resolved target function 'DraggableBase' -- the patch is ambiguous enough that the two arms disagree (see issue #43 in repo-kg-construction). Refusing to silently generate tests for a different function than the baseline arm would.",
+    "repo": "matplotlib/matplotlib",
+    "stage": "build_kg_augmented_context",
+    "target": "DraggableBase"
+  },
+  "matplotlib__matplotlib-25498": {
+    "error": "TimeoutExpired: Command '['git', '--git-dir', 'repo_cache/matplotlib__matplotlib', 'fetch', 'origin']' timed out after 119.99991587497061 seconds",
+    "repo": "matplotlib/matplotlib",
+    "stage": "build_kg_augmented_context",
+    "target": "__init__"
+  },
+  "matplotlib__matplotlib-26020": {
+    "error": "TimeoutExpired: Command '['git', '--git-dir', 'repo_cache/matplotlib__matplotlib', 'fetch', 'origin']' timed out after 119.99991962499917 seconds",
+    "repo": "matplotlib/matplotlib",
+    "stage": "build_kg_augmented_context",
+    "target": "_tick_only"
+  },
+  "mwaskom__seaborn-3010": {
+    "error": "ValueError: TestContext validation failed for mwaskom/seaborn @ 0f5a013e:\n\n======================================================================\nTestContext Validation Report: mwaskom/seaborn @ 0f5a013e\n======================================================================\nSeeds: 1 | Context: 7 | Edges: 9 | Tests: 0\n\n\u274c ERRORS:\n  - Disconnected seeds (1): __call__ \u2014 no outgoing edges (no context)\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "repo": "mwaskom/seaborn",
+    "stage": "build_kg_augmented_context",
+    "target": "__call__"
+  },
+  "mwaskom__seaborn-3190": {
+    "error": "ValueError: TestContext validation failed for mwaskom/seaborn @ 4a9e5496:\n\n======================================================================\nTestContext Validation Report: mwaskom/seaborn @ 4a9e5496\n======================================================================\nSeeds: 3 | Context: 224 | Edges: 364 | Tests: 0\n\n\u274c ERRORS:\n  - Ambiguous seed names (1): _setup \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "repo": "mwaskom/seaborn",
+    "stage": "build_kg_augmented_context",
+    "target": "_setup"
+  },
+  "pallets__flask-5063": {
+    "repo": "pallets/flask",
+    "stage": "ok",
+    "target": "routes_command"
+  },
+  "pydata__xarray-3364": {
+    "repo": "pydata/xarray",
+    "stage": "ok",
+    "target": "_dataset_concat"
+  },
+  "pydata__xarray-4248": {
+    "repo": "pydata/xarray",
+    "stage": "ok",
+    "target": "inline_variable_array_repr"
+  },
+  "pydata__xarray-5131": {
+    "repo": "pydata/xarray",
+    "stage": "ok",
+    "target": "__repr__"
+  },
+  "pylint-dev__pylint-5859": {
+    "repo": "pylint-dev/pylint",
+    "stage": "ok",
+    "target": "open"
+  },
+  "pylint-dev__pylint-7993": {
+    "repo": "pylint-dev/pylint",
+    "stage": "ok",
+    "target": "on_set_current_module"
+  },
+  "pytest-dev__pytest-5221": {
+    "error": "ValueError: No changed function found in src/_pytest/python.py for this patch",
+    "repo": "pytest-dev/pytest",
+    "stage": "resolve_target_function"
+  },
+  "pytest-dev__pytest-5227": {
+    "error": "ValueError: No changed function found in src/_pytest/logging.py for this patch",
+    "repo": "pytest-dev/pytest",
+    "stage": "resolve_target_function"
+  },
+  "pytest-dev__pytest-5692": {
+    "repo": "pytest-dev/pytest",
+    "stage": "ok",
+    "target": "pytest_sessionfinish"
+  },
+  "pytest-dev__pytest-6116": {
+    "repo": "pytest-dev/pytest",
+    "stage": "ok",
+    "target": "pytest_addoption"
+  },
+  "pytest-dev__pytest-7168": {
+    "error": "RuntimeError: \n        An attempt has been made to start a new process before the\n        current process has finished its bootstrapping phase.\n\n        This probably means that you are not using fork to start your\n        child processes and you have forgotten to use the proper idiom\n        in the main module:\n\n            if __name__ == '__main__':\n                freeze_support()\n                ...\n\n        The \"freeze_support()\" line can be omitted if the program\n        is not going to be frozen to produce an executable.\n\n        To fix this issue, refer to the \"Safe importing of main module\"\n        section in https://docs.python.org/3/library/multiprocessing.html\n        ",
+    "repo": "pytest-dev/pytest",
+    "stage": "build_kg_augmented_context",
+    "target": "_format_repr_exception"
+  },
+  "pytest-dev__pytest-7220": {
+    "repo": "pytest-dev/pytest",
+    "stage": "ok",
+    "target": "_repr_failure_py"
+  },
+  "pytest-dev__pytest-7373": {
+    "error": "RuntimeError: \n        An attempt has been made to start a new process before the\n        current process has finished its bootstrapping phase.\n\n        This probably means that you are not using fork to start your\n        child processes and you have forgotten to use the proper idiom\n        in the main module:\n\n            if __name__ == '__main__':\n                freeze_support()\n                ...\n\n        The \"freeze_support()\" line can be omitted if the program\n        is not going to be frozen to produce an executable.\n\n        To fix this issue, refer to the \"Safe importing of main module\"\n        section in https://docs.python.org/3/library/multiprocessing.html\n        ",
+    "repo": "pytest-dev/pytest",
+    "stage": "build_kg_augmented_context",
+    "target": "_istrue"
+  },
+  "pytest-dev__pytest-7432": {
+    "repo": "pytest-dev/pytest",
+    "stage": "ok",
+    "target": "pytest_runtest_makereport"
+  },
+  "pytest-dev__pytest-7490": {
+    "repo": "pytest-dev/pytest",
+    "stage": "ok",
+    "target": "pytest_runtest_call"
+  },
+  "pytest-dev__pytest-8365": {
+    "repo": "pytest-dev/pytest",
+    "stage": "ok",
+    "target": "getbasetemp"
+  },
+  "pytest-dev__pytest-8906": {
+    "repo": "pytest-dev/pytest",
+    "stage": "ok",
+    "target": "_importtestmodule"
+  },
+  "pytest-dev__pytest-9359": {
+    "repo": "pytest-dev/pytest",
+    "stage": "ok",
+    "target": "get_statement_startend2"
+  },
+  "scikit-learn__scikit-learn-10297": {
+    "error": "ValueError: TestContext validation failed for scikit-learn/scikit-learn @ b90661d6:\n\n======================================================================\nTestContext Validation Report: scikit-learn/scikit-learn @ b90661d6\n======================================================================\nSeeds: 1 | Context: 9 | Edges: 10 | Tests: 0\n\n\u274c ERRORS:\n  - Disconnected seeds (1): __init__ \u2014 no outgoing edges (no context)\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "repo": "scikit-learn/scikit-learn",
+    "stage": "build_kg_augmented_context",
+    "target": "RidgeCV"
+  },
+  "scikit-learn__scikit-learn-10508": {
+    "error": "TimeoutExpired: Command '['git', '--git-dir', 'repo_cache/scikit-learn__scikit-learn', 'fetch', 'origin']' timed out after 119.99994441698072 seconds",
+    "repo": "scikit-learn/scikit-learn",
+    "stage": "build_kg_augmented_context",
+    "target": "inverse_transform"
+  },
+  "scikit-learn__scikit-learn-10949": {
+    "error": "TimeoutExpired: Command '['git', '--git-dir', 'repo_cache/scikit-learn__scikit-learn', 'fetch', 'origin']' timed out after 119.99995391699485 seconds",
+    "repo": "scikit-learn/scikit-learn",
+    "stage": "build_kg_augmented_context",
+    "target": "check_array"
+  },
+  "scikit-learn__scikit-learn-13496": {
+    "error": "ValueError: KG-augmented arm's seed selection {'__init__'} does not include the canonically resolved target function 'IsolationForest' -- the patch is ambiguous enough that the two arms disagree (see issue #43 in repo-kg-construction). Refusing to silently generate tests for a different function than the baseline arm would.",
+    "repo": "scikit-learn/scikit-learn",
+    "stage": "build_kg_augmented_context",
+    "target": "IsolationForest"
+  },
+  "scikit-learn__scikit-learn-13497": {
+    "repo": "scikit-learn/scikit-learn",
+    "stage": "ok",
+    "target": "_estimate_mi"
+  },
+  "scikit-learn__scikit-learn-13584": {
+    "repo": "scikit-learn/scikit-learn",
+    "stage": "ok",
+    "target": "_changed_params"
+  },
+  "scikit-learn__scikit-learn-13779": {
+    "error": "TimeoutExpired: Command '['git', '--git-dir', 'repo_cache/scikit-learn__scikit-learn', 'fetch', 'origin']' timed out after 119.99994954100111 seconds",
+    "repo": "scikit-learn/scikit-learn",
+    "stage": "build_kg_augmented_context",
+    "target": "fit"
+  },
+  "scikit-learn__scikit-learn-14087": {
+    "repo": "scikit-learn/scikit-learn",
+    "stage": "ok",
+    "target": "fit"
+  },
+  "scikit-learn__scikit-learn-14092": {
+    "repo": "scikit-learn/scikit-learn",
+    "stage": "ok",
+    "target": "_validate_params"
+  },
+  "scikit-learn__scikit-learn-14894": {
+    "error": "ValueError: KG-augmented arm's seed selection {'_sparse_fit'} does not include the canonically resolved target function 'BaseLibSVM' -- the patch is ambiguous enough that the two arms disagree (see issue #43 in repo-kg-construction). Refusing to silently generate tests for a different function than the baseline arm would.",
+    "repo": "scikit-learn/scikit-learn",
+    "stage": "build_kg_augmented_context",
+    "target": "BaseLibSVM"
+  },
+  "scikit-learn__scikit-learn-14983": {
+    "repo": "scikit-learn/scikit-learn",
+    "stage": "ok",
+    "target": "_build_repr"
+  },
+  "scikit-learn__scikit-learn-15512": {
+    "repo": "scikit-learn/scikit-learn",
+    "stage": "ok",
+    "target": "affinity_propagation"
+  },
+  "scikit-learn__scikit-learn-15535": {
+    "repo": "scikit-learn/scikit-learn",
+    "stage": "ok",
+    "target": "check_clusterings"
+  },
+  "scikit-learn__scikit-learn-25500": {
+    "error": "ValueError: KG-augmented arm's seed selection {'transform', 'predict'} does not include the canonically resolved target function 'IsotonicRegression' -- the patch is ambiguous enough that the two arms disagree (see issue #43 in repo-kg-construction). Refusing to silently generate tests for a different function than the baseline arm would.",
+    "repo": "scikit-learn/scikit-learn",
+    "stage": "build_kg_augmented_context",
+    "target": "IsotonicRegression"
+  },
+  "scikit-learn__scikit-learn-25638": {
+    "repo": "scikit-learn/scikit-learn",
+    "stage": "ok",
+    "target": "is_multilabel"
+  },
+  "sphinx-doc__sphinx-7975": {
+    "error": "ValueError: KG-augmented arm's seed selection {'indexentries.py'} does not include the canonically resolved target function 'keyfunc' -- the patch is ambiguous enough that the two arms disagree (see issue #43 in repo-kg-construction). Refusing to silently generate tests for a different function than the baseline arm would.",
+    "repo": "sphinx-doc/sphinx",
+    "stage": "build_kg_augmented_context",
+    "target": "keyfunc"
+  },
+  "sphinx-doc__sphinx-8627": {
+    "repo": "sphinx-doc/sphinx",
+    "stage": "ok",
+    "target": "restify"
+  },
+  "sympy__sympy-11400": {
+    "error": "ValueError: TestContext validation failed for sympy/sympy @ 8dcb12a6:\n\n======================================================================\nTestContext Validation Report: sympy/sympy @ 8dcb12a6\n======================================================================\nSeeds: 1 | Context: 30 | Edges: 31 | Tests: 0\n\n\u274c ERRORS:\n  - Disconnected seeds (1): _print_AugmentedAssignment \u2014 no outgoing edges (no context)\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "repo": "sympy/sympy",
+    "stage": "build_kg_augmented_context",
+    "target": "CCodePrinter"
+  },
+  "sympy__sympy-12481": {
+    "repo": "sympy/sympy",
+    "stage": "ok",
+    "target": "__new__"
+  },
+  "sympy__sympy-13471": {
+    "repo": "sympy/sympy",
+    "stage": "ok",
+    "target": "__new__"
+  },
+  "sympy__sympy-14774": {
+    "error": "TimeoutExpired: Command '['git', 'clone', '--bare', 'https://github.com/sympy/sympy.git', 'repo_cache/sympy__sympy']' timed out after 119.9999366250122 seconds",
+    "repo": "sympy/sympy",
+    "stage": "build_kg_augmented_context",
+    "target": "_print_Function"
+  },
+  "sympy__sympy-15345": {
+    "error": "ValueError: TestContext validation failed for sympy/sympy @ 9ef28fba:\n\n======================================================================\nTestContext Validation Report: sympy/sympy @ 9ef28fba\n======================================================================\nSeeds: 1 | Context: 13 | Edges: 13 | Tests: 0\n\n\u274c ERRORS:\n  - Disconnected seeds (1): _print_Integral \u2014 no outgoing edges (no context)\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "repo": "sympy/sympy",
+    "stage": "build_kg_augmented_context",
+    "target": "MCodePrinter"
+  },
+  "sympy__sympy-16792": {
+    "error": "TimeoutExpired: Command '['git', '--git-dir', 'repo_cache/sympy__sympy', 'fetch', 'origin']' timed out after 119.99993620801251 seconds",
+    "repo": "sympy/sympy",
+    "stage": "build_kg_augmented_context",
+    "target": "dimensions"
+  },
+  "sympy__sympy-17022": {
+    "error": "ValueError: KG-augmented arm's seed selection {'_print_BlockMatrix'} does not include the canonically resolved target function 'NumPyPrinter' -- the patch is ambiguous enough that the two arms disagree (see issue #43 in repo-kg-construction). Refusing to silently generate tests for a different function than the baseline arm would.",
+    "repo": "sympy/sympy",
+    "stage": "build_kg_augmented_context",
+    "target": "NumPyPrinter"
+  },
+  "sympy__sympy-20154": {
+    "repo": "sympy/sympy",
+    "stage": "ok",
+    "target": "partitions"
+  },
+  "sympy__sympy-20639": {
+    "repo": "sympy/sympy",
+    "stage": "ok",
+    "target": "_print_Pow"
+  },
+  "sympy__sympy-21055": {
+    "error": "ValueError: No changed function found in sympy/assumptions/refine.py for this patch",
+    "repo": "sympy/sympy",
+    "stage": "resolve_target_function"
+  },
+  "sympy__sympy-21171": {
+    "error": "ValueError: TestContext validation failed for sympy/sympy @ aa22709c:\n\n======================================================================\nTestContext Validation Report: sympy/sympy @ aa22709c\n======================================================================\nSeeds: 1 | Context: 296 | Edges: 299 | Tests: 0\n\n\u274c ERRORS:\n  - Disconnected seeds (1): _print_SingularityFunction \u2014 no outgoing edges (no context)\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "repo": "sympy/sympy",
+    "stage": "build_kg_augmented_context",
+    "target": "_print_SingularityFunction"
+  },
+  "sympy__sympy-21627": {
+    "repo": "sympy/sympy",
+    "stage": "ok",
+    "target": "eval"
+  },
+  "sympy__sympy-21847": {
+    "repo": "sympy/sympy",
+    "stage": "ok",
+    "target": "itermonomials"
+  },
+  "sympy__sympy-22005": {
+    "error": "TimeoutExpired: Command '['git', '--git-dir', 'repo_cache/sympy__sympy', 'fetch', 'origin']' timed out after 119.99990820902167 seconds",
+    "repo": "sympy/sympy",
+    "stage": "build_kg_augmented_context",
+    "target": "_solve_reduced_system"
+  },
+  "sympy__sympy-23262": {
+    "repo": "sympy/sympy",
+    "stage": "ok",
+    "target": "_recursive_to_string"
+  }
+}
