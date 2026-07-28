@@ -1,10 +1,40 @@
 {
-  "astropy__astropy-12907": {
-    "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+  "astropy__astropy-12057": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "error": "ValueError: TestContext validation failed for astropy/astropy @ b6769c18:\n\n======================================================================\nTestContext Validation Report: astropy/astropy @ b6769c18\n======================================================================\nSeeds: 1 | Context: 13 | Edges: 16 | Tests: 0\n\n\u274c ERRORS:\n  - Disconnected seeds (1): _data_unit_to_uncertainty_unit \u2014 no outgoing edges (no context)\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
     "repo": "astropy/astropy",
-    "run_at": "2026-07-28T14:03:29.738720+00:00",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "extract_and_validate",
+    "target": "InverseVariance"
+  },
+  "astropy__astropy-12907": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "astropy/astropy",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "_cstack"
+  },
+  "astropy__astropy-13158": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "error": "ValueError: TestContext validation failed for astropy/astropy @ b185ca18:\n\n======================================================================\nTestContext Validation Report: astropy/astropy @ b185ca18\n======================================================================\nSeeds: 4 | Context: 2457 | Edges: 3890 | Tests: 7\n\n\u274c ERRORS:\n  - Disconnected seeds (1): _set_unit \u2014 no outgoing edges (no context)\n\n======================================================================\n",
+    "repo": "astropy/astropy",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "extract_and_validate",
+    "target": "Parameter"
+  },
+  "astropy__astropy-13390": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "astropy/astropy",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "__new__"
+  },
+  "astropy__astropy-13803": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "astropy/astropy",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "_validate_angles"
   },
   "astropy__astropy-14365": {
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
@@ -13,12 +43,48 @@
     "stage": "ok",
     "target": "_get_tables_from_qdp_file"
   },
+  "astropy__astropy-14371": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "astropy/astropy",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "is_O3"
+  },
+  "astropy__astropy-14508": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "astropy/astropy",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "_format_float"
+  },
+  "astropy__astropy-14938": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "astropy/astropy",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "write_latex"
+  },
   "astropy__astropy-7746": {
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
     "repo": "astropy/astropy",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "_return_list_of_arrays"
+  },
+  "astropy__astropy-7973": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "error": "ValueError: TestContext validation failed for astropy/astropy @ 4fc9f31a:\n\n======================================================================\nTestContext Validation Report: astropy/astropy @ 4fc9f31a\n======================================================================\nSeeds: 4 | Context: 112 | Edges: 168 | Tests: 4\n\n\u274c ERRORS:\n  - Disconnected seeds (2): _naxis1, _naxis2 \u2014 no outgoing edges (no context)\n\n======================================================================\n",
+    "repo": "astropy/astropy",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "extract_and_validate",
+    "target": "WCS"
+  },
+  "astropy__astropy-8339": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "astropy/astropy",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "FitnessFunc"
   },
   "django__django-11099": {
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
@@ -46,6 +112,13 @@
     "stage": "ok",
     "target": "technical_404_response"
   },
+  "django__django-11728": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "django/django",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "replace_named_groups"
+  },
   "django__django-11848": {
     "repo": "django/django",
     "stage": "ok",
@@ -64,6 +137,14 @@
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "serialize"
+  },
+  "django__django-12187": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "error": "ValueError: TestContext validation failed for django/django @ 4fe3774c:\n\n======================================================================\nTestContext Validation Report: django/django @ 4fe3774c\n======================================================================\nSeeds: 3 | Context: 83 | Edges: 138 | Tests: 3\n\n\u274c ERRORS:\n  - Disconnected seeds (1): read_manifest \u2014 no outgoing edges (no context)\n\n======================================================================\n",
+    "repo": "django/django",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "extract_and_validate",
+    "target": "ManifestFilesMixin"
   },
   "django__django-12453": {
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
@@ -109,6 +190,14 @@
     "stage": "build_kg_augmented_context",
     "target": "PasswordResetTokenGenerator"
   },
+  "django__django-13689": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "error": "ValueError: TestContext validation failed for django/django @ ead37dfb:\n\n======================================================================\nTestContext Validation Report: django/django @ ead37dfb\n======================================================================\nSeeds: 1 | Context: 17 | Edges: 21 | Tests: 2\n\n\u274c ERRORS:\n  - Disconnected seeds (1): get_group_by_cols \u2014 no outgoing edges (no context)\n\n======================================================================\n",
+    "repo": "django/django",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "extract_and_validate",
+    "target": "ExpressionWrapper"
+  },
   "django__django-13710": {
     "commit": "ci-run-30360577893-seed777",
     "repo": "django/django",
@@ -136,6 +225,13 @@
     "stage": "ok",
     "target": "to_python"
   },
+  "django__django-13992": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "django/django",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "delete"
+  },
   "django__django-14016": {
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
     "repo": "django/django",
@@ -156,12 +252,26 @@
     "stage": "extract_and_validate",
     "target": "__repr__"
   },
+  "django__django-14271": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "django/django",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "combine"
+  },
   "django__django-14411": {
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
     "error": "ValueError: No changed function found in django/contrib/auth/forms.py for this patch",
     "repo": "django/django",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "resolve_target_function"
+  },
+  "django__django-14463": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "django/django",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "MigrationAutodetector"
   },
   "django__django-14534": {
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
@@ -241,9 +351,9 @@
     "target": "create_parser"
   },
   "django__django-15789": {
-    "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
     "repo": "django/django",
-    "run_at": "2026-07-28T14:03:29.738720+00:00",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "json_script"
   },
@@ -255,9 +365,9 @@
     "target": "settings_to_cmd_args_env"
   },
   "django__django-15902": {
-    "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
     "repo": "django/django",
-    "run_at": "2026-07-28T14:03:29.738720+00:00",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "ManagementForm"
   },
@@ -282,6 +392,27 @@
     "stage": "ok",
     "target": "submit_row"
   },
+  "django__django-16693": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "django/django",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "bind_template"
+  },
+  "django__django-16707": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "django/django",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "__bytes_cast"
+  },
+  "django__django-16757": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "django/django",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "_check_list_display_item"
+  },
   "django__django-16873": {
     "repo": "django/django",
     "stage": "ok",
@@ -305,10 +436,38 @@
     "stage": "ok",
     "target": "format_cursor_data"
   },
+  "matplotlib__matplotlib-22991": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "matplotlib/matplotlib",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "figure"
+  },
+  "matplotlib__matplotlib-23049": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "matplotlib/matplotlib",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "xticks"
+  },
+  "matplotlib__matplotlib-23740": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "matplotlib/matplotlib",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "colorbar"
+  },
   "matplotlib__matplotlib-23913": {
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
     "repo": "matplotlib/matplotlib",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
+    "stage": "ok",
+    "target": "__init__"
+  },
+  "matplotlib__matplotlib-24250": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "matplotlib/matplotlib",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "__init__"
   },
@@ -318,6 +477,20 @@
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "fix_style"
+  },
+  "matplotlib__matplotlib-24604": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "matplotlib/matplotlib",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "FigureBase"
+  },
+  "matplotlib__matplotlib-24749": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "matplotlib/matplotlib",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "_contour_args"
   },
   "matplotlib__matplotlib-25433": {
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
@@ -348,11 +521,40 @@
     "stage": "extract_and_validate",
     "target": "_tick_only"
   },
+  "matplotlib__matplotlib-26249": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "matplotlib/matplotlib",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "scatter"
+  },
+  "matplotlib__matplotlib-26291": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "matplotlib/matplotlib",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "__call__"
+  },
+  "matplotlib__matplotlib-26466": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "error": "ValueError: TestContext validation failed for matplotlib/matplotlib @ 3dd06a46:\n\n======================================================================\nTestContext Validation Report: matplotlib/matplotlib @ 3dd06a46\n======================================================================\nSeeds: 4 | Context: 150 | Edges: 179 | Tests: 0\n\n\u274c ERRORS:\n  - Ambiguous seed names (1): __init__ \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "repo": "matplotlib/matplotlib",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "extract_and_validate",
+    "target": "OffsetFrom"
+  },
+  "mwaskom__seaborn-2853": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "mwaskom/seaborn",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "scatterplot"
+  },
   "mwaskom__seaborn-3010": {
-    "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
     "error": "ValueError: TestContext validation failed for mwaskom/seaborn @ 0f5a013e:\n\n======================================================================\nTestContext Validation Report: mwaskom/seaborn @ 0f5a013e\n======================================================================\nSeeds: 1 | Context: 7 | Edges: 9 | Tests: 0\n\n\u274c ERRORS:\n  - Disconnected seeds (1): __call__ \u2014 no outgoing edges (no context)\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
     "repo": "mwaskom/seaborn",
-    "run_at": "2026-07-28T14:03:29.738720+00:00",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "extract_and_validate",
     "target": "__call__"
   },
@@ -362,6 +564,20 @@
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "_setup"
+  },
+  "mwaskom__seaborn-3202": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "mwaskom/seaborn",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "_setup_split_generator"
+  },
+  "mwaskom__seaborn-3394": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "mwaskom/seaborn",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "variable_type"
   },
   "pallets__flask-5063": {
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
@@ -377,6 +593,20 @@
     "stage": "ok",
     "target": "_dataset_concat"
   },
+  "pydata__xarray-3905": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "pydata/xarray",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "limit_lines"
+  },
+  "pydata__xarray-4182": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "pydata/xarray",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "array_section"
+  },
   "pydata__xarray-4248": {
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
     "repo": "pydata/xarray",
@@ -384,26 +614,131 @@
     "stage": "ok",
     "target": "inline_variable_array_repr"
   },
-  "pydata__xarray-5131": {
-    "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+  "pydata__xarray-4629": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
     "repo": "pydata/xarray",
-    "run_at": "2026-07-28T14:03:29.738720+00:00",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "merge_attrs"
+  },
+  "pydata__xarray-4750": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "pydata/xarray",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "_mapping_repr"
+  },
+  "pydata__xarray-4802": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "pydata/xarray",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "decode"
+  },
+  "pydata__xarray-5033": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "pydata/xarray",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "open_dataset"
+  },
+  "pydata__xarray-5131": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "pydata/xarray",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "__repr__"
   },
-  "pylint-dev__pylint-5859": {
-    "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+  "pydata__xarray-5365": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "pydata/xarray",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "cross"
+  },
+  "pydata__xarray-6135": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "pydata/xarray",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "shift"
+  },
+  "pydata__xarray-6394": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "pydata/xarray",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "_combine"
+  },
+  "pydata__xarray-6400": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "pydata/xarray",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "short_numpy_repr"
+  },
+  "pydata__xarray-6882": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "pydata/xarray",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "_decode_datetime_with_cftime"
+  },
+  "pydata__xarray-6889": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "pydata/xarray",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "_dataset_concat"
+  },
+  "pylint-dev__pylint-4604": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
     "repo": "pylint-dev/pylint",
-    "run_at": "2026-07-28T14:03:29.738720+00:00",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "_store_type_annotation_node"
+  },
+  "pylint-dev__pylint-5446": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "pylint-dev/pylint",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "append_stream"
+  },
+  "pylint-dev__pylint-5859": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "pylint-dev/pylint",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "open"
   },
-  "pylint-dev__pylint-7993": {
-    "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+  "pylint-dev__pylint-5951": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
     "repo": "pylint-dev/pylint",
-    "run_at": "2026-07-28T14:03:29.738720+00:00",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "__init__"
+  },
+  "pylint-dev__pylint-6526": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "pylint-dev/pylint",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "_get_pdata_path"
+  },
+  "pylint-dev__pylint-7993": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "pylint-dev/pylint",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "on_set_current_module"
+  },
+  "pylint-dev__pylint-8124": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "pylint-dev/pylint",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "ImportsChecker"
   },
   "pytest-dev__pytest-5221": {
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
@@ -427,11 +762,19 @@
     "target": "pytest_sessionfinish"
   },
   "pytest-dev__pytest-6116": {
-    "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
     "repo": "pytest-dev/pytest",
-    "run_at": "2026-07-28T14:03:29.738720+00:00",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "pytest_addoption"
+  },
+  "pytest-dev__pytest-6323": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "error": "ValueError: TestContext validation failed for pytest-dev/pytest @ e8c8559e:\n\n======================================================================\nTestContext Validation Report: pytest-dev/pytest @ e8c8559e\n======================================================================\nSeeds: 2 | Context: 129 | Edges: 237 | Tests: 2\n\n\u274c ERRORS:\n  - Ambiguous seed names (1): mktemp \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n======================================================================\n",
+    "repo": "pytest-dev/pytest",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "extract_and_validate",
+    "target": "TempPathFactory"
   },
   "pytest-dev__pytest-7168": {
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
@@ -439,6 +782,13 @@
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "_format_repr_exception"
+  },
+  "pytest-dev__pytest-7186": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "pytest-dev/pytest",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "_is_setup_py"
   },
   "pytest-dev__pytest-7220": {
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
@@ -448,9 +798,9 @@
     "target": "_repr_failure_py"
   },
   "pytest-dev__pytest-7373": {
-    "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
     "repo": "pytest-dev/pytest",
-    "run_at": "2026-07-28T14:03:29.738720+00:00",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "_istrue"
   },
@@ -461,6 +811,13 @@
     "stage": "ok",
     "target": "pytest_runtest_makereport"
   },
+  "pytest-dev__pytest-7468": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "pytest-dev/pytest",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "__init__"
+  },
   "pytest-dev__pytest-7490": {
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
     "repo": "pytest-dev/pytest",
@@ -468,26 +825,54 @@
     "stage": "ok",
     "target": "pytest_runtest_call"
   },
-  "pytest-dev__pytest-8365": {
-    "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+  "pytest-dev__pytest-7673": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
     "repo": "pytest-dev/pytest",
-    "run_at": "2026-07-28T14:03:29.738720+00:00",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "set_level"
+  },
+  "pytest-dev__pytest-8365": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "pytest-dev/pytest",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "getbasetemp"
   },
-  "pytest-dev__pytest-8906": {
-    "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+  "pytest-dev__pytest-8861": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
     "repo": "pytest-dev/pytest",
-    "run_at": "2026-07-28T14:03:29.738720+00:00",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "_find_lineno"
+  },
+  "pytest-dev__pytest-8906": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "pytest-dev/pytest",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "_importtestmodule"
   },
-  "pytest-dev__pytest-9359": {
-    "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+  "pytest-dev__pytest-9279": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
     "repo": "pytest-dev/pytest",
-    "run_at": "2026-07-28T14:03:29.738720+00:00",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "__init__"
+  },
+  "pytest-dev__pytest-9359": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "pytest-dev/pytest",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "get_statement_startend2"
+  },
+  "pytest-dev__pytest-9475": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "pytest-dev/pytest",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "assert_outcomes"
   },
   "scikit-learn__scikit-learn-10297": {
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
@@ -497,12 +882,26 @@
     "stage": "extract_and_validate",
     "target": "RidgeCV"
   },
+  "scikit-learn__scikit-learn-10483": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "error": "ValueError: 'sklearn/impute.py' not found in scikit-learn/scikit-learn at '98eb09e9206cb714da85c5a0616deff3cc85a1d5' after fetching origin. Verify the path and commit are correct.",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "resolve_target_function"
+  },
   "scikit-learn__scikit-learn-10508": {
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
     "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "inverse_transform"
+  },
+  "scikit-learn__scikit-learn-10870": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "GaussianMixture"
   },
   "scikit-learn__scikit-learn-10949": {
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
@@ -517,6 +916,13 @@
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "_fit"
+  },
+  "scikit-learn__scikit-learn-12625": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "check_array"
   },
   "scikit-learn__scikit-learn-13439": {
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
@@ -553,6 +959,13 @@
     "stage": "ok",
     "target": "fit"
   },
+  "scikit-learn__scikit-learn-13915": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "_minor_reduce"
+  },
   "scikit-learn__scikit-learn-14087": {
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
     "repo": "scikit-learn/scikit-learn",
@@ -568,11 +981,18 @@
     "target": "_validate_params"
   },
   "scikit-learn__scikit-learn-14894": {
-    "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
     "repo": "scikit-learn/scikit-learn",
-    "run_at": "2026-07-28T14:03:29.738720+00:00",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "BaseLibSVM"
+  },
+  "scikit-learn__scikit-learn-14908": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "fit"
   },
   "scikit-learn__scikit-learn-14983": {
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
@@ -594,6 +1014,13 @@
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "check_clusterings"
+  },
+  "scikit-learn__scikit-learn-24677": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "_silhouette_reduce"
   },
   "scikit-learn__scikit-learn-25500": {
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
@@ -623,6 +1050,66 @@
     "stage": "ok",
     "target": "_wrap_in_pandas_container"
   },
+  "scikit-learn__scikit-learn-26289": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "export_graphviz"
+  },
+  "scikit-learn__scikit-learn-26318": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "fit"
+  },
+  "scikit-learn__scikit-learn-9274": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "error": "ValueError: TestContext validation failed for scikit-learn/scikit-learn @ faa94060:\n\n======================================================================\nTestContext Validation Report: scikit-learn/scikit-learn @ faa94060\n======================================================================\nSeeds: 6 | Context: 38 | Edges: 63 | Tests: 0\n\n\u274c ERRORS:\n  - Disconnected seeds (1): _validate_hyperparameters \u2014 no outgoing edges (no context)\n  - Ambiguous seed names (1): __init__ \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "extract_and_validate",
+    "target": "BaseMultilayerPerceptron"
+  },
+  "sphinx-doc__sphinx-10360": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "error": "ValueError: Code file not found: sphinx/domains/cpp.py",
+    "repo": "sphinx-doc/sphinx",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "extract_and_validate",
+    "target": "ASTEnumerator"
+  },
+  "sphinx-doc__sphinx-7590": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "sphinx-doc/sphinx",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "_parse_literal"
+  },
+  "sphinx-doc__sphinx-7814": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "error": "ValueError: TestContext validation failed for sphinx-doc/sphinx @ 55fc0978:\n\n======================================================================\nTestContext Validation Report: sphinx-doc/sphinx @ 55fc0978\n======================================================================\nSeeds: 2 | Context: 38 | Edges: 51 | Tests: 0\n\n\u274c ERRORS:\n  - Ambiguous seed names (1): handle_signature \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "repo": "sphinx-doc/sphinx",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "extract_and_validate",
+    "target": "handle_signature"
+  },
+  "sphinx-doc__sphinx-7906": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "error": "ValueError: Code file not found: sphinx/domains/cpp.py",
+    "repo": "sphinx-doc/sphinx",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "extract_and_validate",
+    "target": "CPPObject"
+  },
+  "sphinx-doc__sphinx-7923": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "sphinx-doc/sphinx",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "append_epilog"
+  },
   "sphinx-doc__sphinx-7975": {
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
     "repo": "sphinx-doc/sphinx",
@@ -630,12 +1117,56 @@
     "stage": "ok",
     "target": "create_index"
   },
+  "sphinx-doc__sphinx-8117": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "error": "ValueError: Code file not found: sphinx/domains/cpp.py",
+    "repo": "sphinx-doc/sphinx",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "extract_and_validate",
+    "target": "DefinitionParser"
+  },
+  "sphinx-doc__sphinx-8278": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "sphinx-doc/sphinx",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "_UnparseVisitor"
+  },
   "sphinx-doc__sphinx-8627": {
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
     "repo": "sphinx-doc/sphinx",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "restify"
+  },
+  "sphinx-doc__sphinx-8638": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "sphinx-doc/sphinx",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "PyObject"
+  },
+  "sphinx-doc__sphinx-9155": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "error": "ValueError: Code file not found: sphinx/domains/cpp.py",
+    "repo": "sphinx-doc/sphinx",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "extract_and_validate",
+    "target": "CPPObject"
+  },
+  "sphinx-doc__sphinx-9320": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "sphinx-doc/sphinx",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "ask_user"
+  },
+  "sphinx-doc__sphinx-9997": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "sphinx-doc/sphinx",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "stringify_signature"
   },
   "sympy__sympy-11400": {
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
@@ -667,9 +1198,9 @@
     "target": "__new__"
   },
   "sympy__sympy-13895": {
-    "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
     "repo": "sympy/sympy",
-    "run_at": "2026-07-28T14:03:29.738720+00:00",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "_eval_power"
   },
@@ -694,9 +1225,9 @@
     "target": "_print_Function"
   },
   "sympy__sympy-15011": {
-    "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
     "repo": "sympy/sympy",
-    "run_at": "2026-07-28T14:03:29.738720+00:00",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "_EvaluatorPrinter"
   },
@@ -715,6 +1246,20 @@
     "stage": "ok",
     "target": "idiff"
   },
+  "sympy__sympy-15948": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "_postprocessor"
+  },
+  "sympy__sympy-16052": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "_eval_Eq"
+  },
   "sympy__sympy-16792": {
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
     "repo": "sympy/sympy",
@@ -728,6 +1273,20 @@
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "NumPyPrinter"
+  },
+  "sympy__sympy-17655": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "Point"
+  },
+  "sympy__sympy-18273": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "_find_repeated"
   },
   "sympy__sympy-18532": {
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
@@ -744,6 +1303,13 @@
     "stage": "ok",
     "target": "BlockDiagMatrix"
   },
+  "sympy__sympy-18765": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "__new__"
+  },
   "sympy__sympy-18835": {
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
     "repo": "sympy/sympy",
@@ -757,6 +1323,13 @@
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "_entry"
+  },
+  "sympy__sympy-19093": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "__new__"
   },
   "sympy__sympy-19487": {
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
@@ -779,6 +1352,27 @@
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "partitions"
+  },
+  "sympy__sympy-20169": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "lens_makers_formula"
+  },
+  "sympy__sympy-20428": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "Expression"
+  },
+  "sympy__sympy-20442": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "_get_conversion_matrix_for_expr"
   },
   "sympy__sympy-20639": {
     "repo": "sympy/sympy",
@@ -830,6 +1424,20 @@
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "_solve_reduced_system"
+  },
+  "sympy__sympy-22456": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "BreakToken"
+  },
+  "sympy__sympy-22714": {
+    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-28T15:40:41.393753+00:00",
+    "stage": "ok",
+    "target": "__new__"
   },
   "sympy__sympy-23117": {
     "commit": "ci-run-30360577893-seed777",
