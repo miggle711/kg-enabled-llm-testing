@@ -1,1480 +1,1774 @@
 {
-  "astropy__astropy-12057": {
+  "astropy__astropy-12057-15650": {
+    "code_file": "astropy/nddata/nduncertainty.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
     "error": "ValueError: TestContext validation failed for astropy/astropy @ b6769c18:\n\n======================================================================\nTestContext Validation Report: astropy/astropy @ b6769c18\n======================================================================\nSeeds: 1 | Context: 13 | Edges: 16 | Tests: 0\n\n\u274c ERRORS:\n  - Disconnected seeds (1): _data_unit_to_uncertainty_unit \u2014 no outgoing edges (no context)\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "instance_id": "astropy__astropy-12057",
     "repo": "astropy/astropy",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "extract_and_validate",
     "target": "InverseVariance"
   },
-  "astropy__astropy-12907": {
+  "astropy__astropy-12907-15654": {
+    "code_file": "astropy/modeling/separable.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "astropy__astropy-12907",
     "repo": "astropy/astropy",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "_cstack"
   },
-  "astropy__astropy-13158": {
+  "astropy__astropy-13158-15658": {
+    "code_file": "astropy/modeling/parameters.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
     "error": "ValueError: TestContext validation failed for astropy/astropy @ b185ca18:\n\n======================================================================\nTestContext Validation Report: astropy/astropy @ b185ca18\n======================================================================\nSeeds: 4 | Context: 2457 | Edges: 3890 | Tests: 7\n\n\u274c ERRORS:\n  - Disconnected seeds (1): _set_unit \u2014 no outgoing edges (no context)\n\n======================================================================\n",
+    "instance_id": "astropy__astropy-13158",
     "repo": "astropy/astropy",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "extract_and_validate",
     "target": "Parameter"
   },
-  "astropy__astropy-13390": {
+  "astropy__astropy-13390-15662": {
+    "code_file": "astropy/table/column.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "astropy__astropy-13390",
     "repo": "astropy/astropy",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "__new__"
   },
-  "astropy__astropy-13803": {
+  "astropy__astropy-13803-15674": {
+    "code_file": "astropy/coordinates/angles.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "astropy__astropy-13803",
     "repo": "astropy/astropy",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "_validate_angles"
   },
-  "astropy__astropy-14365": {
+  "astropy__astropy-14365-15683": {
+    "code_file": "astropy/io/ascii/qdp.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "astropy__astropy-14365",
     "repo": "astropy/astropy",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "_get_tables_from_qdp_file"
   },
-  "astropy__astropy-14371": {
+  "astropy__astropy-14371-15684": {
+    "code_file": "astropy/coordinates/matrix_utilities.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "astropy__astropy-14371",
     "repo": "astropy/astropy",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "is_O3"
   },
-  "astropy__astropy-14508": {
+  "astropy__astropy-14508-15687": {
+    "code_file": "astropy/io/fits/card.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "astropy__astropy-14508",
     "repo": "astropy/astropy",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "_format_float"
   },
-  "astropy__astropy-14938": {
+  "astropy__astropy-14938-15696": {
+    "code_file": "astropy/cosmology/io/latex.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "astropy__astropy-14938",
     "repo": "astropy/astropy",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "write_latex"
   },
-  "astropy__astropy-7746": {
+  "astropy__astropy-7746-15702": {
+    "code_file": "astropy/wcs/wcs.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "astropy__astropy-7746",
     "repo": "astropy/astropy",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "_return_list_of_arrays"
   },
-  "astropy__astropy-7973": {
+  "astropy__astropy-7973-15704": {
+    "code_file": "astropy/wcs/wcs.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
     "error": "ValueError: TestContext validation failed for astropy/astropy @ 4fc9f31a:\n\n======================================================================\nTestContext Validation Report: astropy/astropy @ 4fc9f31a\n======================================================================\nSeeds: 4 | Context: 112 | Edges: 168 | Tests: 4\n\n\u274c ERRORS:\n  - Disconnected seeds (2): _naxis1, _naxis2 \u2014 no outgoing edges (no context)\n\n======================================================================\n",
+    "instance_id": "astropy__astropy-7973",
     "repo": "astropy/astropy",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "extract_and_validate",
     "target": "WCS"
   },
-  "astropy__astropy-8339": {
+  "astropy__astropy-8339-15708": {
+    "code_file": "astropy/stats/bayesian_blocks.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "astropy__astropy-8339",
     "repo": "astropy/astropy",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "FitnessFunc"
   },
-  "django__django-11099": {
+  "django__django-11099-15737": {
+    "code_file": "django/contrib/auth/validators.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "django__django-11099",
     "repo": "django/django",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "ASCIIUsernameValidator"
   },
-  "django__django-11133": {
+  "django__django-11133-15740": {
+    "code_file": "django/http/response.py",
+    "instance_id": "django__django-11133",
     "repo": "django/django",
     "stage": "ok",
     "target": "make_bytes"
   },
-  "django__django-11422": {
+  "django__django-11422-15776": {
+    "code_file": "django/utils/autoreload.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "django__django-11422",
     "repo": "django/django",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "iter_modules_and_files"
   },
-  "django__django-11620": {
+  "django__django-11620-15793": {
+    "code_file": "django/views/debug.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "django__django-11620",
     "repo": "django/django",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "technical_404_response"
   },
-  "django__django-11728": {
+  "django__django-11728-15801": {
+    "code_file": "django/contrib/admindocs/utils.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "django__django-11728",
     "repo": "django/django",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "replace_named_groups"
   },
-  "django__django-11848": {
+  "django__django-11848-15814": {
+    "code_file": "django/utils/http.py",
+    "instance_id": "django__django-11848",
     "repo": "django/django",
     "stage": "ok",
     "target": "parse_http_date"
   },
-  "django__django-11910": {
+  "django__django-11910-15818": {
+    "code_file": "django/db/migrations/autodetector.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "django__django-11910",
     "repo": "django/django",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "generate_altered_fields"
   },
-  "django__django-12125": {
+  "django__django-12125-15827": {
+    "code_file": "django/db/migrations/serializer.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "django__django-12125",
     "repo": "django/django",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "serialize"
   },
-  "django__django-12187": {
+  "django__django-12187-15831": {
+    "code_file": "django/contrib/staticfiles/storage.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
     "error": "ValueError: TestContext validation failed for django/django @ 4fe3774c:\n\n======================================================================\nTestContext Validation Report: django/django @ 4fe3774c\n======================================================================\nSeeds: 3 | Context: 83 | Edges: 138 | Tests: 3\n\n\u274c ERRORS:\n  - Disconnected seeds (1): read_manifest \u2014 no outgoing edges (no context)\n\n======================================================================\n",
+    "instance_id": "django__django-12187",
     "repo": "django/django",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "extract_and_validate",
     "target": "ManifestFilesMixin"
   },
-  "django__django-12453": {
+  "django__django-12453-15849": {
+    "code_file": "django/db/backends/base/creation.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "django__django-12453",
     "repo": "django/django",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "BaseDatabaseCreation"
   },
-  "django__django-12700": {
+  "django__django-12700-15867": {
+    "code_file": "django/views/debug.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "django__django-12700",
     "repo": "django/django",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "cleanse_setting"
   },
-  "django__django-12856": {
+  "django__django-12856-15876": {
+    "code_file": "django/db/models/base.py",
     "commit": "ci-run-30360577893-seed777",
+    "instance_id": "django__django-12856",
     "repo": "django/django",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "_check_constraints"
   },
-  "django__django-12983": {
+  "django__django-12983-15887": {
+    "code_file": "django/utils/text.py",
+    "instance_id": "django__django-12983",
     "repo": "django/django",
     "stage": "ok",
     "target": "slugify"
   },
-  "django__django-13265": {
+  "django__django-13265-15913": {
+    "code_file": "django/db/migrations/autodetector.py",
     "commit": "ci-run-30360577893-seed777",
+    "instance_id": "django__django-13265",
     "repo": "django/django",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "_detect_changes"
   },
-  "django__django-13448": {
+  "django__django-13448-15933": {
+    "code_file": "django/db/backends/base/creation.py",
+    "instance_id": "django__django-13448",
     "repo": "django/django",
     "stage": "ok",
     "target": "create_test_db"
   },
-  "django__django-13551": {
+  "django__django-13551-15942": {
+    "code_file": "django/contrib/auth/tokens.py",
     "error": "ValueError: TestContext validation failed for django/django @ 7f9e4524:\n\n======================================================================\nTestContext Validation Report: django/django @ 7f9e4524\n======================================================================\nSeeds: 1 | Context: 21 | Edges: 31 | Tests: 0\n\n\u274c ERRORS:\n  - Disconnected seeds (1): _make_hash_value \u2014 no outgoing edges (no context)\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "instance_id": "django__django-13551",
     "repo": "django/django",
     "stage": "build_kg_augmented_context",
     "target": "PasswordResetTokenGenerator"
   },
-  "django__django-13689": {
+  "django__django-13689-15961": {
+    "code_file": "django/db/models/expressions.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
     "error": "ValueError: TestContext validation failed for django/django @ ead37dfb:\n\n======================================================================\nTestContext Validation Report: django/django @ ead37dfb\n======================================================================\nSeeds: 1 | Context: 17 | Edges: 21 | Tests: 2\n\n\u274c ERRORS:\n  - Disconnected seeds (1): get_group_by_cols \u2014 no outgoing edges (no context)\n\n======================================================================\n",
+    "instance_id": "django__django-13689",
     "repo": "django/django",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "extract_and_validate",
     "target": "ExpressionWrapper"
   },
-  "django__django-13710": {
+  "django__django-13710-15964": {
+    "code_file": "django/contrib/admin/options.py",
     "commit": "ci-run-30360577893-seed777",
+    "instance_id": "django__django-13710",
     "repo": "django/django",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "__init__"
   },
-  "django__django-13757": {
+  "django__django-13757-15967": {
+    "code_file": "django/db/models/fields/json.py",
     "error": "ValueError: KG-augmented arm's seed selection {'as_sqlite', 'as_oracle'} does not include the canonically resolved target function 'KeyTransformIsNull' -- the patch is ambiguous enough that the two arms disagree (see issue #43 in repo-kg-construction). Refusing to silently generate tests for a different function than the baseline arm would.",
+    "instance_id": "django__django-13757",
     "repo": "django/django",
     "stage": "build_kg_augmented_context",
     "target": "KeyTransformIsNull"
   },
-  "django__django-13768": {
+  "django__django-13768-15968": {
+    "code_file": "django/dispatch/dispatcher.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "django__django-13768",
     "repo": "django/django",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "send_robust"
   },
-  "django__django-13933": {
+  "django__django-13933-15984": {
+    "code_file": "django/forms/models.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "django__django-13933",
     "repo": "django/django",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "to_python"
   },
-  "django__django-13992": {
+  "django__django-13992-15985": {
+    "code_file": "django/db/models/query.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "django__django-13992",
     "repo": "django/django",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "delete"
   },
-  "django__django-14016": {
+  "django__django-14016-15987": {
+    "code_file": "django/db/models/query_utils.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "django__django-14016",
     "repo": "django/django",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "_combine"
   },
-  "django__django-14017": {
+  "django__django-14017-15988": {
+    "code_file": "django/db/models/query_utils.py",
+    "instance_id": "django__django-14017",
     "repo": "django/django",
     "stage": "ok",
     "target": "_combine"
   },
-  "django__django-14155": {
+  "django__django-14155-16004": {
+    "code_file": "django/urls/resolvers.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
     "error": "ValueError: TestContext validation failed for django/django @ 2f13c476:\n\n======================================================================\nTestContext Validation Report: django/django @ 2f13c476\n======================================================================\nSeeds: 1 | Context: 6 | Edges: 6 | Tests: 0\n\n\u274c ERRORS:\n  - Disconnected seeds (1): __repr__ \u2014 no outgoing edges (no context)\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "instance_id": "django__django-14155",
     "repo": "django/django",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "extract_and_validate",
     "target": "__repr__"
   },
-  "django__django-14271": {
+  "django__django-14271-16008": {
+    "code_file": "django/db/models/sql/query.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "django__django-14271",
     "repo": "django/django",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "combine"
   },
-  "django__django-14411": {
+  "django__django-14411-16029": {
+    "code_file": "django/contrib/auth/forms.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
     "error": "ValueError: No changed function found in django/contrib/auth/forms.py for this patch",
+    "instance_id": "django__django-14411",
     "repo": "django/django",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "resolve_target_function"
   },
-  "django__django-14463": {
-    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
-    "repo": "django/django",
-    "run_at": "2026-07-28T15:40:41.393753+00:00",
-    "stage": "ok",
-    "target": "MigrationAutodetector"
-  },
-  "django__django-14534": {
+  "django__django-14534-16042": {
+    "code_file": "django/forms/boundfield.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
     "error": "ValueError: TestContext validation failed for django/django @ 910ecd1b:\n\n======================================================================\nTestContext Validation Report: django/django @ 910ecd1b\n======================================================================\nSeeds: 1 | Context: 8 | Edges: 8 | Tests: 0\n\n\u274c ERRORS:\n  - Disconnected seeds (1): id_for_label \u2014 no outgoing edges (no context)\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "instance_id": "django__django-14534",
     "repo": "django/django",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "extract_and_validate",
     "target": "BoundWidget"
   },
-  "django__django-14580": {
+  "django__django-14580-16046": {
+    "code_file": "django/db/migrations/serializer.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "django__django-14580",
     "repo": "django/django",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "serialize"
   },
-  "django__django-14608": {
+  "django__django-14608-16049": {
+    "code_file": "django/forms/formsets.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "django__django-14608",
     "repo": "django/django",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "BaseFormSet"
   },
-  "django__django-14752": {
+  "django__django-14752-16060": {
+    "code_file": "django/contrib/admin/views/autocomplete.py",
     "error": "ValueError: TestContext validation failed for django/django @ b64db05b:\n\n======================================================================\nTestContext Validation Report: django/django @ b64db05b\n======================================================================\nSeeds: 2 | Context: 102 | Edges: 474 | Tests: 11\n\n\u274c ERRORS:\n  - Disconnected seeds (1): get_paginator \u2014 no outgoing edges (no context)\n\n======================================================================\n",
+    "instance_id": "django__django-14752",
     "repo": "django/django",
     "stage": "build_kg_augmented_context",
     "target": "AutocompleteJsonView"
   },
-  "django__django-14915": {
+  "django__django-14915-16069": {
+    "code_file": "django/forms/models.py",
     "commit": "ci-run-30360577893-seed777",
     "error": "ValueError: TestContext validation failed for django/django @ 903aaa35:\n\n======================================================================\nTestContext Validation Report: django/django @ 903aaa35\n======================================================================\nSeeds: 1 | Context: 5 | Edges: 5 | Tests: 0\n\n\u274c ERRORS:\n  - Disconnected seeds (1): __eq__ \u2014 no outgoing edges (no context)\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "instance_id": "django__django-14915",
     "repo": "django/django",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "extract_and_validate",
     "target": "ModelChoiceIteratorValue"
   },
-  "django__django-14997": {
+  "django__django-14997-16076": {
+    "code_file": "django/db/backends/ddl_references.py",
     "commit": "ci-run-30360577893-seed777",
+    "instance_id": "django__django-14997",
     "repo": "django/django",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "rename_table_references"
   },
-  "django__django-14999": {
+  "django__django-14999-16077": {
+    "code_file": "django/db/migrations/operations/models.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
     "error": "ValueError: TestContext validation failed for django/django @ a754b82d:\n\n======================================================================\nTestContext Validation Report: django/django @ a754b82d\n======================================================================\nSeeds: 1 | Context: 21 | Edges: 46 | Tests: 2\n\n\u274c ERRORS:\n  - Disconnected seeds (1): database_forwards \u2014 no outgoing edges (no context)\n\n======================================================================\n",
+    "instance_id": "django__django-14999",
     "repo": "django/django",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "extract_and_validate",
     "target": "database_forwards"
   },
-  "django__django-15252": {
+  "django__django-15252-16090": {
+    "code_file": "django/db/migrations/executor.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "django__django-15252",
     "repo": "django/django",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "migrate"
   },
-  "django__django-15347": {
+  "django__django-15347-16100": {
+    "code_file": "django/contrib/messages/storage/cookie.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "django__django-15347",
     "repo": "django/django",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "default"
   },
-  "django__django-15695": {
+  "django__django-15695-16132": {
+    "code_file": "django/db/migrations/operations/models.py",
+    "instance_id": "django__django-15695",
     "repo": "django/django",
     "stage": "ok",
     "target": "database_forwards"
   },
-  "django__django-15781": {
+  "django__django-15781-16140": {
+    "code_file": "django/core/management/base.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "django__django-15781",
     "repo": "django/django",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "create_parser"
   },
-  "django__django-15789": {
+  "django__django-15789-16141": {
+    "code_file": "django/utils/html.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "django__django-15789",
     "repo": "django/django",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "json_script"
   },
-  "django__django-15851": {
+  "django__django-15851-16146": {
+    "code_file": "django/db/backends/postgresql/client.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "django__django-15851",
     "repo": "django/django",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "settings_to_cmd_args_env"
   },
-  "django__django-15902": {
+  "django__django-15902-16149": {
+    "code_file": "django/forms/formsets.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "django__django-15902",
     "repo": "django/django",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "ManagementForm"
   },
-  "django__django-16046": {
+  "django__django-16046-16158": {
+    "code_file": "django/utils/numberformat.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "django__django-16046",
     "repo": "django/django",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "format"
   },
-  "django__django-16139": {
+  "django__django-16139-16168": {
+    "code_file": "django/contrib/auth/forms.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "django__django-16139",
     "repo": "django/django",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "__init__"
   },
-  "django__django-16527": {
+  "django__django-16527-16186": {
+    "code_file": "django/contrib/admin/templatetags/admin_modify.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "django__django-16527",
     "repo": "django/django",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "submit_row"
   },
-  "django__django-16693": {
+  "django__django-16693-16203": {
+    "code_file": "django/template/context.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "django__django-16693",
     "repo": "django/django",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "bind_template"
   },
-  "django__django-16707": {
+  "django__django-16707-16204": {
+    "code_file": "django/utils/functional.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "django__django-16707",
     "repo": "django/django",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "__bytes_cast"
   },
-  "django__django-16757": {
+  "django__django-16757-16209": {
+    "code_file": "django/contrib/admin/checks.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "django__django-16757",
     "repo": "django/django",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "_check_list_display_item"
   },
-  "django__django-16873": {
+  "django__django-16873-16217": {
+    "code_file": "django/template/defaultfilters.py",
+    "instance_id": "django__django-16873",
     "repo": "django/django",
     "stage": "ok",
     "target": "join"
   },
-  "django__django-17051": {
+  "django__django-17051-16225": {
+    "code_file": "django/db/models/query.py",
+    "instance_id": "django__django-17051",
     "repo": "django/django",
     "stage": "ok",
     "target": "_batched_insert"
   },
-  "django__django-17087": {
+  "django__django-17087-16230": {
+    "code_file": "django/db/migrations/serializer.py",
     "error": "ValueError: Code file not found: django/db/migrations/serializer.py",
+    "instance_id": "django__django-17087",
     "repo": "django/django",
     "stage": "build_kg_augmented_context",
     "target": "serialize"
   },
-  "matplotlib__matplotlib-22835": {
+  "matplotlib__matplotlib-22835-16271": {
+    "code_file": "lib/matplotlib/artist.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "matplotlib__matplotlib-22835",
     "repo": "matplotlib/matplotlib",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "format_cursor_data"
   },
-  "matplotlib__matplotlib-22991": {
+  "matplotlib__matplotlib-22991-16277": {
+    "code_file": "lib/matplotlib/pyplot.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "matplotlib__matplotlib-22991",
     "repo": "matplotlib/matplotlib",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "figure"
   },
-  "matplotlib__matplotlib-23049": {
+  "matplotlib__matplotlib-23049-16279": {
+    "code_file": "lib/matplotlib/pyplot.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "matplotlib__matplotlib-23049",
     "repo": "matplotlib/matplotlib",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "xticks"
   },
-  "matplotlib__matplotlib-23740": {
+  "matplotlib__matplotlib-23740-16297": {
+    "code_file": "lib/matplotlib/figure.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "matplotlib__matplotlib-23740",
     "repo": "matplotlib/matplotlib",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "colorbar"
   },
-  "matplotlib__matplotlib-23913": {
+  "matplotlib__matplotlib-23913-16298": {
+    "code_file": "lib/matplotlib/legend.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "matplotlib__matplotlib-23913",
     "repo": "matplotlib/matplotlib",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "__init__"
   },
-  "matplotlib__matplotlib-24250": {
+  "matplotlib__matplotlib-24250-16305": {
+    "code_file": "lib/matplotlib/figure.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "matplotlib__matplotlib-24250",
     "repo": "matplotlib/matplotlib",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "__init__"
   },
-  "matplotlib__matplotlib-24265": {
+  "matplotlib__matplotlib-24265-16306": {
+    "code_file": "lib/matplotlib/style/core.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "matplotlib__matplotlib-24265",
     "repo": "matplotlib/matplotlib",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "fix_style"
   },
-  "matplotlib__matplotlib-24604": {
+  "matplotlib__matplotlib-24604-16312": {
+    "code_file": "lib/matplotlib/figure.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "matplotlib__matplotlib-24604",
     "repo": "matplotlib/matplotlib",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "FigureBase"
   },
-  "matplotlib__matplotlib-24749": {
+  "matplotlib__matplotlib-24749-16319": {
+    "code_file": "lib/matplotlib/contour.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "matplotlib__matplotlib-24749",
     "repo": "matplotlib/matplotlib",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "_contour_args"
   },
-  "matplotlib__matplotlib-25433": {
+  "matplotlib__matplotlib-25433-16344": {
+    "code_file": "lib/matplotlib/figure.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "matplotlib__matplotlib-25433",
     "repo": "matplotlib/matplotlib",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "delaxes"
   },
-  "matplotlib__matplotlib-25442": {
+  "matplotlib__matplotlib-25442-16345": {
+    "code_file": "lib/matplotlib/offsetbox.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "matplotlib__matplotlib-25442",
     "repo": "matplotlib/matplotlib",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "DraggableBase"
   },
-  "matplotlib__matplotlib-25498": {
+  "matplotlib__matplotlib-25498-16347": {
+    "code_file": "lib/matplotlib/colorbar.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "matplotlib__matplotlib-25498",
     "repo": "matplotlib/matplotlib",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "__init__"
   },
-  "matplotlib__matplotlib-26020": {
+  "matplotlib__matplotlib-26020-16363": {
+    "code_file": "lib/mpl_toolkits/axes_grid1/axes_grid.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
     "error": "ValueError: TestContext validation failed for matplotlib/matplotlib @ f6a781f7:\n\n======================================================================\nTestContext Validation Report: matplotlib/matplotlib @ f6a781f7\n======================================================================\nSeeds: 1 | Context: 7 | Edges: 8 | Tests: 0\n\n\u274c ERRORS:\n  - Disconnected seeds (1): _tick_only \u2014 no outgoing edges (no context)\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "instance_id": "matplotlib__matplotlib-26020",
     "repo": "matplotlib/matplotlib",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "extract_and_validate",
     "target": "_tick_only"
   },
-  "matplotlib__matplotlib-26249": {
+  "matplotlib__matplotlib-26249-16373": {
+    "code_file": "lib/mpl_toolkits/mplot3d/axes3d.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "matplotlib__matplotlib-26249",
     "repo": "matplotlib/matplotlib",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "scatter"
   },
-  "matplotlib__matplotlib-26291": {
+  "matplotlib__matplotlib-26291-16376": {
+    "code_file": "lib/mpl_toolkits/axes_grid1/inset_locator.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "matplotlib__matplotlib-26291",
     "repo": "matplotlib/matplotlib",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "__call__"
   },
-  "matplotlib__matplotlib-26466": {
+  "matplotlib__matplotlib-26466-16380": {
+    "code_file": "lib/matplotlib/text.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
     "error": "ValueError: TestContext validation failed for matplotlib/matplotlib @ 3dd06a46:\n\n======================================================================\nTestContext Validation Report: matplotlib/matplotlib @ 3dd06a46\n======================================================================\nSeeds: 4 | Context: 150 | Edges: 179 | Tests: 0\n\n\u274c ERRORS:\n  - Ambiguous seed names (1): __init__ \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "instance_id": "matplotlib__matplotlib-26466",
     "repo": "matplotlib/matplotlib",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "extract_and_validate",
     "target": "OffsetFrom"
   },
-  "mwaskom__seaborn-2853": {
+  "mwaskom__seaborn-2853-16394": {
+    "code_file": "seaborn/regression.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "mwaskom__seaborn-2853",
     "repo": "mwaskom/seaborn",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "scatterplot"
   },
-  "mwaskom__seaborn-3010": {
+  "mwaskom__seaborn-3010-16399": {
+    "code_file": "seaborn/_stats/regression.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
     "error": "ValueError: TestContext validation failed for mwaskom/seaborn @ 0f5a013e:\n\n======================================================================\nTestContext Validation Report: mwaskom/seaborn @ 0f5a013e\n======================================================================\nSeeds: 1 | Context: 7 | Edges: 9 | Tests: 0\n\n\u274c ERRORS:\n  - Disconnected seeds (1): __call__ \u2014 no outgoing edges (no context)\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "instance_id": "mwaskom__seaborn-3010",
     "repo": "mwaskom/seaborn",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "extract_and_validate",
     "target": "__call__"
   },
-  "mwaskom__seaborn-3190": {
+  "mwaskom__seaborn-3190-16402": {
+    "code_file": "seaborn/_core/scales.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "mwaskom__seaborn-3190",
     "repo": "mwaskom/seaborn",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "_setup"
   },
-  "mwaskom__seaborn-3202": {
+  "mwaskom__seaborn-3394-16408": {
+    "code_file": "seaborn/_core/rules.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
-    "repo": "mwaskom/seaborn",
-    "run_at": "2026-07-28T15:40:41.393753+00:00",
-    "stage": "ok",
-    "target": "_setup_split_generator"
-  },
-  "mwaskom__seaborn-3394": {
-    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "mwaskom__seaborn-3394",
     "repo": "mwaskom/seaborn",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "variable_type"
   },
-  "pallets__flask-5063": {
+  "pallets__flask-5063-16418": {
+    "code_file": "src/flask/cli.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "pallets__flask-5063",
     "repo": "pallets/flask",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "routes_command"
   },
-  "pydata__xarray-3364": {
+  "pydata__xarray-3364-16461": {
+    "code_file": "xarray/core/concat.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "pydata__xarray-3364",
     "repo": "pydata/xarray",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "_dataset_concat"
   },
-  "pydata__xarray-3905": {
+  "pydata__xarray-3905-16478": {
+    "code_file": "xarray/core/formatting.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "pydata__xarray-3905",
     "repo": "pydata/xarray",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "limit_lines"
   },
-  "pydata__xarray-4182": {
+  "pydata__xarray-4182-16484": {
+    "code_file": "xarray/core/formatting_html.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "pydata__xarray-4182",
     "repo": "pydata/xarray",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "array_section"
   },
-  "pydata__xarray-4248": {
+  "pydata__xarray-4248-16486": {
+    "code_file": "xarray/core/formatting.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "pydata__xarray-4248",
     "repo": "pydata/xarray",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "inline_variable_array_repr"
   },
-  "pydata__xarray-4629": {
+  "pydata__xarray-4629-16492": {
+    "code_file": "xarray/core/merge.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "pydata__xarray-4629",
     "repo": "pydata/xarray",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "merge_attrs"
   },
-  "pydata__xarray-4750": {
+  "pydata__xarray-4750-16496": {
+    "code_file": "xarray/core/formatting.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "pydata__xarray-4750",
     "repo": "pydata/xarray",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "_mapping_repr"
   },
-  "pydata__xarray-4802": {
+  "pydata__xarray-4802-16505": {
+    "code_file": "xarray/coding/variables.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "pydata__xarray-4802",
     "repo": "pydata/xarray",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "decode"
   },
-  "pydata__xarray-5033": {
+  "pydata__xarray-5033-16517": {
+    "code_file": "xarray/backends/api.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "pydata__xarray-5033",
     "repo": "pydata/xarray",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "open_dataset"
   },
-  "pydata__xarray-5131": {
+  "pydata__xarray-5131-16520": {
+    "code_file": "xarray/core/groupby.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "pydata__xarray-5131",
     "repo": "pydata/xarray",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "__repr__"
   },
-  "pydata__xarray-5365": {
+  "pydata__xarray-5365-16529": {
+    "code_file": "xarray/core/computation.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "pydata__xarray-5365",
     "repo": "pydata/xarray",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "cross"
   },
-  "pydata__xarray-6135": {
+  "pydata__xarray-6394-16538": {
+    "code_file": "xarray/core/groupby.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
-    "repo": "pydata/xarray",
-    "run_at": "2026-07-28T15:40:41.393753+00:00",
-    "stage": "ok",
-    "target": "shift"
-  },
-  "pydata__xarray-6394": {
-    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "pydata__xarray-6394",
     "repo": "pydata/xarray",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "_combine"
   },
-  "pydata__xarray-6400": {
+  "pydata__xarray-6400-16539": {
+    "code_file": "xarray/core/formatting.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "pydata__xarray-6400",
     "repo": "pydata/xarray",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "short_numpy_repr"
   },
-  "pydata__xarray-6882": {
+  "pydata__xarray-6882-16548": {
+    "code_file": "xarray/coding/times.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "pydata__xarray-6882",
     "repo": "pydata/xarray",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "_decode_datetime_with_cftime"
   },
-  "pydata__xarray-6889": {
+  "pydata__xarray-6889-16549": {
+    "code_file": "xarray/core/concat.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "pydata__xarray-6889",
     "repo": "pydata/xarray",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "_dataset_concat"
   },
-  "pylint-dev__pylint-4604": {
+  "pylint-dev__pylint-4604-16590": {
+    "code_file": "pylint/checkers/variables.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "pylint-dev__pylint-4604",
     "repo": "pylint-dev/pylint",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "_store_type_annotation_node"
   },
-  "pylint-dev__pylint-5446": {
+  "pylint-dev__pylint-5446-16596": {
+    "code_file": "pylint/checkers/similar.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "pylint-dev__pylint-5446",
     "repo": "pylint-dev/pylint",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "append_stream"
   },
-  "pylint-dev__pylint-5859": {
+  "pylint-dev__pylint-5859-16597": {
+    "code_file": "pylint/checkers/misc.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "pylint-dev__pylint-5859",
     "repo": "pylint-dev/pylint",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "open"
   },
-  "pylint-dev__pylint-5951": {
+  "pylint-dev__pylint-5951-16598": {
+    "code_file": "pylint/pyreverse/main.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "pylint-dev__pylint-5951",
     "repo": "pylint-dev/pylint",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "__init__"
   },
-  "pylint-dev__pylint-6526": {
+  "pylint-dev__pylint-6526-16603": {
+    "code_file": "pylint/lint/caching.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "pylint-dev__pylint-6526",
     "repo": "pylint-dev/pylint",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "_get_pdata_path"
   },
-  "pylint-dev__pylint-7993": {
+  "pylint-dev__pylint-7993-16606": {
+    "code_file": "pylint/reporters/text.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "pylint-dev__pylint-7993",
     "repo": "pylint-dev/pylint",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "on_set_current_module"
   },
-  "pylint-dev__pylint-8124": {
+  "pylint-dev__pylint-8124-16607": {
+    "code_file": "pylint/checkers/imports.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "pylint-dev__pylint-8124",
     "repo": "pylint-dev/pylint",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "ImportsChecker"
   },
-  "pytest-dev__pytest-5221": {
+  "pytest-dev__pytest-5221-16629": {
+    "code_file": "src/_pytest/python.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "pytest-dev__pytest-5221",
     "repo": "pytest-dev/pytest",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "_showfixtures_main"
   },
-  "pytest-dev__pytest-5227": {
+  "pytest-dev__pytest-5227-16630": {
+    "code_file": "src/_pytest/logging.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
     "error": "ValueError: No changed function found in src/_pytest/logging.py for this patch",
+    "instance_id": "pytest-dev__pytest-5227",
     "repo": "pytest-dev/pytest",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "resolve_target_function"
   },
-  "pytest-dev__pytest-5692": {
+  "pytest-dev__pytest-5692-16641": {
+    "code_file": "src/_pytest/junitxml.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "pytest-dev__pytest-5692",
     "repo": "pytest-dev/pytest",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "pytest_sessionfinish"
   },
-  "pytest-dev__pytest-6116": {
+  "pytest-dev__pytest-6116-16644": {
+    "code_file": "src/_pytest/main.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "pytest-dev__pytest-6116",
     "repo": "pytest-dev/pytest",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "pytest_addoption"
   },
-  "pytest-dev__pytest-6323": {
+  "pytest-dev__pytest-6323-16648": {
+    "code_file": "src/_pytest/tmpdir.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
     "error": "ValueError: TestContext validation failed for pytest-dev/pytest @ e8c8559e:\n\n======================================================================\nTestContext Validation Report: pytest-dev/pytest @ e8c8559e\n======================================================================\nSeeds: 2 | Context: 129 | Edges: 237 | Tests: 2\n\n\u274c ERRORS:\n  - Ambiguous seed names (1): mktemp \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n======================================================================\n",
+    "instance_id": "pytest-dev__pytest-6323",
     "repo": "pytest-dev/pytest",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "extract_and_validate",
     "target": "TempPathFactory"
   },
-  "pytest-dev__pytest-7168": {
+  "pytest-dev__pytest-7168-16653": {
+    "code_file": "src/_pytest/_io/saferepr.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "pytest-dev__pytest-7168",
     "repo": "pytest-dev/pytest",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "_format_repr_exception"
   },
-  "pytest-dev__pytest-7186": {
+  "pytest-dev__pytest-7186-16654": {
+    "code_file": "src/_pytest/doctest.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "pytest-dev__pytest-7186",
     "repo": "pytest-dev/pytest",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "_is_setup_py"
   },
-  "pytest-dev__pytest-7220": {
+  "pytest-dev__pytest-7220-16655": {
+    "code_file": "src/_pytest/nodes.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "pytest-dev__pytest-7220",
     "repo": "pytest-dev/pytest",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "_repr_failure_py"
   },
-  "pytest-dev__pytest-7373": {
+  "pytest-dev__pytest-7373-16660": {
+    "code_file": "src/_pytest/mark/evaluate.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "pytest-dev__pytest-7373",
     "repo": "pytest-dev/pytest",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "_istrue"
   },
-  "pytest-dev__pytest-7432": {
+  "pytest-dev__pytest-7432-16661": {
+    "code_file": "src/_pytest/skipping.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "pytest-dev__pytest-7432",
     "repo": "pytest-dev/pytest",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "pytest_runtest_makereport"
   },
-  "pytest-dev__pytest-7468": {
+  "pytest-dev__pytest-7468-16663": {
+    "code_file": "src/_pytest/logging.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "pytest-dev__pytest-7468",
     "repo": "pytest-dev/pytest",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "__init__"
   },
-  "pytest-dev__pytest-7490": {
+  "pytest-dev__pytest-7490-16665": {
+    "code_file": "src/_pytest/skipping.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "pytest-dev__pytest-7490",
     "repo": "pytest-dev/pytest",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "pytest_runtest_call"
   },
-  "pytest-dev__pytest-7673": {
+  "pytest-dev__pytest-7673-16671": {
+    "code_file": "src/_pytest/logging.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "pytest-dev__pytest-7673",
     "repo": "pytest-dev/pytest",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "set_level"
   },
-  "pytest-dev__pytest-8365": {
+  "pytest-dev__pytest-8365-16676": {
+    "code_file": "src/_pytest/tmpdir.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "pytest-dev__pytest-8365",
     "repo": "pytest-dev/pytest",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "getbasetemp"
   },
-  "pytest-dev__pytest-8861": {
+  "pytest-dev__pytest-8861-16684": {
+    "code_file": "src/_pytest/doctest.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "pytest-dev__pytest-8861",
     "repo": "pytest-dev/pytest",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "_find_lineno"
   },
-  "pytest-dev__pytest-8906": {
+  "pytest-dev__pytest-8906-16685": {
+    "code_file": "src/_pytest/python.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "pytest-dev__pytest-8906",
     "repo": "pytest-dev/pytest",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "_importtestmodule"
   },
-  "pytest-dev__pytest-9279": {
+  "pytest-dev__pytest-9279-16692": {
+    "code_file": "src/_pytest/nodes.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "pytest-dev__pytest-9279",
     "repo": "pytest-dev/pytest",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "__init__"
   },
-  "pytest-dev__pytest-9359": {
+  "pytest-dev__pytest-9359-16693": {
+    "code_file": "src/_pytest/_code/source.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "pytest-dev__pytest-9359",
     "repo": "pytest-dev/pytest",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "get_statement_startend2"
   },
-  "pytest-dev__pytest-9475": {
+  "pytest-dev__pytest-9475-16694": {
+    "code_file": "src/_pytest/pytester.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "pytest-dev__pytest-9475",
     "repo": "pytest-dev/pytest",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "assert_outcomes"
   },
-  "scikit-learn__scikit-learn-10297": {
+  "scikit-learn__scikit-learn-10297-16701": {
+    "code_file": "sklearn/linear_model/ridge.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
     "error": "ValueError: TestContext validation failed for scikit-learn/scikit-learn @ b90661d6:\n\n======================================================================\nTestContext Validation Report: scikit-learn/scikit-learn @ b90661d6\n======================================================================\nSeeds: 1 | Context: 9 | Edges: 10 | Tests: 0\n\n\u274c ERRORS:\n  - Disconnected seeds (1): __init__ \u2014 no outgoing edges (no context)\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "instance_id": "scikit-learn__scikit-learn-10297",
     "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "extract_and_validate",
     "target": "RidgeCV"
   },
-  "scikit-learn__scikit-learn-10483": {
-    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
-    "error": "ValueError: 'sklearn/impute.py' not found in scikit-learn/scikit-learn at '98eb09e9206cb714da85c5a0616deff3cc85a1d5' after fetching origin. Verify the path and commit are correct.",
-    "repo": "scikit-learn/scikit-learn",
-    "run_at": "2026-07-28T15:40:41.393753+00:00",
-    "stage": "resolve_target_function"
-  },
-  "scikit-learn__scikit-learn-10508": {
+  "scikit-learn__scikit-learn-10508-16720": {
+    "code_file": "sklearn/preprocessing/label.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "scikit-learn__scikit-learn-10508",
     "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "inverse_transform"
   },
-  "scikit-learn__scikit-learn-10870": {
+  "scikit-learn__scikit-learn-10870-16730": {
+    "code_file": "sklearn/mixture/gaussian_mixture.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "scikit-learn__scikit-learn-10870",
     "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "GaussianMixture"
   },
-  "scikit-learn__scikit-learn-10949": {
+  "scikit-learn__scikit-learn-10949-16735": {
+    "code_file": "sklearn/utils/validation.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "scikit-learn__scikit-learn-10949",
     "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "check_array"
   },
-  "scikit-learn__scikit-learn-11040": {
+  "scikit-learn__scikit-learn-11040-16738": {
+    "code_file": "sklearn/neighbors/base.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "scikit-learn__scikit-learn-11040",
     "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "_fit"
   },
-  "scikit-learn__scikit-learn-12625": {
+  "scikit-learn__scikit-learn-12625-16769": {
+    "code_file": "sklearn/utils/validation.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "scikit-learn__scikit-learn-12625",
     "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "check_array"
   },
-  "scikit-learn__scikit-learn-13439": {
+  "scikit-learn__scikit-learn-13439-16815": {
+    "code_file": "sklearn/pipeline.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "scikit-learn__scikit-learn-13439",
     "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "Pipeline"
   },
-  "scikit-learn__scikit-learn-13496": {
+  "scikit-learn__scikit-learn-13496-16821": {
+    "code_file": "sklearn/ensemble/iforest.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "scikit-learn__scikit-learn-13496",
     "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "IsolationForest"
   },
-  "scikit-learn__scikit-learn-13497": {
+  "scikit-learn__scikit-learn-13497-16822": {
+    "code_file": "sklearn/feature_selection/mutual_info_.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "scikit-learn__scikit-learn-13497",
     "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "_estimate_mi"
   },
-  "scikit-learn__scikit-learn-13584": {
+  "scikit-learn__scikit-learn-13584-16825": {
+    "code_file": "sklearn/utils/_pprint.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "scikit-learn__scikit-learn-13584",
     "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "_changed_params"
   },
-  "scikit-learn__scikit-learn-13779": {
+  "scikit-learn__scikit-learn-13779-16832": {
+    "code_file": "sklearn/ensemble/voting.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "scikit-learn__scikit-learn-13779",
     "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "fit"
   },
-  "scikit-learn__scikit-learn-13915": {
-    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
-    "repo": "scikit-learn/scikit-learn",
-    "run_at": "2026-07-28T15:40:41.393753+00:00",
-    "stage": "ok",
-    "target": "_minor_reduce"
-  },
-  "scikit-learn__scikit-learn-14087": {
+  "scikit-learn__scikit-learn-14087-16848": {
+    "code_file": "sklearn/linear_model/logistic.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "scikit-learn__scikit-learn-14087",
     "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "fit"
   },
-  "scikit-learn__scikit-learn-14092": {
+  "scikit-learn__scikit-learn-14092-16849": {
+    "code_file": "sklearn/neighbors/nca.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "scikit-learn__scikit-learn-14092",
     "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "_validate_params"
   },
-  "scikit-learn__scikit-learn-14894": {
+  "scikit-learn__scikit-learn-14894-16874": {
+    "code_file": "sklearn/svm/base.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "scikit-learn__scikit-learn-14894",
     "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "BaseLibSVM"
   },
-  "scikit-learn__scikit-learn-14908": {
+  "scikit-learn__scikit-learn-14908-16875": {
+    "code_file": "sklearn/dummy.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "scikit-learn__scikit-learn-14908",
     "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "fit"
   },
-  "scikit-learn__scikit-learn-14983": {
+  "scikit-learn__scikit-learn-14983-16876": {
+    "code_file": "sklearn/model_selection/_split.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "scikit-learn__scikit-learn-14983",
     "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "_build_repr"
   },
-  "scikit-learn__scikit-learn-15512": {
+  "scikit-learn__scikit-learn-15512-16889": {
+    "code_file": "sklearn/cluster/_affinity_propagation.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "scikit-learn__scikit-learn-15512",
     "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "affinity_propagation"
   },
-  "scikit-learn__scikit-learn-15535": {
+  "scikit-learn__scikit-learn-15535-16891": {
+    "code_file": "sklearn/metrics/cluster/_supervised.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "scikit-learn__scikit-learn-15535",
     "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "check_clusterings"
   },
-  "scikit-learn__scikit-learn-24677": {
+  "scikit-learn__scikit-learn-24677-16896": {
+    "code_file": "sklearn/metrics/cluster/_unsupervised.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "scikit-learn__scikit-learn-24677",
     "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "_silhouette_reduce"
   },
-  "scikit-learn__scikit-learn-25500": {
+  "scikit-learn__scikit-learn-25500-16908": {
+    "code_file": "sklearn/isotonic.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "scikit-learn__scikit-learn-25500",
     "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "IsotonicRegression"
   },
-  "scikit-learn__scikit-learn-25570": {
+  "scikit-learn__scikit-learn-25570-16909": {
+    "code_file": "sklearn/compose/_column_transformer.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "scikit-learn__scikit-learn-25570",
     "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "_hstack"
   },
-  "scikit-learn__scikit-learn-25638": {
+  "scikit-learn__scikit-learn-25638-16912": {
+    "code_file": "sklearn/utils/multiclass.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "scikit-learn__scikit-learn-25638",
     "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "is_multilabel"
   },
-  "scikit-learn__scikit-learn-25747": {
+  "scikit-learn__scikit-learn-25747-16918": {
+    "code_file": "sklearn/utils/_set_output.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "scikit-learn__scikit-learn-25747",
     "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "_wrap_in_pandas_container"
   },
-  "scikit-learn__scikit-learn-26289": {
+  "scikit-learn__scikit-learn-26289-16928": {
+    "code_file": "sklearn/tree/_export.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "scikit-learn__scikit-learn-26289",
     "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "export_graphviz"
   },
-  "scikit-learn__scikit-learn-26318": {
+  "scikit-learn__scikit-learn-26318-16929": {
+    "code_file": "sklearn/ensemble/_forest.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "scikit-learn__scikit-learn-26318",
     "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "fit"
   },
-  "scikit-learn__scikit-learn-9274": {
+  "scikit-learn__scikit-learn-9274-16936": {
+    "code_file": "sklearn/neural_network/multilayer_perceptron.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
     "error": "ValueError: TestContext validation failed for scikit-learn/scikit-learn @ faa94060:\n\n======================================================================\nTestContext Validation Report: scikit-learn/scikit-learn @ faa94060\n======================================================================\nSeeds: 6 | Context: 38 | Edges: 63 | Tests: 0\n\n\u274c ERRORS:\n  - Disconnected seeds (1): _validate_hyperparameters \u2014 no outgoing edges (no context)\n  - Ambiguous seed names (1): __init__ \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "instance_id": "scikit-learn__scikit-learn-9274",
     "repo": "scikit-learn/scikit-learn",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "extract_and_validate",
     "target": "BaseMultilayerPerceptron"
   },
-  "sphinx-doc__sphinx-10360": {
-    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
-    "error": "ValueError: Code file not found: sphinx/domains/cpp.py",
-    "repo": "sphinx-doc/sphinx",
-    "run_at": "2026-07-28T15:40:41.393753+00:00",
-    "stage": "extract_and_validate",
-    "target": "ASTEnumerator"
-  },
-  "sphinx-doc__sphinx-7590": {
-    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
-    "repo": "sphinx-doc/sphinx",
-    "run_at": "2026-07-28T15:40:41.393753+00:00",
-    "stage": "ok",
-    "target": "_parse_literal"
-  },
-  "sphinx-doc__sphinx-7814": {
+  "sphinx-doc__sphinx-7814-16995": {
+    "code_file": "sphinx/domains/python.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
     "error": "ValueError: TestContext validation failed for sphinx-doc/sphinx @ 55fc0978:\n\n======================================================================\nTestContext Validation Report: sphinx-doc/sphinx @ 55fc0978\n======================================================================\nSeeds: 2 | Context: 38 | Edges: 51 | Tests: 0\n\n\u274c ERRORS:\n  - Ambiguous seed names (1): handle_signature \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "instance_id": "sphinx-doc__sphinx-7814",
     "repo": "sphinx-doc/sphinx",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "extract_and_validate",
     "target": "handle_signature"
   },
-  "sphinx-doc__sphinx-7906": {
+  "sphinx-doc__sphinx-7923-17001": {
+    "code_file": "sphinx/util/rst.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
-    "error": "ValueError: Code file not found: sphinx/domains/cpp.py",
-    "repo": "sphinx-doc/sphinx",
-    "run_at": "2026-07-28T15:40:41.393753+00:00",
-    "stage": "extract_and_validate",
-    "target": "CPPObject"
-  },
-  "sphinx-doc__sphinx-7923": {
-    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "sphinx-doc__sphinx-7923",
     "repo": "sphinx-doc/sphinx",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "append_epilog"
   },
-  "sphinx-doc__sphinx-7975": {
+  "sphinx-doc__sphinx-7975-17003": {
+    "code_file": "sphinx/environment/adapters/indexentries.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "sphinx-doc__sphinx-7975",
     "repo": "sphinx-doc/sphinx",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "create_index"
   },
-  "sphinx-doc__sphinx-8117": {
+  "sphinx-doc__sphinx-8278-17015": {
+    "code_file": "sphinx/pycode/ast.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
-    "error": "ValueError: Code file not found: sphinx/domains/cpp.py",
-    "repo": "sphinx-doc/sphinx",
-    "run_at": "2026-07-28T15:40:41.393753+00:00",
-    "stage": "extract_and_validate",
-    "target": "DefinitionParser"
-  },
-  "sphinx-doc__sphinx-8278": {
-    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "sphinx-doc__sphinx-8278",
     "repo": "sphinx-doc/sphinx",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "_UnparseVisitor"
   },
-  "sphinx-doc__sphinx-8627": {
+  "sphinx-doc__sphinx-8627-17026": {
+    "code_file": "sphinx/util/typing.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "sphinx-doc__sphinx-8627",
     "repo": "sphinx-doc/sphinx",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "restify"
   },
-  "sphinx-doc__sphinx-8638": {
+  "sphinx-doc__sphinx-8638-17027": {
+    "code_file": "sphinx/domains/python.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "sphinx-doc__sphinx-8638",
     "repo": "sphinx-doc/sphinx",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "PyObject"
   },
-  "sphinx-doc__sphinx-9155": {
+  "sphinx-doc__sphinx-9320-17052": {
+    "code_file": "sphinx/cmd/quickstart.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
-    "error": "ValueError: Code file not found: sphinx/domains/cpp.py",
-    "repo": "sphinx-doc/sphinx",
-    "run_at": "2026-07-28T15:40:41.393753+00:00",
-    "stage": "extract_and_validate",
-    "target": "CPPObject"
-  },
-  "sphinx-doc__sphinx-9320": {
-    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "sphinx-doc__sphinx-9320",
     "repo": "sphinx-doc/sphinx",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "ask_user"
   },
-  "sphinx-doc__sphinx-9997": {
-    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
-    "repo": "sphinx-doc/sphinx",
-    "run_at": "2026-07-28T15:40:41.393753+00:00",
-    "stage": "ok",
-    "target": "stringify_signature"
-  },
-  "sympy__sympy-11400": {
+  "sympy__sympy-11400-17079": {
+    "code_file": "sympy/printing/ccode.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
     "error": "ValueError: TestContext validation failed for sympy/sympy @ 8dcb12a6:\n\n======================================================================\nTestContext Validation Report: sympy/sympy @ 8dcb12a6\n======================================================================\nSeeds: 1 | Context: 30 | Edges: 31 | Tests: 0\n\n\u274c ERRORS:\n  - Disconnected seeds (1): _print_AugmentedAssignment \u2014 no outgoing edges (no context)\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "instance_id": "sympy__sympy-11400",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "extract_and_validate",
     "target": "CCodePrinter"
   },
-  "sympy__sympy-12419": {
+  "sympy__sympy-12419-17115": {
+    "code_file": "sympy/matrices/expressions/matexpr.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "sympy__sympy-12419",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "Identity"
   },
-  "sympy__sympy-12481": {
+  "sympy__sympy-12481-17120": {
+    "code_file": "sympy/combinatorics/permutations.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "sympy__sympy-12481",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "__new__"
   },
-  "sympy__sympy-13471": {
+  "sympy__sympy-13471-17157": {
+    "code_file": "sympy/core/numbers.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "sympy__sympy-13471",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "__new__"
   },
-  "sympy__sympy-13895": {
+  "sympy__sympy-13895-17185": {
+    "code_file": "sympy/core/numbers.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "sympy__sympy-13895",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "_eval_power"
   },
-  "sympy__sympy-14317": {
+  "sympy__sympy-14317-17206": {
+    "code_file": "sympy/printing/latex.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "sympy__sympy-14317",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "_print_FourierSeries"
   },
-  "sympy__sympy-14396": {
+  "sympy__sympy-14396-17208": {
+    "code_file": "sympy/polys/polyoptions.py",
     "commit": "ci-run-30360577893-seed777",
+    "instance_id": "sympy__sympy-14396",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "Domain"
   },
-  "sympy__sympy-14774": {
+  "sympy__sympy-14774-17215": {
+    "code_file": "sympy/printing/latex.py",
     "error": "TimeoutExpired: Command '['git', 'clone', '--bare', 'https://github.com/sympy/sympy.git', 'repo_cache/sympy__sympy']' timed out after 119.9999366250122 seconds",
+    "instance_id": "sympy__sympy-14774",
     "repo": "sympy/sympy",
     "stage": "build_kg_augmented_context",
     "target": "_print_Function"
   },
-  "sympy__sympy-15011": {
+  "sympy__sympy-15011-17219": {
+    "code_file": "sympy/utilities/lambdify.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "sympy__sympy-15011",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "_EvaluatorPrinter"
   },
-  "sympy__sympy-15345": {
+  "sympy__sympy-15345-17235": {
+    "code_file": "sympy/printing/mathematica.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
     "error": "ValueError: TestContext validation failed for sympy/sympy @ 9ef28fba:\n\n======================================================================\nTestContext Validation Report: sympy/sympy @ 9ef28fba\n======================================================================\nSeeds: 1 | Context: 13 | Edges: 13 | Tests: 0\n\n\u274c ERRORS:\n  - Disconnected seeds (1): _print_Integral \u2014 no outgoing edges (no context)\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "instance_id": "sympy__sympy-15345",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "extract_and_validate",
     "target": "MCodePrinter"
   },
-  "sympy__sympy-15678": {
+  "sympy__sympy-15678-17249": {
+    "code_file": "sympy/geometry/util.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "sympy__sympy-15678",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "idiff"
   },
-  "sympy__sympy-15948": {
+  "sympy__sympy-16052-17262": {
+    "code_file": "sympy/matrices/expressions/matexpr.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
-    "repo": "sympy/sympy",
-    "run_at": "2026-07-28T15:40:41.393753+00:00",
-    "stage": "ok",
-    "target": "_postprocessor"
-  },
-  "sympy__sympy-16052": {
-    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "sympy__sympy-16052",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "_eval_Eq"
   },
-  "sympy__sympy-16792": {
+  "sympy__sympy-16792-17287": {
+    "code_file": "sympy/utilities/codegen.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "sympy__sympy-16792",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "routine"
   },
-  "sympy__sympy-17022": {
+  "sympy__sympy-17022-17307": {
+    "code_file": "sympy/printing/pycode.py",
     "commit": "ci-run-30360577893-seed777",
+    "instance_id": "sympy__sympy-17022",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",
     "target": "NumPyPrinter"
   },
-  "sympy__sympy-17655": {
+  "sympy__sympy-17655-17334": {
+    "code_file": "sympy/geometry/point.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "sympy__sympy-17655",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "Point"
   },
-  "sympy__sympy-18273": {
+  "sympy__sympy-18273-17361": {
+    "code_file": "sympy/simplify/cse_main.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "sympy__sympy-18273",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "_find_repeated"
   },
-  "sympy__sympy-18532": {
+  "sympy__sympy-18532-17364": {
+    "code_file": "sympy/core/basic.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
     "error": "ValueError: TestContext validation failed for sympy/sympy @ 74227f90:\n\n======================================================================\nTestContext Validation Report: sympy/sympy @ 74227f90\n======================================================================\nSeeds: 1 | Context: 158 | Edges: 184 | Tests: 5\n\n\u274c ERRORS:\n  - Disconnected seeds (1): atoms \u2014 no outgoing edges (no context)\n\n======================================================================\n",
+    "instance_id": "sympy__sympy-18532",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "extract_and_validate",
     "target": "atoms"
   },
-  "sympy__sympy-18621": {
+  "sympy__sympy-18621-17367": {
+    "code_file": "sympy/matrices/expressions/blockmatrix.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "sympy__sympy-18621",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "BlockDiagMatrix"
   },
-  "sympy__sympy-18765": {
-    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
-    "repo": "sympy/sympy",
-    "run_at": "2026-07-28T15:40:41.393753+00:00",
-    "stage": "ok",
-    "target": "__new__"
-  },
-  "sympy__sympy-18835": {
+  "sympy__sympy-18835-17379": {
+    "code_file": "sympy/utilities/iterables.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "sympy__sympy-18835",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "uniq"
   },
-  "sympy__sympy-19007": {
+  "sympy__sympy-19007-17384": {
+    "code_file": "sympy/matrices/expressions/blockmatrix.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "sympy__sympy-19007",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "_entry"
   },
-  "sympy__sympy-19093": {
-    "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
-    "repo": "sympy/sympy",
-    "run_at": "2026-07-28T15:40:41.393753+00:00",
-    "stage": "ok",
-    "target": "__new__"
-  },
-  "sympy__sympy-19487": {
+  "sympy__sympy-19487-17397": {
+    "code_file": "sympy/functions/elementary/complexes.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
     "error": "ValueError: TestContext validation failed for sympy/sympy @ 25fbcce5:\n\n======================================================================\nTestContext Validation Report: sympy/sympy @ 25fbcce5\n======================================================================\nSeeds: 1 | Context: 39 | Edges: 41 | Tests: 0\n\n\u274c ERRORS:\n  - Disconnected seeds (1): _eval_simplify \u2014 no outgoing edges (no context)\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "instance_id": "sympy__sympy-19487",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "extract_and_validate",
     "target": "_eval_simplify"
   },
-  "sympy__sympy-20049": {
+  "sympy__sympy-20049-17405": {
+    "code_file": "sympy/physics/vector/point.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "sympy__sympy-20049",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "Point"
   },
-  "sympy__sympy-20154": {
+  "sympy__sympy-20154-17409": {
+    "code_file": "sympy/utilities/iterables.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "sympy__sympy-20154",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "partitions"
   },
-  "sympy__sympy-20169": {
+  "sympy__sympy-20169-17410": {
+    "code_file": "sympy/physics/optics/utils.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "sympy__sympy-20169",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "lens_makers_formula"
   },
-  "sympy__sympy-20428": {
+  "sympy__sympy-20428-17414": {
+    "code_file": "sympy/polys/domains/expressiondomain.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "sympy__sympy-20428",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "Expression"
   },
-  "sympy__sympy-20442": {
+  "sympy__sympy-20442-17415": {
+    "code_file": "sympy/physics/units/util.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "sympy__sympy-20442",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "_get_conversion_matrix_for_expr"
   },
-  "sympy__sympy-20639": {
+  "sympy__sympy-20639-17418": {
+    "code_file": "sympy/printing/pretty/pretty.py",
+    "instance_id": "sympy__sympy-20639",
     "repo": "sympy/sympy",
     "stage": "ok",
     "target": "_print_Pow"
   },
-  "sympy__sympy-21055": {
+  "sympy__sympy-21055-17423": {
+    "code_file": "sympy/assumptions/refine.py",
     "error": "ValueError: No changed function found in sympy/assumptions/refine.py for this patch",
+    "instance_id": "sympy__sympy-21055",
     "repo": "sympy/sympy",
     "stage": "resolve_target_function"
   },
-  "sympy__sympy-21171": {
+  "sympy__sympy-21171-17425": {
+    "code_file": "sympy/printing/latex.py",
     "commit": "ci-run-30360577893-seed777",
     "error": "ValueError: TestContext validation failed for sympy/sympy @ aa22709c:\n\n======================================================================\nTestContext Validation Report: sympy/sympy @ aa22709c\n======================================================================\nSeeds: 1 | Context: 296 | Edges: 299 | Tests: 0\n\n\u274c ERRORS:\n  - Disconnected seeds (1): _print_SingularityFunction \u2014 no outgoing edges (no context)\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "instance_id": "sympy__sympy-21171",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "extract_and_validate",
     "target": "_print_SingularityFunction"
   },
-  "sympy__sympy-21612": {
+  "sympy__sympy-21612-17445": {
+    "code_file": "sympy/printing/str.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "sympy__sympy-21612",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "_print_Mul"
   },
-  "sympy__sympy-21614": {
+  "sympy__sympy-21614-17446": {
+    "code_file": "sympy/core/function.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "sympy__sympy-21614",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "Derivative"
   },
-  "sympy__sympy-21627": {
+  "sympy__sympy-21627-17447": {
+    "code_file": "sympy/functions/elementary/complexes.py",
+    "instance_id": "sympy__sympy-21627",
     "repo": "sympy/sympy",
     "stage": "ok",
     "target": "eval"
   },
-  "sympy__sympy-21847": {
+  "sympy__sympy-21847-17450": {
+    "code_file": "sympy/polys/monomials.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "sympy__sympy-21847",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "itermonomials"
   },
-  "sympy__sympy-22005": {
+  "sympy__sympy-22005-17457": {
+    "code_file": "sympy/solvers/polysys.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "sympy__sympy-22005",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "_solve_reduced_system"
   },
-  "sympy__sympy-22456": {
+  "sympy__sympy-22456-17463": {
+    "code_file": "sympy/codegen/ast.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "sympy__sympy-22456",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "BreakToken"
   },
-  "sympy__sympy-22714": {
+  "sympy__sympy-22714-17465": {
+    "code_file": "sympy/geometry/point.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
+    "instance_id": "sympy__sympy-22714",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "__new__"
   },
-  "sympy__sympy-23117": {
+  "sympy__sympy-23117-17473": {
+    "code_file": "sympy/tensor/array/ndim_array.py",
     "commit": "ci-run-30360577893-seed777",
     "error": "ValueError: TestContext validation failed for sympy/sympy @ c5cef249:\n\n======================================================================\nTestContext Validation Report: sympy/sympy @ c5cef249\n======================================================================\nSeeds: 5 | Context: 907 | Edges: 1286 | Tests: 3\n\n\u274c ERRORS:\n  - Ambiguous seed names (1): f \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n======================================================================\n",
+    "instance_id": "sympy__sympy-23117",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "extract_and_validate",
     "target": "_check_index_for_getitem"
   },
-  "sympy__sympy-23191": {
+  "sympy__sympy-23191-17475": {
+    "code_file": "sympy/printing/pretty/pretty.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "sympy__sympy-23191",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "_print_BasisDependent"
   },
-  "sympy__sympy-23262": {
+  "sympy__sympy-23262-17476": {
+    "code_file": "sympy/utilities/lambdify.py",
+    "instance_id": "sympy__sympy-23262",
     "repo": "sympy/sympy",
     "stage": "ok",
     "target": "_recursive_to_string"
   },
-  "sympy__sympy-24066": {
+  "sympy__sympy-24066-17485": {
+    "code_file": "sympy/physics/units/unitsystem.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "sympy__sympy-24066",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "_collect_factor_and_dimension"
   },
-  "sympy__sympy-24152": {
+  "sympy__sympy-24152-17487": {
+    "code_file": "sympy/physics/quantum/tensorproduct.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
+    "instance_id": "sympy__sympy-24152",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "_eval_expand_tensorproduct"
   },
-  "sympy__sympy-24213": {
+  "sympy__sympy-24213-17488": {
+    "code_file": "sympy/physics/units/unitsystem.py",
     "commit": "ci-run-30360577893-seed777",
+    "instance_id": "sympy__sympy-24213",
     "repo": "sympy/sympy",
     "run_at": "2026-07-28T12:48:35+00:00",
     "stage": "ok",

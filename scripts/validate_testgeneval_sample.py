@@ -8,9 +8,16 @@ any hand-curated dataset, to check whether the pipeline holds up on real,
 unfiltered patches it wasn't specifically built against.
 
 Defaults to TestGenEvalLite (160 instances); pass --dataset
-kjain14/testgeneval for the full 1,210-instance benchmark. Lite's
-instance_ids are a strict subset of the full dataset's, so history
-entries are valid exclusions against either.
+kjain14/testgeneval for the full 1,210-instance benchmark. Lite's rows are
+a strict subset of the full dataset's, so history entries are valid
+exclusions against either.
+
+Tracked/sampled by each row's unique 'id' field (e.g.
+'sphinx-doc__sphinx-9155-17043'), NOT 'instance_id' -- the full dataset
+has 45 instance_ids that each correspond to more than one row (same
+SWE-bench instance, different code_file per row); using instance_id alone
+previously caused a real mix-up (a c.py-targeting row's result reported
+errors about cpp.py, from the OTHER row sharing that instance_id).
 
 Instances already run are tracked in HISTORY_PATH (committed to the repo)
 and automatically excluded from future random samples, so repeated runs
@@ -79,7 +86,7 @@ def _load_sample(sample_size: int, seed: int, per_repo_cap: int, exclude: set, d
     dataset = load_dataset(dataset_name)
     by_repo = defaultdict(list)
     for row in dataset["test"]:
-        if row["instance_id"] in exclude:
+        if row["id"] in exclude:
             continue
         by_repo[row["repo"]].append(row)
 
@@ -97,20 +104,38 @@ def _load_sample(sample_size: int, seed: int, per_repo_cap: int, exclude: set, d
 
 
 def _load_specific(names: list, dataset_name: str) -> list:
+    """Load specific rows by their unique 'id' field (e.g.
+    'sphinx-doc__sphinx-9155-17043') -- NOT 'instance_id' alone, which is
+    NOT unique in the full kjain14/testgeneval dataset: 45 instance_ids
+    there each correspond to more than one row (the same SWE-bench
+    instance touching more than one code_file, one row per file). Using
+    'instance_id' here would non-deterministically pick one of several
+    real, distinct rows.
+    """
     from datasets import load_dataset
 
     dataset = load_dataset(dataset_name)
     wanted = set(names)
-    instances = [_to_instance(row) for row in dataset["test"] if row["instance_id"] in wanted]
+    instances = [_to_instance(row) for row in dataset["test"] if row["id"] in wanted]
     missing = wanted - {i["name"] for i in instances}
     if missing:
-        print(f"WARNING: instance_ids not found in dataset: {sorted(missing)}", file=sys.stderr)
+        print(f"WARNING: ids not found in dataset: {sorted(missing)}", file=sys.stderr)
     return instances
 
 
 def _to_instance(row: dict) -> dict:
     return {
-        "name": row["instance_id"],
+        # 'id' (e.g. 'sphinx-doc__sphinx-9155-17043') is unique per row in
+        # BOTH kjain14/testgeneval and kjain14/testgenevallite. 'instance_id'
+        # alone is NOT unique in the full dataset -- 45 instance_ids there
+        # each have more than one row (same SWE-bench instance, different
+        # code_file per row). Using 'instance_id' as the tracking key
+        # caused a real bug: two rows sharing instance_id
+        # 'sphinx-doc__sphinx-9155' (code_file 'c.py' vs 'cpp.py') were
+        # indistinguishable in history/sampling, and dataset iteration
+        # order picked whichever row happened to match first.
+        "name": row["id"],
+        "instance_id": row["instance_id"],
         "repo": row["repo"],
         "base_commit": row["base_commit"],
         "patch": row["patch"],
@@ -126,7 +151,9 @@ def main():
     parser.add_argument("--per-repo-cap", type=int, default=12,
                          help="Max instances taken from any single repo, for a spread sample.")
     parser.add_argument("--instances", type=str, default=None,
-                         help="Comma-separated instance_ids to run instead of a random sample.")
+                         help="Comma-separated row ids (the dataset's 'id' field, e.g. "
+                              "'sphinx-doc__sphinx-9155-17043') to run instead of a random "
+                              "sample. NOT instance_id -- see module docstring for why.")
     parser.add_argument("--allow-rerun", action="store_true",
                          help="Don't exclude previously-run instances when sampling. "
                               "Always applies when --instances is given explicitly.")
@@ -161,8 +188,14 @@ def main():
     results = {}
     for instance in instances:
         name = instance["name"]
-        print(f"=== {name} ({instance['repo']}) ===", flush=True)
-        entry = {"repo": instance["repo"], "commit": commit, "run_at": run_at}
+        print(f"=== {name} ({instance['repo']}) [{instance['code_file']}] ===", flush=True)
+        entry = {
+            "repo": instance["repo"],
+            "instance_id": instance["instance_id"],
+            "code_file": instance["code_file"],
+            "commit": commit,
+            "run_at": run_at,
+        }
 
         try:
             pre_patch_source = repo_manager.read_file_at_commit(
