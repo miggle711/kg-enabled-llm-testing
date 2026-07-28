@@ -42,6 +42,7 @@ Module layout (post-split):
 
 import ast
 import json
+import re
 import tempfile
 from pathlib import Path
 from collections import defaultdict
@@ -83,7 +84,15 @@ from kg_construction.kg import type_inference
 
 
 # Directories to skip during repo traversal — typically non-source content
-SKIP_DIRS = {'docs', 'doc', 'examples', 'example', 'vendor', 'migrations', '.git'}
+SKIP_DIRS = {'docs', 'doc', 'examples', 'example', 'vendor', '.git'}
+
+# Auto-generated Django-style migration filenames (e.g. '0001_initial.py')
+# are skipped individually rather than via SKIP_DIRS, since a directory
+# literally named 'migrations' isn't reliably generated content -- Django's
+# own migration FRAMEWORK code lives at django/db/migrations/ (real,
+# hand-written source: autodetector.py, executor.py, serializer.py, etc.),
+# which SKIP_DIRS previously excluded wholesale (kg_construction#70).
+_GENERATED_MIGRATION_FILENAME = re.compile(r'^\d{4}_')
 
 # Files over this line count are skipped to avoid pathological parse times (e.g. generated files)
 MAX_FILE_LINES = 5000
@@ -679,7 +688,8 @@ class RepoASTParser:
             )))
 
     def _collect_files(self, repo: str, repo_dir: Path) -> List[Tuple[str, str, str]]:
-        """Collect all Python files to parse, excluding SKIP_DIRS.
+        """Collect all Python files to parse, excluding SKIP_DIRS and
+        individually-detected generated migration files (kg_construction#70).
 
         Returns list of (repo, rel_path, abs_path) tuples.
         """
@@ -687,6 +697,8 @@ class RepoASTParser:
         for py_file in repo_dir.rglob('*.py'):
             rel = py_file.relative_to(repo_dir)
             if any(part in SKIP_DIRS for part in rel.parts):
+                continue
+            if 'migrations' in rel.parts and _GENERATED_MIGRATION_FILENAME.match(py_file.name):
                 continue
             file_args.append((repo, str(rel), str(py_file)))
         return file_args
