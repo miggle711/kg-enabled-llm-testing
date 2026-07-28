@@ -12,6 +12,12 @@ and automatically excluded from future random samples, so repeated runs
 expand real coverage instead of re-testing the same instances. Each run
 merges its results into that history rather than overwriting it.
 
+Each stored result is stamped with the commit this script's own repo
+checkout was at, and a UTC timestamp -- a stored failure's error text can
+otherwise go stale silently once the underlying bug is fixed (e.g. #72's
+clone-recovery fix made several historical astropy entries read like a
+still-live bug when they weren't).
+
 Usage:
     python scripts/validate_testgeneval_sample.py --sample-size 50 --seed 42
     python scripts/validate_testgeneval_sample.py --instances a,b,c   # specific instance_ids
@@ -25,11 +31,30 @@ Writes:
 import argparse
 import json
 import random
+import subprocess
 import sys
 from collections import defaultdict
+from datetime import datetime, timezone
 from pathlib import Path
 
 HISTORY_PATH = Path(__file__).parent.parent / "data" / "testgeneval_validation_history.json"
+
+
+def _current_commit() -> str:
+    """The commit this script's OWN repo checkout is at -- stamped onto
+    every result so a stored failure can be told apart from one that
+    predates a since-landed fix (e.g. the #72 clone-recovery fix made
+    several historical astropy entries stale) instead of being silently
+    trusted as still-current.
+    """
+    try:
+        result = subprocess.run(
+            ["git", "rev-parse", "HEAD"], cwd=Path(__file__).parent,
+            capture_output=True, text=True, timeout=10, check=True,
+        )
+        return result.stdout.strip()
+    except (subprocess.CalledProcessError, OSError):
+        return "unknown"
 
 
 def _load_history() -> dict:
@@ -118,11 +143,16 @@ def main():
 
     print(f"Running {len(instances)} instances...", flush=True)
 
+    commit = _current_commit()
+    run_at = datetime.now(timezone.utc).isoformat()
+    print(f"Stamping results with commit={commit[:8]} run_at={run_at}", flush=True)
+
     repo_manager = RepoManager()
     results = {}
     for instance in instances:
         name = instance["name"]
         print(f"=== {name} ({instance['repo']}) ===", flush=True)
+        entry = {"repo": instance["repo"], "commit": commit, "run_at": run_at}
 
         try:
             pre_patch_source = repo_manager.read_file_at_commit(
@@ -138,22 +168,19 @@ def main():
             target = sorted(changed_names)[0]
             print(f"  resolved target: {target}", flush=True)
         except Exception as e:
-            results[name] = {
-                "repo": instance["repo"], "stage": "resolve_target_function",
-                "error": f"{type(e).__name__}: {e}",
-            }
+            entry.update(stage="resolve_target_function", error=f"{type(e).__name__}: {e}")
+            results[name] = entry
             print(f"  FAILED at resolve_target_function: {type(e).__name__}: {e}", flush=True)
             continue
 
         try:
             extract_and_validate(instance, depth=2, verbose=False, strict=True)
-            results[name] = {"repo": instance["repo"], "stage": "ok", "target": target}
+            entry.update(stage="ok", target=target)
+            results[name] = entry
             print("  OK", flush=True)
         except Exception as e:
-            results[name] = {
-                "repo": instance["repo"], "stage": "extract_and_validate", "target": target,
-                "error": f"{type(e).__name__}: {e}",
-            }
+            entry.update(stage="extract_and_validate", target=target, error=f"{type(e).__name__}: {e}")
+            results[name] = entry
             print(f"  FAILED at extract_and_validate: {type(e).__name__}: {e}", flush=True)
 
     Path(args.output).write_text(json.dumps(results, indent=2))
