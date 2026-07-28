@@ -238,13 +238,19 @@ class PatchParser:
         decorator, is NOT added -- it's just visible because of the hunk's
         context window, not because it changed.
 
-        If the hunk body contains NO def/class line at all (the changed
-        lines are deep inside a function whose own def line falls outside
-        this hunk's context window -- confirmed to happen on real patches,
-        not just a theoretical edge case), header_scope_name (git's own
-        hint from the '@@ ... @@ def name(...)' trailing text) is used
-        instead: the hunk clearly changed SOMETHING, and this is the only
-        available signal for what function/class it's inside.
+        If a changed line appears BEFORE the first def/class line in the
+        hunk (or there's no def/class line at all), header_scope_name
+        (git's '@@ ... @@ def name(...)' hint) is used instead -- the real
+        def line falls outside this hunk's context window entirely
+        (kg_construction#60/#71). This must trigger even if an unrelated,
+        unmodified sibling def/class appears LATER in the hunk
+        (kg_construction#71) -- its presence must not suppress the
+        fallback and silently drop the real, earlier change.
+
+        It must NOT trigger for a changed line AFTER a def/class's body has
+        already closed (e.g. a changed comment following an untouched
+        function) -- that's demonstrably outside the one boundary visible
+        in the hunk, so it's correctly left unattributed instead.
 
         Each entry in `changed` is (name, enclosing_class_or_None):
         - a 'class X:' line at a shallower indentation than a def,
@@ -274,7 +280,13 @@ class PatchParser:
         # is always the innermost still-open one at the def's indent.
         class_stack: List[Tuple[int, str]] = []
 
-        saw_def_or_class = False
+        # Index of the first def/class line in the hunk, if any. A changed
+        # line strictly before it has no visible enclosing boundary, so
+        # it's a header-hint candidate; a changed line at or after it is
+        # either already handled above or past that def/class's body and
+        # correctly left unattributed (kg_construction#71).
+        first_def_or_class_idx: Optional[int] = None
+
         for idx, hline in enumerate(hunk_lines):
             def_match = def_pattern.match(hline.content)
             class_match = class_pattern.match(hline.content)
@@ -284,13 +296,15 @@ class PatchParser:
                     pending_decorator = pending_decorator or hline.marker != ' '
                 continue
 
+            if first_def_or_class_idx is None:
+                first_def_or_class_idx = idx
+
             # Close out any class whose body this line has dedented out of,
             # BEFORE checking enclosure -- a class line itself is handled
             # after (it may open a new scope, not belong to the old one).
             while class_stack and class_stack[-1][0] >= hline.indent:
                 class_stack.pop()
 
-            saw_def_or_class = True
             name = def_match.group(2) if def_match else class_match.group(1)
             own_line_changed = hline.marker != ' '
             decorator_changed = pending_decorator
@@ -310,7 +324,11 @@ class PatchParser:
 
             pending_decorator = False
 
-        if not saw_def_or_class and header_scope_name is not None:
+        scan_limit = first_def_or_class_idx if first_def_or_class_idx is not None else len(hunk_lines)
+        has_change_before_first_boundary = any(
+            hline.marker != ' ' for hline in hunk_lines[:scan_limit]
+        )
+        if has_change_before_first_boundary and header_scope_name is not None:
             changed.add((header_scope_name, header_scope_class))
 
         return pending_decorator
