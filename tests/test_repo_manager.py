@@ -1,6 +1,7 @@
 """Tests for RepoManager cache-refresh behavior on git archive misses."""
 
 import subprocess
+from pathlib import Path
 
 import pytest
 
@@ -89,3 +90,19 @@ class TestRepoManagerRefresh:
             manager.extract_at_commit(
                 "test/repo", "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef", tmp_path / "dest"
             )
+
+
+class TestRepoManagerCloneFailureCleanup:
+    """A failed clone must not leave a partial directory behind -- kg_construction#72:
+    path.exists() is the only cache check, so a half-written clone left on disk
+    gets trusted and retried against forever instead of being re-cloned.
+    """
+
+    def test_failed_clone_does_not_leave_partial_directory(self, tmp_path):
+        manager = RepoManager(cache_dir=tmp_path / "cache")
+        repo = "this-org-does-not-exist-xyz/this-repo-does-not-exist-xyz"
+
+        with pytest.raises(subprocess.CalledProcessError):
+            manager.ensure_clone(repo)
+
+        assert not manager._cache_path(repo).exists()
