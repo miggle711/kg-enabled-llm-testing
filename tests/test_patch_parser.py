@@ -268,11 +268,9 @@ class TestPatchParser:
         assert changed == {'other_function'}
 
     def test_header_scope_name_not_used_when_hunk_body_genuinely_unchanged(self):
-        """The header-hint fallback only applies when NO def/class line
-        appears in the hunk body at all -- if a def/class line IS present
-        but its body has no real change (pure context), the existing
-        no-genuine-change logic must still win; the header hint must not
-        override that by adding the name anyway via a different path.
+        """A changed line AFTER a def/class's body has closed must not be
+        attributed to it via the header hint -- it's genuinely outside
+        that function (kg_construction#71's regression case).
         """
         patch = """--- a/mod.py
 +++ b/mod.py
@@ -284,6 +282,49 @@ class TestPatchParser:
 """
         changed = PatchParser.extract_changed_functions(patch, 'mod.py')
         assert 'untouched' not in changed
+
+    def test_header_hint_still_used_when_unrelated_def_appears_after_the_change(self):
+        """kg_construction#71: an unrelated, unmodified sibling def swept
+        in AFTER the real change must not suppress the header-hint
+        fallback (confirmed on a real pytest patch: _showfixtures_main
+        with write_docstring swept in as trailing context).
+        """
+        patch = """--- a/mod.py
++++ b/mod.py
+@@ -10,6 +10,7 @@ def real_target(x):
+     if x > 0:
++        print("added")
+         return x
+
+
+ def unrelated_sibling(y):
+     return y
+"""
+        changed = PatchParser.extract_changed_functions(patch, 'mod.py')
+        assert changed == {'real_target'}
+
+    def test_header_hint_not_silently_dropped_in_multi_hunk_patch(self):
+        """kg_construction#71: if one hunk hits the unrelated-def-swept-in
+        case and a later hunk resolves cleanly, the clean hunk's result
+        must not mask the first hunk's real, separately changed function.
+        """
+        patch = """--- a/mod.py
++++ b/mod.py
+@@ -10,6 +10,7 @@ def real_target(x):
+     if x > 0:
++        print("added")
+         return x
+
+
+ def unrelated_sibling(y):
+     return y
+@@ -50,6 +51,7 @@ def other_real_target(z):
+     if z > 0:
++        print("added2")
+         return z
+"""
+        changed = PatchParser.extract_changed_functions(patch, 'mod.py')
+        assert changed == {'real_target', 'other_real_target'}
 
 
 class TestExtractChangedFunctionsWithScope:
