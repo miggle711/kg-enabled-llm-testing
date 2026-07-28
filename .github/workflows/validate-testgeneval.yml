@@ -1,0 +1,57 @@
+name: Validate against TestGenEval
+
+on:
+  workflow_dispatch:
+    inputs:
+      sample_size:
+        description: "Number of instances to sample (ignored if instances is set)"
+        default: "50"
+      seed:
+        description: "Random seed for sampling"
+        default: "42"
+      per_repo_cap:
+        description: "Max instances taken from any single repo"
+        default: "12"
+      instances:
+        description: "Comma-separated instance_ids to run instead of a random sample"
+        default: ""
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[datasets]"
+
+      - name: Run validation sample
+        run: |
+          if [ -n "${{ github.event.inputs.instances }}" ]; then
+            PYTHONPATH=src python scripts/validate_testgeneval_sample.py \
+              --instances "${{ github.event.inputs.instances }}" \
+              --output validation_results.json
+          else
+            PYTHONPATH=src python scripts/validate_testgeneval_sample.py \
+              --sample-size "${{ github.event.inputs.sample_size }}" \
+              --seed "${{ github.event.inputs.seed }}" \
+              --per-repo-cap "${{ github.event.inputs.per_repo_cap }}" \
+              --output validation_results.json
+          fi
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: validation-results
+          path: validation_results.json
+          retention-days: 30
