@@ -5,13 +5,33 @@ attribute KGQueryEngine has never had (edges live at self.engine.kg['edges']).
 Extract() has no test coverage anywhere, so this AttributeError was only
 discovered when kg-test-generation actually tried to call it against a real
 repo -- there had never been a synthetic end-to-end test exercising this path.
+
+TestContextExtractor now fetches each instance's pre-patch source via
+RepoManager (kg_construction#75: PatchParser resolves changed functions by
+real ast line ranges, not the diff text alone). These tests use a stub
+RepoManager that reads directly from the synthetic tmp_path repo instead of
+a real git clone -- there's no real git history here, just plain files.
 """
 
 from pathlib import Path
 
 from kg_construction.kg.builder import RepoASTParser
 from kg_construction.kg.query import KGQueryEngine
+from kg_construction.kg.repo_manager import RepoManager
 from kg_construction.extraction.context import TestContextExtractor
+
+
+class _LocalFileRepoManager(RepoManager):
+    """Reads a file's CURRENT content directly from repo_dir, ignoring
+    repo/commit entirely -- these tests have no real git history, just a
+    synthetic repo written straight to tmp_path.
+    """
+
+    def __init__(self, repo_dir: Path):
+        self._repo_dir = repo_dir
+
+    def read_file_at_commit(self, repo: str, commit: str, path: str) -> str:
+        return (self._repo_dir / path).read_text()
 
 
 def _write_repo(tmp_path: Path) -> Path:
@@ -33,7 +53,7 @@ class TestContextExtractorEndToEnd:
         kg = parser.parse_repo("test/repo", repo_dir)
 
         engine = KGQueryEngine(kg)
-        extractor = TestContextExtractor(engine)
+        extractor = TestContextExtractor(engine, repo_manager=_LocalFileRepoManager(repo_dir))
 
         patch = (
             "--- a/mod.py\n"
@@ -97,7 +117,7 @@ class TestSeedNeverIncludesTestFile:
         kg = parser.parse_repo("test/repo", repo_dir)
 
         engine = KGQueryEngine(kg)
-        extractor = TestContextExtractor(engine)
+        extractor = TestContextExtractor(engine, repo_manager=_LocalFileRepoManager(repo_dir))
 
         patch = (
             "--- a/mod.py\n"
@@ -138,7 +158,7 @@ class TestSeedNeverIncludesTestFile:
         kg = parser.parse_repo("test/repo", repo_dir)
 
         engine = KGQueryEngine(kg)
-        extractor = TestContextExtractor(engine)
+        extractor = TestContextExtractor(engine, repo_manager=_LocalFileRepoManager(repo_dir))
 
         patch = (
             "--- a/mod.py\n"
@@ -222,7 +242,7 @@ class TestCallsBasedTestDetection:
         kg = parser.parse_repo("test/repo", repo_dir)
 
         engine = KGQueryEngine(kg)
-        extractor = TestContextExtractor(engine)
+        extractor = TestContextExtractor(engine, repo_manager=_LocalFileRepoManager(repo_dir))
         context = extractor.extract(self._instance(), depth=2)
 
         test_labels = {t["label"] for t in context.test_nodes}
@@ -239,7 +259,7 @@ class TestCallsBasedTestDetection:
         kg = parser.parse_repo("test/repo", repo_dir)
 
         engine = KGQueryEngine(kg)
-        extractor = TestContextExtractor(engine)
+        extractor = TestContextExtractor(engine, repo_manager=_LocalFileRepoManager(repo_dir))
         context = extractor.extract(self._instance(), depth=2)
 
         test_labels = {t["label"] for t in context.test_nodes}
@@ -250,11 +270,11 @@ class TestAmbiguousSeedNameDisambiguation:
     """kg_construction#63: a changed method name can match more than one
     class' same-named method in the same file -- found via a real
     encode/httpx patch to AsyncClient.aclose, which also matched the
-    unrelated BoundAsyncStream.aclose in the same file. extract() must
-    use the patch's own class-scope hint (when available) to resolve
-    this to the correct single node, rather than adding every same-named
-    match as a seed and leaving LLMSerializer._build_seed_section to
-    non-deterministically pick one via seeds[0].
+    unrelated BoundAsyncStream.aclose in the same file. extract() resolves
+    this via PatchParser's real ast line ranges (kg_construction#75) --
+    two same-named methods on different classes have different ranges, so
+    the ambiguity can't arise in the first place, unlike the old
+    hunk-scanning approach's class-hint-based workaround.
     """
 
     def _write_repo_with_name_collision(self, tmp_path: Path) -> Path:
@@ -269,13 +289,13 @@ class TestAmbiguousSeedNameDisambiguation:
         )
         return tmp_path
 
-    def test_class_hint_from_hunk_resolves_the_collision(self, tmp_path):
+    def test_class_hint_resolves_the_collision(self, tmp_path):
         repo_dir = self._write_repo_with_name_collision(tmp_path)
         parser = RepoASTParser(max_workers=1)
         kg = parser.parse_repo("test/repo", repo_dir)
 
         engine = KGQueryEngine(kg)
-        extractor = TestContextExtractor(engine)
+        extractor = TestContextExtractor(engine, repo_manager=_LocalFileRepoManager(repo_dir))
 
         patch = (
             "--- a/mod.py\n"
@@ -300,38 +320,34 @@ class TestAmbiguousSeedNameDisambiguation:
         assert context.seeds[0]["label"] == "aclose"
         assert context.seeds[0]["metadata"].get("class") == "Alpha"
 
-    def test_no_class_hint_available_leaves_ambiguity_for_the_validator(self, tmp_path):
-        """When the patch's changed-function detection falls back to the
-        header-scope-NAME hint (no def/class line in the hunk body at
-        all, per #62) and that header carries no class trailing context
-        either, extract() has no information to disambiguate with -- both
-        same-named matches end up as seeds. This is intentional: it's
-        exactly the case TestContextValidator._check_no_ambiguous_seed_names
-        exists to catch as a blocking error, not something extract() can
-        resolve without more information than the diff provides.
+    def test_both_classes_changed_reports_both_seeds_correctly_scoped(self, tmp_path):
+        """When a patch genuinely touches both same-named methods, both
+        must be reported as seeds, each correctly scoped to its own class
+        -- resolved unambiguously by real line range, no ambiguity to
+        leave for the validator at all (unlike the old approach, where
+        this exact shape needed TestContextValidator's
+        _check_no_ambiguous_seed_names as a deliberate backstop).
         """
         repo_dir = self._write_repo_with_name_collision(tmp_path)
         parser = RepoASTParser(max_workers=1)
         kg = parser.parse_repo("test/repo", repo_dir)
 
         engine = KGQueryEngine(kg)
-        extractor = TestContextExtractor(engine)
+        extractor = TestContextExtractor(engine, repo_manager=_LocalFileRepoManager(repo_dir))
 
-        # Hunk header has no trailing context at all (no def/class name),
-        # and the hunk body has no def/class line either -- changed-name
-        # detection can only fall back to... nothing resolvable, so this
-        # patch is deliberately a case where NEITHER seed can be found by
-        # name at all. Use a differently-shaped repro instead: a patch
-        # whose header names the FUNCTION (not a class), so extract()
-        # falls into the header_scope_name path with header_scope_class
-        # left None (no class trailing context in this particular header).
         patch = (
             "--- a/mod.py\n"
             "+++ b/mod.py\n"
-            "@@ -2,4 +2,5 @@ def aclose(self):\n"
+            "@@ -1,7 +1,9 @@\n"
+            " class Alpha:\n"
             "     def aclose(self):\n"
-            "         return 1\n"
+            "-        return 1\n"
             "+        return 10\n"
+            "\n"
+            " class Beta:\n"
+            "     def aclose(self):\n"
+            "-        return 2\n"
+            "+        return 20\n"
         )
         instance = {
             "repo": "test/repo",
@@ -343,7 +359,8 @@ class TestAmbiguousSeedNameDisambiguation:
 
         context = extractor.extract(instance, depth=2)
 
-        # No class hint was resolvable, so BOTH same-named matches are
-        # seeds -- exactly the ambiguity the validator must catch.
-        seed_labels = [s["label"] for s in context.seeds]
-        assert seed_labels.count("aclose") == 2
+        seeds_by_class = {
+            (s["label"], s["metadata"].get("class")) for s in context.seeds
+        }
+        assert ("aclose", "Alpha") in seeds_by_class
+        assert ("aclose", "Beta") in seeds_by_class

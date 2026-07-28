@@ -92,6 +92,42 @@ class TestRepoManagerRefresh:
             )
 
 
+class TestReadFileAtCommit:
+    """RepoManager.read_file_at_commit reads one file's text without
+    extracting the whole tree (kg_construction#75).
+    """
+
+    def test_reads_file_present_at_clone_time(self, tmp_path, remote_repo):
+        first_commit = _head_commit(remote_repo)
+        manager = LocalRepoManager(cache_dir=tmp_path / "cache", remote_path=remote_repo)
+
+        content = manager.read_file_at_commit("test/repo", first_commit, "file.txt")
+
+        assert content == "v1"
+
+    def test_fetches_and_retries_for_commit_added_after_clone(self, tmp_path, remote_repo):
+        manager = LocalRepoManager(cache_dir=tmp_path / "cache", remote_path=remote_repo)
+
+        first_commit = _head_commit(remote_repo)
+        manager.read_file_at_commit("test/repo", first_commit, "file.txt")
+
+        (remote_repo / "file.txt").write_text("v2")
+        _run(["git", "add", "file.txt"], cwd=remote_repo)
+        _run(["git", "commit", "-q", "-m", "second commit"], cwd=remote_repo)
+        second_commit = _head_commit(remote_repo)
+
+        content = manager.read_file_at_commit("test/repo", second_commit, "file.txt")
+
+        assert content == "v2"
+
+    def test_raises_clear_error_for_nonexistent_path(self, tmp_path, remote_repo):
+        first_commit = _head_commit(remote_repo)
+        manager = LocalRepoManager(cache_dir=tmp_path / "cache", remote_path=remote_repo)
+
+        with pytest.raises(ValueError, match="not found in test/repo"):
+            manager.read_file_at_commit("test/repo", first_commit, "nonexistent.py")
+
+
 class TestRepoManagerCloneFailureCleanup:
     """A failed clone must not leave a partial directory behind -- kg_construction#72:
     path.exists() is the only cache check, so a half-written clone left on disk
