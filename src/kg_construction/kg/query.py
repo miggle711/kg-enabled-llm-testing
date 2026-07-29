@@ -222,6 +222,24 @@ class KGQueryEngine:
         """
         return [n for n in self.get_functions() if n['label'] == name]
 
+    def find_class_by_name(self, name: str) -> List[Dict]:
+        """Find all class nodes with a given name.
+
+        A changed entity from PatchParser's perspective can be a class
+        itself (e.g. a class-body attribute assignment, not inside any
+        method) -- find_function_by_name alone can never match these, since
+        get_functions() only covers function/method/test_function node
+        types (kg_construction#85).
+
+        Args:
+            name: Exact class name to search for (e.g. 'ManagementForm').
+
+        Returns:
+            List of matching class nodes. Multiple results are expected for
+            common names reused across different modules.
+        """
+        return [n for n in self.nodes_by_type.get('class', []) if n['label'] == name]
+
     # ------------------------------------------------------------------
     # Export
     # ------------------------------------------------------------------

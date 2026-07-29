@@ -397,6 +397,20 @@ class PatchParser:
         removed_lines, insertion_anchor_lines = _changed_pre_patch_lines(patch, code_file)
 
         changed: Set[Tuple[str, Optional[str]]] = set()
+        # Class-level matches found ONLY via the insertion-anchor pass are
+        # provisional: an anchor landing on a blank line right after some
+        # method's closing line has no smaller range to match (the method's
+        # own range already ended), so it matches the ENCLOSING CLASS --
+        # but if the same hunk's real removed/changed line already
+        # resolved to a method inside that class, the insertion is
+        # genuinely "right after that method", not a real class-body-level
+        # change, and the class-level match is redundant noise
+        # (kg_construction#85's discovery: harmless while nothing looked up
+        # class nodes, but a real method match in the same patch already
+        # fully explains it). A class-level match from a REAL removed line
+        # or the post-patch pass is trustworthy and always kept.
+        anchor_only_class_matches: Set[Tuple[str, Optional[str]]] = set()
+
         for line in removed_lines:
             match = _innermost_range(pre_ranges, line)
             if match is None:
@@ -412,7 +426,10 @@ class PatchParser:
                 # sibling begins, not inside it (kg_construction#84's
                 # follow-up finding). Left for the post-patch pass below.
                 continue
-            changed.add((match.name, match.enclosing_class))
+            pair = (match.name, match.enclosing_class)
+            if match.is_class and pair not in changed:
+                anchor_only_class_matches.add(pair)
+            changed.add(pair)
 
         post_patch_source = reconstruct_post_patch_source(pre_patch_source, patch, code_file)
         if post_patch_source is not None:
@@ -425,6 +442,16 @@ class PatchParser:
                 match = _innermost_range(post_ranges, line)
                 if match is None:
                     continue  # module-level change either way
-                changed.add((match.name, match.enclosing_class))
+                pair = (match.name, match.enclosing_class)
+                anchor_only_class_matches.discard(pair)
+                changed.add(pair)
+
+        class_names_with_method_match = {
+            enclosing_class for _, enclosing_class in changed if enclosing_class is not None
+        }
+        changed -= {
+            pair for pair in anchor_only_class_matches
+            if pair[0] in class_names_with_method_match
+        }
 
         return changed

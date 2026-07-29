@@ -721,3 +721,79 @@ index 0000000..1234567
         changed = PatchParser.extract_changed_functions_with_scope(patch, 'pkg/new_mod.py', "")
         assert ('SimpleImputer', None) in changed
         assert ('transform', 'SimpleImputer') in changed
+
+
+class TestClassLevelAnchorRedundancy:
+    """kg_construction#85's discovery: an insertion anchored to the blank
+    line right after a method's closing line has no smaller range to match
+    (the method's own range already ended), so it matches the ENCLOSING
+    CLASS -- previously harmless noise since nothing looked up class nodes,
+    but once find_class_by_name existed this spuriously added the whole
+    class as an extra seed alongside the real, correctly-matched method.
+    """
+
+    def test_insertion_right_after_a_changed_methods_body_does_not_also_match_the_class(self):
+        source = (
+            "class Widget:\n"
+            "    def build(self):\n"
+            "        return self.helper()\n"
+            "\n"
+            "    def helper(self):\n"
+            "        return 42\n"
+            "\n"
+            "    def unrelated(self):\n"
+            "        return 0\n"
+        )
+        patch = """--- a/mod.py
++++ b/mod.py
+@@ -2,3 +2,3 @@
+     def build(self):
+-        return self.helper()
++        return self.helper() + 1
+"""
+        changed = PatchParser.extract_changed_functions_with_scope(patch, 'mod.py', source)
+        assert changed == {('build', 'Widget')}
+
+    def test_genuine_class_body_attribute_change_still_matches_the_class(self):
+        """A real class-body-level change (no method touched at all) must
+        still resolve to the class itself -- the redundancy filter only
+        drops a class-level match when some OTHER entry in the same result
+        is a method of that exact class.
+        """
+        source = (
+            "class Widget:\n"
+            "    \"\"\"doc\"\"\"\n"
+            "\n"
+            "    def build(self):\n"
+            "        return 1\n"
+        )
+        patch = """--- a/mod.py
++++ b/mod.py
+@@ -1,2 +1,3 @@
+ class Widget:
++    template_name = "x"
+     \"\"\"doc\"\"\"
+"""
+        changed = PatchParser.extract_changed_functions_with_scope(patch, 'mod.py', source)
+        assert ('Widget', None) in changed
+
+    def test_new_class_with_new_method_reports_both(self):
+        """A genuinely new class AND its own new method (both resolved via
+        the trustworthy post-patch pass, not the ambiguous anchor pass)
+        must both be reported -- the redundancy filter must not conflate
+        this with the anchor-noise case.
+        """
+        source = "class Existing:\n    pass\n"
+        patch = """--- a/mod.py
++++ b/mod.py
+@@ -1,2 +1,6 @@
+ class Existing:
+     pass
++
++class NewClass:
++    def new_method(self):
++        return 1
+"""
+        changed = PatchParser.extract_changed_functions_with_scope(patch, 'mod.py', source)
+        assert ('NewClass', None) in changed
+        assert ('new_method', 'NewClass') in changed

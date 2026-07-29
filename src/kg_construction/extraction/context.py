@@ -247,6 +247,18 @@ class TestContextExtractor:
                 if len(narrowed) == 1:
                     matches = narrowed
 
+            # A changed entity can be a CLASS itself (e.g. a class-body
+            # attribute assignment outside any method) -- find_function_by_name
+            # can never match this, since it only searches
+            # function/method/test_function node types. Try find_class_by_name
+            # when no function match was found (kg_construction#85).
+            if not matches:
+                classes = self.engine.find_class_by_name(name)
+                matches = [
+                    cls for cls in classes
+                    if cls['metadata'].get('filepath') == instance['code_file']
+                ]
+
             for func in matches:
                 seed_ids.append(func['id'])
 
