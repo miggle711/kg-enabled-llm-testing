@@ -36,6 +36,15 @@
     "stage": "ok",
     "target": "fits_ccddata_writer"
   },
+  "astropy__astropy-13075-15657": {
+    "code_file": "astropy/cosmology/io/html.py",
+    "commit": "5f374dc635126f4b1179ea940b57cdba9542cb26",
+    "instance_id": "astropy__astropy-13075",
+    "repo": "astropy/astropy",
+    "run_at": "2026-07-29T06:48:22.071362+00:00",
+    "stage": "ok",
+    "target": "html_identify"
+  },
   "astropy__astropy-13158-15658": {
     "code_file": "astropy/modeling/parameters.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -2495,6 +2504,16 @@
     "stage": "extract_and_validate",
     "target": "writeorg"
   },
+  "pytest-dev__pytest-7122-16651": {
+    "code_file": "src/_pytest/mark/expression.py",
+    "commit": "5f374dc635126f4b1179ea940b57cdba9542cb26",
+    "error": "ValueError: TestContext validation failed for pytest-dev/pytest @ be684964:\n\n======================================================================\nTestContext Validation Report: pytest-dev/pytest @ be684964\n======================================================================\nSeeds: 15 | Context: 0 | Edges: 0 | Tests: 0\n\n\u274c ERRORS:\n  - Ambiguous seed names (1): __init__ \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n  - Context coverage: no context nodes (only seeds) \u2014 very narrow view\n\n======================================================================\n",
+    "instance_id": "pytest-dev__pytest-7122",
+    "repo": "pytest-dev/pytest",
+    "run_at": "2026-07-29T06:48:22.071362+00:00",
+    "stage": "extract_and_validate",
+    "target": "ParseError"
+  },
   "pytest-dev__pytest-7158-16652": {
     "code_file": "src/_pytest/skipping.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -4228,6 +4247,15 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "_eval_expand_power_base"
+  },
+  "sympy__sympy-18667-17371": {
+    "code_file": "sympy/combinatorics/schur_number.py",
+    "commit": "5f374dc635126f4b1179ea940b57cdba9542cb26",
+    "instance_id": "sympy__sympy-18667",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T06:48:22.071362+00:00",
+    "stage": "ok",
+    "target": "SchurNumber"
   },
   "sympy__sympy-18765-17377": {
     "code_file": "sympy/matrices/expressions/matadd.py",

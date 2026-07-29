@@ -375,3 +375,32 @@ class TestTestContextValidator:
         validator = TestContextValidator(context)
         is_valid, report = validator.validate()
         assert is_valid is True
+
+    def test_newly_created_file_same_name_seeds_are_not_flagged(self):
+        """kg_construction#93 follow-up: a wholly new file with multiple
+        classes each defining their own '__init__' produces a genuine same
+        -label collision, but every seed is already correctly, individually
+        resolved -- there's no "which one is real" ambiguity to flag, since
+        for a wholly new file EVERY symbol genuinely is changed. Confirmed
+        on a real instance (pytest-dev/pytest,
+        src/_pytest/mark/expression.py) with Token/Scanner/ParseError each
+        defining their own '__init__'.
+        """
+        context = TestContext(
+            seeds=[
+                {'id': 's1', 'label': '__init__', 'type': 'method',
+                 'metadata': {'filepath': 'expression.py', 'class': 'Token', 'newly_created_file': True}},
+                {'id': 's2', 'label': '__init__', 'type': 'method',
+                 'metadata': {'filepath': 'expression.py', 'class': 'Scanner', 'newly_created_file': True}},
+                {'id': 's3', 'label': '__init__', 'type': 'method',
+                 'metadata': {'filepath': 'expression.py', 'class': 'ParseError', 'newly_created_file': True}},
+            ],
+            context_nodes=[],
+            edges=[],
+            test_nodes=[],
+            repo='test/repo',
+            base_commit='abc123def456',
+        )
+        validator = TestContextValidator(context)
+        is_valid, report = validator.validate()
+        assert is_valid is True
