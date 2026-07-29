@@ -441,3 +441,50 @@ class TestExtractForNewFile:
         seeds_by_label_type = {(s["label"], s["type"]) for s in context.seeds}
         assert ("NewImputer", "class") in seeds_by_label_type
         assert ("transform", "method") in seeds_by_label_type
+
+
+class TestClassLevelSeedLookup:
+    """kg_construction#85: a patch changing a class-body attribute (outside
+    any method) has its changed entity correctly named as the class itself
+    by PatchParser, but seed lookup only ever searched
+    function/method/test_function node types -- silently falling through to
+    the file-level fallback instead of finding the real class node.
+    """
+
+    def test_class_body_attribute_change_seeds_the_class_itself(self, tmp_path):
+        (tmp_path / "mod.py").write_text(
+            "class Widget:\n"
+            "    template_name = 'widget.html'\n"
+            "\n"
+            "    def build(self):\n"
+            "        return 1\n"
+        )
+        parser = RepoASTParser(max_workers=1)
+        kg = parser.parse_repo("test/repo", tmp_path)
+
+        engine = KGQueryEngine(kg)
+        extractor = TestContextExtractor(engine, repo_manager=_LocalFileRepoManager(tmp_path))
+
+        patch = (
+            "--- a/mod.py\n"
+            "+++ b/mod.py\n"
+            "@@ -1,2 +1,3 @@\n"
+            " class Widget:\n"
+            "+    template_name = 'widget.html'\n"
+            "\n"
+        )
+        instance = {
+            "repo": "test/repo",
+            "base_commit": "deadbeef",
+            "patch": patch,
+            "code_file": "mod.py",
+            "test_file": "test_mod.py",
+        }
+
+        context = extractor.extract(instance, depth=2)
+
+        seed_labels_types = {(s["label"], s["type"]) for s in context.seeds}
+        assert ("Widget", "class") in seed_labels_types
+        # The old fallback behavior (file-as-seed) must not happen now that
+        # the class itself resolves correctly.
+        assert "mod.py" not in {s["label"] for s in context.seeds}
