@@ -1,17 +1,28 @@
-# Repository Knowledge Graph Construction
+# pycodekg
 
-Build structural Knowledge Graphs (KGs) from Python repository source code. Given a GitHub repo and a commit SHA, the system clones the repo, parses every `.py` file with the AST module, and emits a queryable JSON graph of nodes and edges representing the code's structure.
+Build structural Knowledge Graphs (KGs) from Python repository source code via real AST parsing — not embeddings, not text search. Every function, class, call, and inheritance relationship becomes a queryable node or edge, resolved with a real name index across the whole repo (not per-file guessing).
 
-Designed as a foundation for test generation using SWE-bench data.
+Point it at a GitHub repo + commit, or a local directory (including a working tree with uncommitted changes), and get back a JSON graph you can query for callers/callees, file contents, and more — or use as structural context for LLM-based test generation.
 
 ## Quick Start
 
 ```bash
 pip install -e ".[all]"  # or just `.` for core-only, see Installation below
-python3 run.py
+
+# Build a KG for a real GitHub repo at a specific commit
+pkg-run build psf/requests --commit a0df2cbb
+
+# ...or build one from a local directory (no git required)
+pkg-run build . --name my-project
+
+# Query it
+pkg-run query kg_output/kg_psf_requests_a0df2cbb.json --callers send
+pkg-run query kg_output/kg_psf_requests_a0df2cbb.json --file sessions.py
 ```
 
-`run.py` is a CLI that guides you through: repo selection, commit SHA, patch file, and file paths. It extracts a KG subgraph and validates it for LLM test generation.
+Running `pkg-run` with no arguments falls back to an interactive wizard that walks you through building a KG and extracting/validating an LLM-ready subgraph for a specific code change (repo, commit, patch file, code file, test file).
+
+## Using it as a library
 
 ```python
 from kg_construction.kg.builder import RepoKGBuilder
@@ -94,9 +105,9 @@ src/kg_construction/
 │   └── patch.py           # Unified diff parsing (changed-function detection)
 ├── llm/
 │   └── llm_serializer.py  # Flat subgraph -> hierarchical JSON for LLM prompts
-└── pipeline.py            # Extract and validate orchestration (extract_and_validate)
+├── pipeline.py            # Extract and validate orchestration (extract_and_validate)
+└── cli.py                 # pkg-run: build/query subcommands + interactive fallback
 
-run.py                     # CLI shim (thin wrapper around pipeline.py)
 tests/                      # Flat pytest suite (no subdirectories)
 ```
 
