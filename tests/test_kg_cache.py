@@ -97,6 +97,57 @@ class TestLoadOrBuild:
         mock_builder.save.assert_not_called()
 
 
+class TestBuildFromDir:
+    """kg_construction#83: build_from_dir builds a KG from a plain local
+    directory, with no git/commit dependency at all -- for a working tree,
+    including uncommitted changes.
+    """
+
+    def test_build_from_dir_parses_local_source(self, tmp_path):
+        (tmp_path / "mod.py").write_text("def foo():\n    return 1\n")
+
+        builder = RepoKGBuilder(output_dir=tmp_path / "out")
+        kg = builder.build_from_dir("my-local-repo", tmp_path)
+
+        labels = {n["label"] for n in kg["nodes"]}
+        assert "foo" in labels
+        assert kg["metadata"]["base_commit"] is None
+        assert kg["metadata"]["schema_version"] == SCHEMA_VERSION
+
+    def test_save_local_and_load_local_round_trip(self, tmp_path):
+        src_dir = tmp_path / "src"
+        src_dir.mkdir()
+        (src_dir / "mod.py").write_text("def foo():\n    return 1\n")
+
+        builder = RepoKGBuilder(output_dir=tmp_path / "out")
+        kg = builder.build_from_dir("my-local-repo", src_dir)
+        builder.save_local("my-local-repo", kg)
+
+        loaded = builder.load_local("my-local-repo")
+        assert loaded is not None
+        labels = {n["label"] for n in loaded["nodes"]}
+        assert "foo" in labels
+
+    def test_load_local_returns_none_before_any_save(self, tmp_path):
+        builder = RepoKGBuilder(output_dir=tmp_path)
+        assert builder.load_local("never-saved") is None
+
+    def test_save_rejects_a_build_from_dir_kg(self, tmp_path):
+        """save() is keyed on a real commit -- a build_from_dir() KG has
+        none, and must use save_local() instead of silently producing a
+        malformed cache path.
+        """
+        (tmp_path / "mod.py").write_text("def foo():\n    return 1\n")
+        builder = RepoKGBuilder(output_dir=tmp_path / "out")
+        kg = builder.build_from_dir("my-local-repo", tmp_path)
+
+        try:
+            builder.save("my-local-repo", kg)
+            assert False, "expected ValueError"
+        except ValueError:
+            pass
+
+
 def _fake_kg(commit: str) -> dict:
     return {
         "nodes": [],

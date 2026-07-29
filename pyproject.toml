@@ -14,7 +14,7 @@ types = ["pyright"]
 all = ["kg-construction[datasets,types]"]
 
 [project.scripts]
-kg-run = "kg_construction.pipeline:main"
+kg-run = "kg_construction.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
