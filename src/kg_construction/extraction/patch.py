@@ -161,7 +161,7 @@ def _changed_pre_patch_lines(patch: str, code_file: str) -> Tuple[Set[int], Set[
     return changed_lines
 
 
-def _reconstruct_post_patch_source(pre_patch_source: str, patch: str, code_file: str) -> Optional[str]:
+def reconstruct_post_patch_source(pre_patch_source: str, patch: str, code_file: str) -> Optional[str]:
     """Reconstruct code_file's post-patch text by applying patch's hunks
     for that file directly to pre_patch_source, in memory.
 
@@ -288,6 +288,36 @@ def _changed_post_patch_lines(patch: str, code_file: str) -> Set[int]:
     return changed_lines
 
 
+def is_newly_created_file(patch: str, code_file: str) -> bool:
+    """True if patch's own diff header shows code_file as wholly new (git's
+    'new file mode' marker), rather than an existing file being modified.
+
+    Callers resolving pre-patch source (RepoManager.read_file_at_commit)
+    should check this BEFORE fetching -- a newly-created file genuinely
+    doesn't exist at base_commit, so fetching would raise even though this
+    isn't a data error (kg_construction#93; confirmed on real scikit-learn/
+    astropy commits that create a brand-new file via their patch). Treat
+    pre-patch source as "" instead; _reconstruct_post_patch_source already
+    handles an empty pre-patch source correctly (an empty file's hunk starts
+    at line 0, so every line is an addition), so the existing #84 resolution
+    path finds the new file's functions/classes without any special-casing
+    beyond this check.
+    """
+    current_file = None
+    for line in patch.split('\n'):
+        # 'diff --git a/x b/x' starts each file's header block; 'new file
+        # mode' (when present) always follows it immediately, before that
+        # file's own '+++' line -- so current_file must be set here, not
+        # from '+++', for this check to see it in time.
+        match = re.match(r'^diff --git a/.+ b/(.+)$', line)
+        if match:
+            current_file = match.group(1)
+            continue
+        if current_file == code_file and line.startswith('new file mode'):
+            return True
+    return False
+
+
 class PatchParser:
     """Parse unified diffs to extract changed function/class names, using
     the pre-patch source's real AST rather than the diff text alone.
@@ -384,7 +414,7 @@ class PatchParser:
                 continue
             changed.add((match.name, match.enclosing_class))
 
-        post_patch_source = _reconstruct_post_patch_source(pre_patch_source, patch, code_file)
+        post_patch_source = reconstruct_post_patch_source(pre_patch_source, patch, code_file)
         if post_patch_source is not None:
             try:
                 post_ranges = _function_ranges(post_patch_source)
