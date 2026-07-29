@@ -262,6 +262,51 @@ class TestTestContextValidator:
         assert is_valid is False
         assert 'Disconnected' in report or 'disconnected' in report.lower()
 
+    def test_seed_with_only_incoming_edges_is_not_flagged_as_disconnected(self):
+        """kg_construction#91: a seed with real INCOMING edges (callers)
+        but no outgoing edges (e.g. a leaf-like function whose own calls
+        aren't resolvable) has real, usable context -- must not be flagged.
+        """
+        context = TestContext(
+            seeds=[
+                {'id': 's1', 'label': 'leaf', 'type': 'function', 'metadata': {'filepath': 'mod.py'}},
+            ],
+            context_nodes=[
+                {'id': 'c1', 'label': 'caller', 'type': 'function', 'metadata': {'filepath': 'mod.py'}},
+            ],
+            edges=[
+                {'source': 'c1', 'target': 's1', 'relation': 'calls'},
+            ],
+            test_nodes=[],
+            repo='test/repo',
+            base_commit='abc123def456',
+        )
+        validator = TestContextValidator(context)
+        is_valid, report = validator.validate()
+        assert is_valid is True
+
+    def test_newly_created_file_seed_with_zero_edges_is_not_flagged(self):
+        """kg_construction#93: a seed from a file the patch itself creates
+        has genuinely zero edges (nothing at base_commit could reference a
+        file that doesn't exist yet) -- this is expected, not a bug.
+        """
+        context = TestContext(
+            seeds=[
+                {
+                    'id': 's1', 'label': 'brand_new', 'type': 'function',
+                    'metadata': {'filepath': 'new_mod.py', 'newly_created_file': True},
+                },
+            ],
+            context_nodes=[],
+            edges=[],
+            test_nodes=[],
+            repo='test/repo',
+            base_commit='abc123def456',
+        )
+        validator = TestContextValidator(context)
+        is_valid, report = validator.validate()
+        assert is_valid is True
+
     def test_report_includes_context_stats(self, valid_context):
         """Report includes context statistics."""
         validator = TestContextValidator(valid_context)

@@ -364,3 +364,80 @@ class TestAmbiguousSeedNameDisambiguation:
         }
         assert ("aclose", "Alpha") in seeds_by_class
         assert ("aclose", "Beta") in seeds_by_class
+
+
+class TestExtractForNewFile:
+    """kg_construction#93: a file the patch itself creates has no node in
+    the base_commit-built KG. extract() must build seed nodes directly from
+    the reconstructed post-patch source instead of raising or looking the
+    file up in the KG.
+    """
+
+    def test_new_file_function_becomes_a_seed_with_no_context(self, tmp_path):
+        repo_dir = _write_repo(tmp_path)
+        parser = RepoASTParser(max_workers=1)
+        kg = parser.parse_repo("test/repo", repo_dir)
+
+        engine = KGQueryEngine(kg)
+        extractor = TestContextExtractor(engine, repo_manager=_LocalFileRepoManager(repo_dir))
+
+        patch = (
+            "diff --git a/new_mod.py b/new_mod.py\n"
+            "new file mode 100644\n"
+            "index 0000000..1234567\n"
+            "--- /dev/null\n"
+            "+++ b/new_mod.py\n"
+            "@@ -0,0 +1,2 @@\n"
+            "+def brand_new():\n"
+            "+    return 1\n"
+        )
+        instance = {
+            "repo": "test/repo",
+            "base_commit": "deadbeef",
+            "patch": patch,
+            "code_file": "new_mod.py",
+            "test_file": "test_new_mod.py",
+        }
+
+        context = extractor.extract(instance, depth=2)
+
+        seed_labels = {s["label"] for s in context.seeds}
+        assert "brand_new" in seed_labels
+        assert context.context_nodes == []
+        assert context.edges == []
+        seed = next(s for s in context.seeds if s["label"] == "brand_new")
+        assert seed["metadata"]["newly_created_file"] is True
+        assert "return 1" in seed["metadata"]["source_code"]
+
+    def test_new_file_class_and_method_become_seeds(self, tmp_path):
+        repo_dir = _write_repo(tmp_path)
+        parser = RepoASTParser(max_workers=1)
+        kg = parser.parse_repo("test/repo", repo_dir)
+
+        engine = KGQueryEngine(kg)
+        extractor = TestContextExtractor(engine, repo_manager=_LocalFileRepoManager(repo_dir))
+
+        patch = (
+            "diff --git a/new_mod.py b/new_mod.py\n"
+            "new file mode 100644\n"
+            "index 0000000..1234567\n"
+            "--- /dev/null\n"
+            "+++ b/new_mod.py\n"
+            "@@ -0,0 +1,3 @@\n"
+            "+class NewImputer:\n"
+            "+    def transform(self, x):\n"
+            "+        return x\n"
+        )
+        instance = {
+            "repo": "test/repo",
+            "base_commit": "deadbeef",
+            "patch": patch,
+            "code_file": "new_mod.py",
+            "test_file": "test_new_mod.py",
+        }
+
+        context = extractor.extract(instance, depth=2)
+
+        seeds_by_label_type = {(s["label"], s["type"]) for s in context.seeds}
+        assert ("NewImputer", "class") in seeds_by_label_type
+        assert ("transform", "method") in seeds_by_label_type

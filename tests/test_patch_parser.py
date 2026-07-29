@@ -11,7 +11,11 @@ Each test constructs BOTH a patch and its corresponding pre-patch source,
 since the new API requires the latter to resolve real ranges.
 """
 
-from kg_construction.extraction.patch import PatchParser, _reconstruct_post_patch_source
+from kg_construction.extraction.patch import (
+    PatchParser,
+    is_newly_created_file,
+    reconstruct_post_patch_source,
+)
 
 
 class TestPatchParser:
@@ -411,7 +415,7 @@ class TestExtractChangedFunctionsWithScope:
 
 
 class TestReconstructPostPatchSource:
-    """_reconstruct_post_patch_source applies patch's hunks to
+    """reconstruct_post_patch_source applies patch's hunks to
     pre_patch_source in memory (kg_construction#84's fix depends on this
     being an EXACT reconstruction, not an approximation -- a wrong
     reconstruction would silently feed bad source into ast.parse and
@@ -435,7 +439,7 @@ class TestReconstructPostPatchSource:
  def b():
      return 2
 """
-        post = _reconstruct_post_patch_source(pre, patch, 'mod.py')
+        post = reconstruct_post_patch_source(pre, patch, 'mod.py')
         assert post == (
             "def a():\n    return 1\n\n\n"
             "def new_func():\n    return 42\n\n"
@@ -453,7 +457,7 @@ class TestReconstructPostPatchSource:
 -    return x + y
 +    return x + 1
 """
-        post = _reconstruct_post_patch_source(pre, patch, 'mod.py')
+        post = reconstruct_post_patch_source(pre, patch, 'mod.py')
         assert post == "def a():\n    x = 1\n    return x + 1\n"
 
     def test_multiple_hunks_reconstruct_exactly(self):
@@ -473,7 +477,7 @@ class TestReconstructPostPatchSource:
 -    return 3
 +    return 300
 """
-        post = _reconstruct_post_patch_source(pre, patch, 'mod.py')
+        post = reconstruct_post_patch_source(pre, patch, 'mod.py')
         assert post == (
             "def a():\n    return 100\n\n"
             "def b():\n    return 2\n\n"
@@ -489,7 +493,7 @@ class TestReconstructPostPatchSource:
 -    return 1
 +    return 2
 """
-        assert _reconstruct_post_patch_source(pre, patch, 'mod.py') is None
+        assert reconstruct_post_patch_source(pre, patch, 'mod.py') is None
 
 
 class TestWhollyNewFunctionsAndClasses:
@@ -622,3 +626,98 @@ class TestWhollyNewFunctionsAndClasses:
 """
         changed = PatchParser.extract_changed_functions(patch, 'mod.py', source)
         assert changed == {'target'}
+
+
+class TestIsNewlyCreatedFile:
+    """kg_construction#93: a file the patch itself creates (git's 'new file
+    mode' header) genuinely doesn't exist at base_commit -- callers must
+    detect this BEFORE trying to fetch pre-patch source, rather than
+    treating the fetch failure as an error.
+    """
+
+    def test_detects_new_file_mode_header(self):
+        patch = """diff --git a/pkg/new_mod.py b/pkg/new_mod.py
+new file mode 100644
+index 0000000..1234567
+--- /dev/null
++++ b/pkg/new_mod.py
+@@ -0,0 +1,2 @@
++def foo():
++    pass
+"""
+        assert is_newly_created_file(patch, 'pkg/new_mod.py') is True
+
+    def test_ordinary_modification_is_not_new_file(self):
+        patch = """diff --git a/pkg/existing.py b/pkg/existing.py
+index 1234567..89abcde 100644
+--- a/pkg/existing.py
++++ b/pkg/existing.py
+@@ -1,2 +1,2 @@
+ def foo():
+-    return 1
++    return 2
+"""
+        assert is_newly_created_file(patch, 'pkg/existing.py') is False
+
+    def test_new_file_mode_for_a_different_file_does_not_leak(self):
+        """A multi-file patch where SOME OTHER file is new must not mark
+        code_file itself as new.
+        """
+        patch = """diff --git a/pkg/brand_new.py b/pkg/brand_new.py
+new file mode 100644
+index 0000000..1234567
+--- /dev/null
++++ b/pkg/brand_new.py
+@@ -0,0 +1 @@
++x = 1
+diff --git a/pkg/existing.py b/pkg/existing.py
+index 1234567..89abcde 100644
+--- a/pkg/existing.py
++++ b/pkg/existing.py
+@@ -1,2 +1,2 @@
+ def foo():
+-    return 1
++    return 2
+"""
+        assert is_newly_created_file(patch, 'pkg/existing.py') is False
+        assert is_newly_created_file(patch, 'pkg/brand_new.py') is True
+
+
+class TestWhollyNewFileResolution:
+    """kg_construction#93 end-to-end: with no pre-patch source at all
+    (pre_patch_source=""), a wholly new file's own functions/classes must
+    still resolve correctly via the existing post-patch reconstruction path
+    (kg_construction#84) -- an empty pre-patch source is just the smallest
+    possible case of "nothing here to attribute an insertion to yet".
+    """
+
+    def test_new_file_functions_resolve_from_empty_pre_patch_source(self):
+        patch = """diff --git a/pkg/new_mod.py b/pkg/new_mod.py
+new file mode 100644
+index 0000000..1234567
+--- /dev/null
++++ b/pkg/new_mod.py
+@@ -0,0 +1,5 @@
++def first():
++    return 1
++
++def second():
++    return 2
+"""
+        changed = PatchParser.extract_changed_functions(patch, 'pkg/new_mod.py', "")
+        assert changed == {'first', 'second'}
+
+    def test_new_file_class_resolves_from_empty_pre_patch_source(self):
+        patch = """diff --git a/pkg/new_mod.py b/pkg/new_mod.py
+new file mode 100644
+index 0000000..1234567
+--- /dev/null
++++ b/pkg/new_mod.py
+@@ -0,0 +1,3 @@
++class SimpleImputer:
++    def transform(self, x):
++        return x
+"""
+        changed = PatchParser.extract_changed_functions_with_scope(patch, 'pkg/new_mod.py', "")
+        assert ('SimpleImputer', None) in changed
+        assert ('transform', 'SimpleImputer') in changed

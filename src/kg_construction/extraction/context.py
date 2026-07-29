@@ -14,15 +14,29 @@ this module:
 Works generically across any dataset with the standard schema.
 """
 
+import ast
 import json
 from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Dict, Optional, Set
 
+from kg_construction.ast.helpers import (
+    _make_id,
+    _build_func_metadata,
+    _collect_file_level_info,
+    _get_base_names,
+    _get_class_attributes,
+    _get_decorators,
+    _get_docstring,
+)
 from kg_construction.kg.query import KGQueryEngine
 from kg_construction.kg.repo_manager import RepoManager
 from kg_construction.kg.traversal import GraphTraversal
-from kg_construction.extraction.patch import PatchParser
+from kg_construction.extraction.patch import (
+    PatchParser,
+    is_newly_created_file,
+    reconstruct_post_patch_source,
+)
 
 
 @dataclass
@@ -177,6 +191,19 @@ class TestContextExtractor:
         # BoundAsyncStream.aclose). Resolved via the pre-patch file's real
         # AST line ranges (kg_construction#75), not the diff text alone --
         # requires fetching code_file's own pre-patch content.
+        # A file the patch itself creates (git's 'new file mode' header)
+        # genuinely doesn't exist at base_commit -- fetching it would raise
+        # even though this isn't a data error (kg_construction#93).
+        # A file the patch itself creates (git's 'new file mode' header)
+        # genuinely doesn't exist at base_commit -- it has no node in the
+        # KG (built from the real base_commit git tree) and no BFS-reachable
+        # context can exist either, since nothing at base_commit could
+        # reference a file that isn't there yet. Its seed node(s) are built
+        # directly from the reconstructed post-patch source instead of a KG
+        # lookup (kg_construction#93).
+        if is_newly_created_file(instance['patch'], instance['code_file']):
+            return self._extract_for_new_file(instance)
+
         pre_patch_source = self.repo_manager.read_file_at_commit(
             instance['repo'], instance['base_commit'], instance['code_file']
         )
@@ -289,6 +316,82 @@ class TestContextExtractor:
             context_nodes=context_nodes,
             edges=subgraph_edges,
             test_nodes=test_nodes,
+            repo=instance['repo'],
+            base_commit=instance['base_commit'],
+        )
+
+    def _extract_for_new_file(self, instance: Dict) -> TestContext:
+        """Build a TestContext for a file the patch itself creates.
+
+        No KG lookup or BFS is possible: the file doesn't exist at
+        base_commit, so it has no node in the base_commit-built KG, and
+        nothing there could reference it either -- there is genuinely no
+        context to traverse, not a lookup failure. Seed nodes are built
+        directly from the reconstructed post-patch source via AST, shaped
+        identically to a real KG node (same _build_func_metadata call the
+        real builder uses) so downstream serialization treats them the same
+        way (kg_construction#93).
+        """
+        source = reconstruct_post_patch_source("", instance['patch'], instance['code_file'])
+        if source is None:
+            raise ValueError(
+                f"'{instance['code_file']}' has a 'new file mode' header but no "
+                f"hunks for it in this patch"
+            )
+
+        tree = ast.parse(source)
+        import_map, _, _ = _collect_file_level_info(tree)
+        source_lines = source.splitlines(keepends=True)
+        repo = instance['repo']
+        rel_path = instance['code_file']
+
+        seed_nodes: List[Dict] = []
+        for node in ast.iter_child_nodes(tree):
+            if isinstance(node, ast.ClassDef):
+                class_id = _make_id(f"class_{repo}_{rel_path}_{node.name}")
+                seed_nodes.append({
+                    'id': class_id, 'type': 'class', 'label': node.name,
+                    'metadata': {
+                        'filepath': rel_path, 'repo': repo, 'lineno': node.lineno,
+                        'bases': _get_base_names(node),
+                        'decorators': _get_decorators(node),
+                        'docstring': _get_docstring(node),
+                        'attributes': _get_class_attributes(node),
+                        'newly_created_file': True,
+                    },
+                })
+                for child in ast.iter_child_nodes(node):
+                    if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                        func_id = _make_id(f"func_{repo}_{rel_path}_{node.name}_{child.name}")
+                        func_metadata = _build_func_metadata(
+                            child, rel_path, repo, parent_class=node.name,
+                            import_map=import_map, source_lines=source_lines,
+                        )
+                        func_metadata['newly_created_file'] = True
+                        seed_nodes.append({
+                            'id': func_id,
+                            'type': 'test_function' if child.name.startswith('test_') else 'method',
+                            'label': child.name,
+                            'metadata': func_metadata,
+                        })
+            elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                func_id = _make_id(f"func_{repo}_{rel_path}_{node.name}")
+                func_metadata = _build_func_metadata(
+                    node, rel_path, repo, import_map=import_map, source_lines=source_lines,
+                )
+                func_metadata['newly_created_file'] = True
+                seed_nodes.append({
+                    'id': func_id,
+                    'type': 'test_function' if node.name.startswith('test_') else 'function',
+                    'label': node.name,
+                    'metadata': func_metadata,
+                })
+
+        return TestContext(
+            seeds=seed_nodes,
+            context_nodes=[],
+            edges=[],
+            test_nodes=[],
             repo=instance['repo'],
             base_commit=instance['base_commit'],
         )

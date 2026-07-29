@@ -75,15 +75,21 @@ class TestContextValidator(ValidationBase):
     # --- Must-haves ---
 
     def _check_no_orphaned_nodes(self) -> None:
-        """Flag nodes with no incoming or outgoing edges."""
+        """Flag nodes with no incoming or outgoing edges.
+
+        A node marked newly_created_file (kg_construction#93) is exempt --
+        see _check_seed_connectivity for why zero edges is expected there.
+        """
         orphaned = []
         for node_id in self.node_ids:
+            node = self.node_by_id[node_id]
+            if node['metadata'].get('newly_created_file'):
+                continue
             has_edges = bool(
                 self.edges_by_source.get(node_id) or
                 self.edges_by_target.get(node_id)
             )
             if not has_edges:
-                node = self.node_by_id[node_id]
                 orphaned.append(f"{node['label']} ({node['type']})")
 
         if orphaned:
@@ -106,20 +112,42 @@ class TestContextValidator(ValidationBase):
             )
 
     def _check_seed_connectivity(self) -> None:
-        """Flag seeds with no outgoing edges (no context)."""
+        """Flag seeds with no edges in either direction (no context).
+
+        Checks both outgoing and incoming edges, matching
+        _check_no_orphaned_nodes below -- a seed with only incoming edges
+        (callers) still has real, usable context: BFS already found it, and
+        LLMSerializer's own callers section knows how to serialize it.
+        Checking outgoing edges alone wrongly rejected leaf-like seeds
+        whose own calls aren't resolvable (property access, external
+        library calls) but that real callers elsewhere in the repo do
+        reach (kg_construction#91; confirmed on a real matplotlib
+        instance, _tick_only, which has 0 outgoing but 2 incoming edges
+        and real BFS-found context).
+
+        A seed marked newly_created_file (kg_construction#93) is exempt: the
+        file the patch creates has no prior history in the repo, so nothing
+        at base_commit could reference it -- zero edges there is the
+        correct, expected answer, not a sign of a lookup bug.
+        """
         disconnected = []
         seed_ids = {n['id'] for n in self.context.seeds}
 
         for seed_id in seed_ids:
-            outgoing = self.edges_by_source.get(seed_id, [])
-            if not outgoing:
-                node = self.node_by_id[seed_id]
+            node = self.node_by_id[seed_id]
+            if node['metadata'].get('newly_created_file'):
+                continue
+            has_edges = bool(
+                self.edges_by_source.get(seed_id) or
+                self.edges_by_target.get(seed_id)
+            )
+            if not has_edges:
                 disconnected.append(node['label'])
 
         if disconnected:
             self.errors.append(
                 f"Disconnected seeds ({len(disconnected)}): {', '.join(disconnected)}"
-                " — no outgoing edges (no context)"
+                " — no edges in either direction (no context)"
             )
 
     def _check_closed_subgraph(self) -> None:
