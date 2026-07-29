@@ -165,7 +165,7 @@ def main():
     parser.add_argument("--output", type=str, default="validation_results.json")
     args = parser.parse_args()
 
-    from kg_construction.extraction.patch import PatchParser
+    from kg_construction.extraction.patch import PatchParser, is_newly_created_file
     from kg_construction.kg.repo_manager import RepoManager
     from kg_construction.pipeline import extract_and_validate
 
@@ -198,9 +198,15 @@ def main():
         }
 
         try:
-            pre_patch_source = repo_manager.read_file_at_commit(
-                instance["repo"], instance["base_commit"], instance["code_file"]
-            )
+            # A file the patch itself creates (git's 'new file mode' header)
+            # genuinely doesn't exist at base_commit -- fetching it would
+            # raise even though this isn't a data error (kg_construction#93).
+            if is_newly_created_file(instance["patch"], instance["code_file"]):
+                pre_patch_source = ""
+            else:
+                pre_patch_source = repo_manager.read_file_at_commit(
+                    instance["repo"], instance["base_commit"], instance["code_file"]
+                )
             changed_names = PatchParser.extract_changed_functions(
                 instance["patch"], instance["code_file"], pre_patch_source
             )

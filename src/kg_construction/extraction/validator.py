@@ -206,9 +206,23 @@ class TestContextValidator(ValidationBase):
         which correctly produces multiple seeds with DIFFERENT labels):
         the signal here is specifically the same label resolving to more
         than one node, not "more than one seed" in general.
+
+        A seed marked newly_created_file (kg_construction#93) is exempt:
+        for a wholly new file, EVERY symbol in it genuinely is
+        changed/new, so two different classes each having their own
+        '__init__' isn't an unresolved collision the way #63 was -- #63's
+        real bug was that only ONE of two same-named methods was actually
+        changed by the patch, and seed resolution couldn't tell which;
+        here, every seed is already correctly, individually resolved --
+        there's no "which one is real" question to fail to answer.
+        Confirmed on a real wholly-new-file instance
+        (src/_pytest/mark/expression.py, pytest-dev/pytest) with several
+        classes each defining their own '__init__'/'__str__'.
         """
         seen_ids_by_label: Dict[str, Set[str]] = defaultdict(set)
         for seed in self.context.seeds:
+            if seed.get('metadata', {}).get('newly_created_file'):
+                continue
             seen_ids_by_label[seed['label']].add(seed['id'])
 
         ambiguous = [

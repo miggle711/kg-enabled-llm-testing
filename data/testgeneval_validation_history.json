@@ -38,12 +38,12 @@
   },
   "astropy__astropy-13075-15657": {
     "code_file": "astropy/cosmology/io/html.py",
-    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
-    "error": "ValueError: 'astropy/cosmology/io/html.py' not found in astropy/astropy at 'c660b079b6472920662ca4a0c731751a0342448c' after fetching origin. Verify the path and commit are correct.",
+    "commit": "5f374dc635126f4b1179ea940b57cdba9542cb26",
     "instance_id": "astropy__astropy-13075",
     "repo": "astropy/astropy",
-    "run_at": "2026-07-29T04:04:11.509118+00:00",
-    "stage": "resolve_target_function"
+    "run_at": "2026-07-29T06:48:22.071362+00:00",
+    "stage": "ok",
+    "target": "html_identify"
   },
   "astropy__astropy-13158-15658": {
     "code_file": "astropy/modeling/parameters.py",
@@ -3346,12 +3346,13 @@
   },
   "pytest-dev__pytest-7122-16651": {
     "code_file": "src/_pytest/mark/expression.py",
-    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
-    "error": "ValueError: 'src/_pytest/mark/expression.py' not found in pytest-dev/pytest at 'be68496440508b760ba1f988bcc63d1d09ace206' after fetching origin. Verify the path and commit are correct.",
+    "commit": "5f374dc635126f4b1179ea940b57cdba9542cb26",
+    "error": "ValueError: TestContext validation failed for pytest-dev/pytest @ be684964:\n\n======================================================================\nTestContext Validation Report: pytest-dev/pytest @ be684964\n======================================================================\nSeeds: 15 | Context: 0 | Edges: 0 | Tests: 0\n\n\u274c ERRORS:\n  - Ambiguous seed names (1): __init__ \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n  - Context coverage: no context nodes (only seeds) \u2014 very narrow view\n\n======================================================================\n",
     "instance_id": "pytest-dev__pytest-7122",
     "repo": "pytest-dev/pytest",
-    "run_at": "2026-07-29T04:04:11.509118+00:00",
-    "stage": "resolve_target_function"
+    "run_at": "2026-07-29T06:48:22.071362+00:00",
+    "stage": "extract_and_validate",
+    "target": "ParseError"
   },
   "pytest-dev__pytest-7158-16652": {
     "code_file": "src/_pytest/skipping.py",
@@ -6184,12 +6185,12 @@
   },
   "sympy__sympy-18667-17371": {
     "code_file": "sympy/combinatorics/schur_number.py",
-    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
-    "error": "ValueError: 'sympy/combinatorics/schur_number.py' not found in sympy/sympy at 'cd86e3c3335a7f43379185c239619c576522ef4a' after fetching origin. Verify the path and commit are correct.",
+    "commit": "5f374dc635126f4b1179ea940b57cdba9542cb26",
     "instance_id": "sympy__sympy-18667",
     "repo": "sympy/sympy",
-    "run_at": "2026-07-29T04:04:11.509118+00:00",
-    "stage": "resolve_target_function"
+    "run_at": "2026-07-29T06:48:22.071362+00:00",
+    "stage": "ok",
+    "target": "SchurNumber"
   },
   "sympy__sympy-18728-17373": {
     "code_file": "sympy/core/power.py",
