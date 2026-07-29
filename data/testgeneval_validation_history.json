@@ -419,6 +419,15 @@
     "stage": "extract_and_validate",
     "target": "UUIDContains"
   },
+  "django__django-10973-15724": {
+    "code_file": "django/db/backends/postgresql/client.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-10973",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "DatabaseClient"
+  },
   "django__django-10999-15726": {
     "code_file": "django/utils/dateparse.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -428,6 +437,33 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "resolve_target_function"
   },
+  "django__django-11003-15727": {
+    "code_file": "django/forms/models.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-11003",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "to_python"
+  },
+  "django__django-11011-15728": {
+    "code_file": "django/http/response.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-11011",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "set_headers"
+  },
+  "django__django-11070-15734": {
+    "code_file": "django/contrib/auth/forms.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-11070",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "AdminPasswordChangeForm"
+  },
   "django__django-11099-15737": {
     "code_file": "django/contrib/auth/validators.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
@@ -436,6 +472,15 @@
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "ASCIIUsernameValidator"
+  },
+  "django__django-11115-15738": {
+    "code_file": "django/contrib/admin/sites.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-11115",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "register"
   },
   "django__django-11133-15740": {
     "code_file": "django/http/response.py",
@@ -453,6 +498,15 @@
     "stage": "ok",
     "target": "HttpHeaders"
   },
+  "django__django-11177-15746": {
+    "code_file": "django/utils/autoreload.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-11177",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "StatReloader"
+  },
   "django__django-11292-15765": {
     "code_file": "django/core/management/base.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -461,6 +515,24 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "BaseCommand"
+  },
+  "django__django-11294-15766": {
+    "code_file": "django/template/defaultfilters.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-11294",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "pluralize"
+  },
+  "django__django-11323-15768": {
+    "code_file": "django/forms/widgets.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-11323",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "get_context"
   },
   "django__django-11422-15776": {
     "code_file": "django/utils/autoreload.py",
@@ -507,6 +579,15 @@
     "stage": "ok",
     "target": "__call__"
   },
+  "django__django-11618-15792": {
+    "code_file": "django/contrib/staticfiles/storage.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-11618",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "read_manifest"
+  },
   "django__django-11620-15793": {
     "code_file": "django/views/debug.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
@@ -543,6 +624,24 @@
     "stage": "ok",
     "target": "generate_altered_fields"
   },
+  "django__django-11790-15805": {
+    "code_file": "django/contrib/auth/forms.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-11790",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "__init__"
+  },
+  "django__django-11829-15813": {
+    "code_file": "django/utils/cache.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-11829",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "dictvalue"
+  },
   "django__django-11848-15814": {
     "code_file": "django/utils/http.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -552,6 +651,15 @@
     "stage": "ok",
     "target": "parse_http_date"
   },
+  "django__django-11894-15817": {
+    "code_file": "django/http/response.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-11894",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "set_cookie"
+  },
   "django__django-11910-15818": {
     "code_file": "django/db/migrations/autodetector.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
@@ -560,6 +668,24 @@
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "generate_altered_fields"
+  },
+  "django__django-11997-15821": {
+    "code_file": "django/template/defaultfilters.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-11997",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "floatformat"
+  },
+  "django__django-12062-15823": {
+    "code_file": "django/db/backends/base/creation.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-12062",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "create_test_db"
   },
   "django__django-12125-15827": {
     "code_file": "django/db/migrations/serializer.py",
@@ -589,6 +715,24 @@
     "stage": "ok",
     "target": "BaseDatabaseCreation"
   },
+  "django__django-12484-15851": {
+    "code_file": "django/contrib/auth/checks.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-12484",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "check_user_model"
+  },
+  "django__django-12504-15856": {
+    "code_file": "django/contrib/auth/views.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-12504",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "LogoutView"
+  },
   "django__django-12517-15857": {
     "code_file": "django/utils/log.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -607,6 +751,15 @@
     "stage": "ok",
     "target": "ModelMultipleChoiceField"
   },
+  "django__django-12630-15866": {
+    "code_file": "django/core/management/commands/migrate.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-12630",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "add_arguments"
+  },
   "django__django-12700-15867": {
     "code_file": "django/views/debug.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
@@ -615,6 +768,15 @@
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "cleanse_setting"
+  },
+  "django__django-12741-15870": {
+    "code_file": "django/db/backends/base/operations.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-12741",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "execute_sql_flush"
   },
   "django__django-12856-15876": {
     "code_file": "django/db/models/base.py",
@@ -634,12 +796,39 @@
     "stage": "ok",
     "target": "__init__"
   },
+  "django__django-12957-15885": {
+    "code_file": "django/utils/formats.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-12957",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "localize"
+  },
+  "django__django-12973-15886": {
+    "code_file": "django/contrib/admin/checks.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-12973",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "check_dependencies"
+  },
   "django__django-12983-15887": {
     "code_file": "django/utils/text.py",
     "instance_id": "django__django-12983",
     "repo": "django/django",
     "stage": "ok",
     "target": "slugify"
+  },
+  "django__django-13022-15889": {
+    "code_file": "django/core/cache/backends/base.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-13022",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "memcache_key_warnings"
   },
   "django__django-13030-15890": {
     "code_file": "django/db/models/lookups.py",
@@ -649,6 +838,42 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "process_rhs"
+  },
+  "django__django-13077-15893": {
+    "code_file": "django/utils/autoreload.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-13077",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "get_child_arguments"
+  },
+  "django__django-13121-15899": {
+    "code_file": "django/db/backends/sqlite3/operations.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-13121",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "DatabaseOperations"
+  },
+  "django__django-13121-15900": {
+    "code_file": "django/db/backends/base/operations.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-13121",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "BaseDatabaseOperations"
+  },
+  "django__django-13145-15903": {
+    "code_file": "django/utils/timesince.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-13145",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "timesince"
   },
   "django__django-13265-15913": {
     "code_file": "django/db/migrations/autodetector.py",
@@ -677,6 +902,25 @@
     "stage": "ok",
     "target": "cleanse_setting"
   },
+  "django__django-13355-15924": {
+    "code_file": "django/forms/widgets.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-13355",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "__add__"
+  },
+  "django__django-13363-15925": {
+    "code_file": "django/db/models/functions/datetime.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "error": "ValueError: TestContext validation failed for django/django @ 76e0151e:\n\n======================================================================\nTestContext Validation Report: django/django @ 76e0151e\n======================================================================\nSeeds: 2 | Context: 19 | Edges: 29 | Tests: 0\n\n\u274c ERRORS:\n  - Ambiguous seed names (1): as_sql \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "instance_id": "django__django-13363",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "extract_and_validate",
+    "target": "as_sql"
+  },
   "django__django-13406-15928": {
     "code_file": "django/db/models/query.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -702,6 +946,15 @@
     "stage": "ok",
     "target": "get"
   },
+  "django__django-13512-15937": {
+    "code_file": "django/forms/fields.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-13512",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "prepare_value"
+  },
   "django__django-13551-15942": {
     "code_file": "django/contrib/auth/tokens.py",
     "error": "ValueError: TestContext validation failed for django/django @ 7f9e4524:\n\n======================================================================\nTestContext Validation Report: django/django @ 7f9e4524\n======================================================================\nSeeds: 1 | Context: 21 | Edges: 31 | Tests: 0\n\n\u274c ERRORS:\n  - Disconnected seeds (1): _make_hash_value \u2014 no outgoing edges (no context)\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
@@ -709,6 +962,33 @@
     "repo": "django/django",
     "stage": "build_kg_augmented_context",
     "target": "PasswordResetTokenGenerator"
+  },
+  "django__django-13553-15943": {
+    "code_file": "django/db/models/query.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-13553",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "union"
+  },
+  "django__django-13560-15945": {
+    "code_file": "django/db/models/deletion.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-13560",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "collect"
+  },
+  "django__django-13585-15949": {
+    "code_file": "django/contrib/auth/tokens.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-13585",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "check_token"
   },
   "django__django-13670-15959": {
     "code_file": "django/utils/dateformat.py",
@@ -757,6 +1037,24 @@
     "stage": "ok",
     "target": "send_robust"
   },
+  "django__django-13886-15980": {
+    "code_file": "django/db/models/base.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-13886",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_check_indexes"
+  },
+  "django__django-13915-15981": {
+    "code_file": "django/utils/autoreload.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-13915",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "get_child_arguments"
+  },
   "django__django-13925-15983": {
     "code_file": "django/db/models/base.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -783,6 +1081,15 @@
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "delete"
+  },
+  "django__django-13995-15986": {
+    "code_file": "django/contrib/admindocs/views.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-13995",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "get_context_data"
   },
   "django__django-14016-15987": {
     "code_file": "django/db/models/query_utils.py",
@@ -819,6 +1126,15 @@
     "stage": "extract_and_validate",
     "target": "__repr__"
   },
+  "django__django-14199-16006": {
+    "code_file": "django/db/models/expressions.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-14199",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "Value"
+  },
   "django__django-14271-16008": {
     "code_file": "django/db/models/sql/query.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
@@ -827,6 +1143,24 @@
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "combine"
+  },
+  "django__django-14282-16009": {
+    "code_file": "django/contrib/auth/tokens.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-14282",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "PasswordResetTokenGenerator"
+  },
+  "django__django-14385-16025": {
+    "code_file": "django/contrib/admindocs/views.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-14385",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "simplify_regex"
   },
   "django__django-14387-16026": {
     "code_file": "django/utils/tree.py",
@@ -845,6 +1179,24 @@
     "repo": "django/django",
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "resolve_target_function"
+  },
+  "django__django-14416-16030": {
+    "code_file": "django/middleware/locale.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-14416",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "process_response"
+  },
+  "django__django-14441-16031": {
+    "code_file": "django/core/files/images.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-14441",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "get_image_dimensions"
   },
   "django__django-14495-16038": {
     "code_file": "django/db/migrations/executor.py",
@@ -873,6 +1225,24 @@
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "serialize"
+  },
+  "django__django-14584-16047": {
+    "code_file": "django/db/backends/utils.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-14584",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "debug_sql"
+  },
+  "django__django-14602-16048": {
+    "code_file": "django/utils/dateparse.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "error": "ValueError: No changed function found in django/utils/dateparse.py for this patch",
+    "instance_id": "django__django-14602",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "resolve_target_function"
   },
   "django__django-14608-16049": {
     "code_file": "django/forms/formsets.py",
@@ -919,6 +1289,33 @@
     "stage": "ok",
     "target": "ModelChoiceIteratorValue"
   },
+  "django__django-14916-16070": {
+    "code_file": "django/db/models/sql/where.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-14916",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "clone"
+  },
+  "django__django-14960-16072": {
+    "code_file": "django/contrib/auth/management/commands/createsuperuser.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-14960",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "handle"
+  },
+  "django__django-14996-16075": {
+    "code_file": "django/db/migrations/autodetector.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-14996",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "generate_altered_fields"
+  },
   "django__django-14997-16076": {
     "code_file": "django/db/backends/ddl_references.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -938,6 +1335,24 @@
     "stage": "extract_and_validate",
     "target": "database_forwards"
   },
+  "django__django-15199-16087": {
+    "code_file": "django/utils/functional.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-15199",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "__init__"
+  },
+  "django__django-15204-16088": {
+    "code_file": "django/utils/dateparse.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "error": "ValueError: No changed function found in django/utils/dateparse.py for this patch",
+    "instance_id": "django__django-15204",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "resolve_target_function"
+  },
   "django__django-15206-16089": {
     "code_file": "django/views/decorators/cache.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -955,6 +1370,24 @@
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "migrate"
+  },
+  "django__django-15316-16095": {
+    "code_file": "django/contrib/admindocs/views.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-15316",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "simplify_regex"
+  },
+  "django__django-15342-16099": {
+    "code_file": "django/db/migrations/state.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-15342",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "get_field"
   },
   "django__django-15347-16100": {
     "code_file": "django/contrib/messages/storage/cookie.py",
@@ -974,6 +1407,15 @@
     "stage": "ok",
     "target": "Aggregate"
   },
+  "django__django-15414-16110": {
+    "code_file": "django/db/models/query.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-15414",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "bulk_update"
+  },
   "django__django-15438-16111": {
     "code_file": "django/contrib/admin/widgets.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -991,6 +1433,15 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "mark_safe"
+  },
+  "django__django-15497-16115": {
+    "code_file": "django/http/request.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-15497",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "scheme"
   },
   "django__django-15503-16118": {
     "code_file": "django/db/models/fields/json.py",
@@ -1019,6 +1470,24 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "database_forwards"
+  },
+  "django__django-15698-16133": {
+    "code_file": "django/template/base.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-15698",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_resolve_lookup"
+  },
+  "django__django-15752-16139": {
+    "code_file": "django/contrib/auth/base_user.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-15752",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "make_random_password"
   },
   "django__django-15781-16140": {
     "code_file": "django/core/management/base.py",
@@ -1065,6 +1534,24 @@
     "stage": "ok",
     "target": "ManagementForm"
   },
+  "django__django-15973-16153": {
+    "code_file": "django/db/migrations/autodetector.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-15973",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_get_dependencies_for_foreign_key"
+  },
+  "django__django-16041-16157": {
+    "code_file": "django/forms/formsets.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-16041",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "empty_form"
+  },
   "django__django-16046-16158": {
     "code_file": "django/utils/numberformat.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
@@ -1073,6 +1560,15 @@
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "format"
+  },
+  "django__django-16092-16162": {
+    "code_file": "django/db/migrations/autodetector.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-16092",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_generate_added_field"
   },
   "django__django-16139-16168": {
     "code_file": "django/contrib/auth/forms.py",
@@ -1092,6 +1588,15 @@
     "stage": "ok",
     "target": "refresh_from_db"
   },
+  "django__django-16306-16173": {
+    "code_file": "django/forms/forms.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-16306",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "__getitem__"
+  },
   "django__django-16411-16178": {
     "code_file": "django/contrib/staticfiles/storage.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -1100,6 +1605,15 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "ManifestFilesMixin"
+  },
+  "django__django-16502-16183": {
+    "code_file": "django/core/servers/basehttp.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-16502",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "cleanup_headers"
   },
   "django__django-16527-16186": {
     "code_file": "django/contrib/admin/templatetags/admin_modify.py",
@@ -1130,6 +1644,15 @@
     "stage": "extract_and_validate",
     "target": "IntegerFieldExact"
   },
+  "django__django-16614-16195": {
+    "code_file": "django/forms/fields.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-16614",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "__init__"
+  },
   "django__django-16629-16196": {
     "code_file": "django/forms/fields.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -1147,6 +1670,15 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "set_headers"
+  },
+  "django__django-16661-16199": {
+    "code_file": "django/contrib/admin/options.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-16661",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "lookup_allowed"
   },
   "django__django-16667-16201": {
     "code_file": "django/forms/widgets.py",
@@ -1209,6 +1741,15 @@
     "stage": "ok",
     "target": "get_substr"
   },
+  "django__django-17029-16224": {
+    "code_file": "django/apps/registry.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "django__django-17029",
+    "repo": "django/django",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "clear_cache"
+  },
   "django__django-17051-16225": {
     "code_file": "django/db/models/query.py",
     "instance_id": "django__django-17051",
@@ -1235,6 +1776,15 @@
     "stage": "ok",
     "target": "Axis"
   },
+  "matplotlib__matplotlib-19743-16247": {
+    "code_file": "lib/matplotlib/legend.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "matplotlib__matplotlib-19743",
+    "repo": "matplotlib/matplotlib",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "__init__"
+  },
   "matplotlib__matplotlib-20470-16249": {
     "code_file": "lib/matplotlib/legend.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -1244,6 +1794,15 @@
     "stage": "ok",
     "target": "_get_legend_handles"
   },
+  "matplotlib__matplotlib-20788-16256": {
+    "code_file": "lib/matplotlib/colorbar.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "matplotlib__matplotlib-20788",
+    "repo": "matplotlib/matplotlib",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "__init__"
+  },
   "matplotlib__matplotlib-20859-16259": {
     "code_file": "lib/matplotlib/legend.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -1252,6 +1811,15 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "__init__"
+  },
+  "matplotlib__matplotlib-21443-16261": {
+    "code_file": "lib/matplotlib/pyplot.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "matplotlib__matplotlib-21443",
+    "repo": "matplotlib/matplotlib",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "axes"
   },
   "matplotlib__matplotlib-21490-16262": {
     "code_file": "lib/matplotlib/lines.py",
@@ -1336,6 +1904,15 @@
     "stage": "ok",
     "target": "xticks"
   },
+  "matplotlib__matplotlib-23057-16280": {
+    "code_file": "lib/matplotlib/pyplot.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "matplotlib__matplotlib-23057",
+    "repo": "matplotlib/matplotlib",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_get_backend_mod"
+  },
   "matplotlib__matplotlib-23140-16282": {
     "code_file": "lib/matplotlib/legend.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -1371,6 +1948,15 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "draw_mathtext"
+  },
+  "matplotlib__matplotlib-23332-16289": {
+    "code_file": "lib/matplotlib/text.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "matplotlib__matplotlib-23332",
+    "repo": "matplotlib/matplotlib",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "__init__"
   },
   "matplotlib__matplotlib-23412-16291": {
     "code_file": "lib/matplotlib/patches.py",
@@ -1481,6 +2067,15 @@
     "stage": "ok",
     "target": "Legend"
   },
+  "matplotlib__matplotlib-24570-16311": {
+    "code_file": "lib/matplotlib/offsetbox.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "matplotlib__matplotlib-24570",
+    "repo": "matplotlib/matplotlib",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_get_aligned_offsets"
+  },
   "matplotlib__matplotlib-24604-16312": {
     "code_file": "lib/matplotlib/figure.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -1508,6 +2103,15 @@
     "stage": "ok",
     "target": "_check_xyz"
   },
+  "matplotlib__matplotlib-24912-16323": {
+    "code_file": "lib/matplotlib/contour.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "matplotlib__matplotlib-24912",
+    "repo": "matplotlib/matplotlib",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_process_contour_level_args"
+  },
   "matplotlib__matplotlib-25052-16326": {
     "code_file": "lib/matplotlib/table.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -1517,6 +2121,16 @@
     "stage": "ok",
     "target": "__init__"
   },
+  "matplotlib__matplotlib-25085-16328": {
+    "code_file": "lib/matplotlib/widgets.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "error": "ValueError: TestContext validation failed for matplotlib/matplotlib @ af8a046c:\n\n======================================================================\nTestContext Validation Report: matplotlib/matplotlib @ af8a046c\n======================================================================\nSeeds: 4 | Context: 41 | Edges: 47 | Tests: 0\n\n\u274c ERRORS:\n  - Ambiguous seed names (2): _clear, clear \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "instance_id": "matplotlib__matplotlib-25085",
+    "repo": "matplotlib/matplotlib",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "extract_and_validate",
+    "target": "_changed_canvas"
+  },
   "matplotlib__matplotlib-25122-16329": {
     "code_file": "lib/matplotlib/mlab.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -1525,6 +2139,15 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "_spectral_helper"
+  },
+  "matplotlib__matplotlib-25126-16330": {
+    "code_file": "lib/matplotlib/transforms.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "matplotlib__matplotlib-25126",
+    "repo": "matplotlib/matplotlib",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "set"
   },
   "matplotlib__matplotlib-25129-16331": {
     "code_file": "lib/matplotlib/widgets.py",
@@ -1574,6 +2197,15 @@
     "stage": "extract_and_validate",
     "target": "_SelectorWidget"
   },
+  "matplotlib__matplotlib-25425-16342": {
+    "code_file": "lib/matplotlib/image.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "matplotlib__matplotlib-25425",
+    "repo": "matplotlib/matplotlib",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_ImageBase"
+  },
   "matplotlib__matplotlib-25430-16343": {
     "code_file": "lib/matplotlib/figure.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -1610,6 +2242,52 @@
     "stage": "ok",
     "target": "__init__"
   },
+  "matplotlib__matplotlib-25547-16348": {
+    "code_file": "lib/matplotlib/cbook.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "matplotlib__matplotlib-25547",
+    "repo": "matplotlib/matplotlib",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_safe_first_finite"
+  },
+  "matplotlib__matplotlib-25551-16349": {
+    "code_file": "lib/matplotlib/axes/_base.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "matplotlib__matplotlib-25551",
+    "repo": "matplotlib/matplotlib",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_get_view"
+  },
+  "matplotlib__matplotlib-25565-16350": {
+    "code_file": "lib/mpl_toolkits/mplot3d/art3d.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "matplotlib__matplotlib-25565",
+    "repo": "matplotlib/matplotlib",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "get_edgecolor"
+  },
+  "matplotlib__matplotlib-25624-16351": {
+    "code_file": "lib/matplotlib/figure.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "matplotlib__matplotlib-25624",
+    "repo": "matplotlib/matplotlib",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "tight_layout"
+  },
+  "matplotlib__matplotlib-25631-16352": {
+    "code_file": "lib/matplotlib/animation.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "error": "ValueError: TestContext validation failed for matplotlib/matplotlib @ a1f9e0fc:\n\n======================================================================\nTestContext Validation Report: matplotlib/matplotlib @ a1f9e0fc\n======================================================================\nSeeds: 8 | Context: 480 | Edges: 628 | Tests: 8\n\n\u274c ERRORS:\n  - Ambiguous seed names (1): grab_frame \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n======================================================================\n",
+    "instance_id": "matplotlib__matplotlib-25631",
+    "repo": "matplotlib/matplotlib",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "extract_and_validate",
+    "target": "FuncAnimation"
+  },
   "matplotlib__matplotlib-25775-16357": {
     "code_file": "lib/matplotlib/text.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -1627,6 +2305,24 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "Ellipse"
+  },
+  "matplotlib__matplotlib-25859-16360": {
+    "code_file": "lib/matplotlib/figure.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "matplotlib__matplotlib-25859",
+    "repo": "matplotlib/matplotlib",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_process_projection_requirements"
+  },
+  "matplotlib__matplotlib-25960-16361": {
+    "code_file": "lib/matplotlib/figure.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "matplotlib__matplotlib-25960",
+    "repo": "matplotlib/matplotlib",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "subfigures"
   },
   "matplotlib__matplotlib-26020-16363": {
     "code_file": "lib/mpl_toolkits/axes_grid1/axes_grid.py",
@@ -1722,6 +2418,24 @@
     "stage": "extract_and_validate",
     "target": "OffsetFrom"
   },
+  "matplotlib__matplotlib-26532-16385": {
+    "code_file": "lib/mpl_toolkits/mplot3d/art3d.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "matplotlib__matplotlib-26532",
+    "repo": "matplotlib/matplotlib",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "__init__"
+  },
+  "mwaskom__seaborn-2576-16388": {
+    "code_file": "seaborn/regression.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "mwaskom__seaborn-2576",
+    "repo": "mwaskom/seaborn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "facet_kw_deprecation"
+  },
   "mwaskom__seaborn-2813-16391": {
     "code_file": "seaborn/_statistics.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -1739,6 +2453,15 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "scatterplot"
+  },
+  "mwaskom__seaborn-2946-16395": {
+    "code_file": "seaborn/_statistics.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "mwaskom__seaborn-2946",
+    "repo": "mwaskom/seaborn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "__call__"
   },
   "mwaskom__seaborn-3010-16399": {
     "code_file": "seaborn/_stats/regression.py",
@@ -1776,6 +2499,15 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "_setup_split_generator"
+  },
+  "mwaskom__seaborn-3216-16405": {
+    "code_file": "seaborn/_core/plot.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "mwaskom__seaborn-3216",
+    "repo": "mwaskom/seaborn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_finalize_figure"
   },
   "mwaskom__seaborn-3217-16406": {
     "code_file": "seaborn/_marks/bar.py",
@@ -1868,6 +2600,15 @@
     "stage": "ok",
     "target": "merge"
   },
+  "pydata__xarray-3239-16458": {
+    "code_file": "xarray/core/combine.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "pydata__xarray-3239",
+    "repo": "pydata/xarray",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_auto_concat"
+  },
   "pydata__xarray-3302-16459": {
     "code_file": "xarray/core/missing.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -1885,6 +2626,15 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "_dataset_concat"
+  },
+  "pydata__xarray-3677-16471": {
+    "code_file": "xarray/core/dataset.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "pydata__xarray-3677",
+    "repo": "pydata/xarray",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "merge"
   },
   "pydata__xarray-3905-16478": {
     "code_file": "xarray/core/formatting.py",
@@ -1985,6 +2735,15 @@
     "stage": "ok",
     "target": "open_dataset"
   },
+  "pydata__xarray-5126-16518": {
+    "code_file": "xarray/core/formatting_html.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "pydata__xarray-5126",
+    "repo": "pydata/xarray",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_mapping_section"
+  },
   "pydata__xarray-5126-16519": {
     "code_file": "xarray/core/formatting.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -2011,6 +2770,15 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "cross"
+  },
+  "pydata__xarray-5455-16530": {
+    "code_file": "xarray/backends/plugins.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "pydata__xarray-5455",
+    "repo": "pydata/xarray",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "build_engines"
   },
   "pydata__xarray-5662-16532": {
     "code_file": "xarray/core/formatting.py",
@@ -2184,6 +2952,15 @@
     "stage": "ok",
     "target": "__array__"
   },
+  "pydata__xarray-7400-16582": {
+    "code_file": "xarray/core/concat.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "pydata__xarray-7400",
+    "repo": "pydata/xarray",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_dataset_concat"
+  },
   "pylint-dev__pylint-4330-16585": {
     "code_file": "pylint/checkers/spelling.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -2193,6 +2970,15 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "extract_and_validate",
     "target": "CamelCasedWord"
+  },
+  "pylint-dev__pylint-4516-16588": {
+    "code_file": "pylint/lint/expand_modules.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "pylint-dev__pylint-4516",
+    "repo": "pylint-dev/pylint",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_basename_in_ignore_list_re"
   },
   "pylint-dev__pylint-4551-16589": {
     "code_file": "pylint/pyreverse/writer.py",
@@ -2340,6 +3126,15 @@
     "stage": "ok",
     "target": "LogCaptureFixture"
   },
+  "pytest-dev__pytest-10081-16613": {
+    "code_file": "src/_pytest/unittest.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "pytest-dev__pytest-10081",
+    "repo": "pytest-dev/pytest",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "runtest"
+  },
   "pytest-dev__pytest-10343-16615": {
     "code_file": "src/_pytest/warning_types.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -2376,6 +3171,15 @@
     "stage": "ok",
     "target": "ColoredLevelFormatter"
   },
+  "pytest-dev__pytest-11160-16625": {
+    "code_file": "src/_pytest/recwarn.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "pytest-dev__pytest-11160",
+    "repo": "pytest-dev/pytest",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "pop"
+  },
   "pytest-dev__pytest-5221-16629": {
     "code_file": "src/_pytest/python.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
@@ -2394,6 +3198,15 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "resolve_target_function"
   },
+  "pytest-dev__pytest-5254-16631": {
+    "code_file": "src/_pytest/fixtures.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "pytest-dev__pytest-5254",
+    "repo": "pytest-dev/pytest",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "FixtureManager"
+  },
   "pytest-dev__pytest-5262-16632": {
     "code_file": "src/_pytest/capture.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -2411,6 +3224,15 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "EncodedFile"
+  },
+  "pytest-dev__pytest-5356-16634": {
+    "code_file": "src/_pytest/mark/structures.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "pytest-dev__pytest-5356",
+    "repo": "pytest-dev/pytest",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "ParameterSet"
   },
   "pytest-dev__pytest-5404-16635": {
     "code_file": "src/_pytest/doctest.py",
@@ -2465,6 +3287,24 @@
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "pytest_addoption"
+  },
+  "pytest-dev__pytest-6186-16645": {
+    "code_file": "src/_pytest/deprecated.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "error": "ValueError: No changed function found in src/_pytest/deprecated.py for this patch",
+    "instance_id": "pytest-dev__pytest-6186",
+    "repo": "pytest-dev/pytest",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "resolve_target_function"
+  },
+  "pytest-dev__pytest-6202-16646": {
+    "code_file": "src/_pytest/python.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "pytest-dev__pytest-6202",
+    "repo": "pytest-dev/pytest",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "getmodpath"
   },
   "pytest-dev__pytest-6283-16647": {
     "code_file": "src/_pytest/logging.py",
@@ -2560,6 +3400,15 @@
     "stage": "extract_and_validate",
     "target": "_FileHandler"
   },
+  "pytest-dev__pytest-7314-16657": {
+    "code_file": "src/_pytest/terminal.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "pytest-dev__pytest-7314",
+    "repo": "pytest-dev/pytest",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "getreportopt"
+  },
   "pytest-dev__pytest-7324-16658": {
     "code_file": "src/_pytest/mark/expression.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -2569,6 +3418,15 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "extract_and_validate",
     "target": "MatcherAdapter"
+  },
+  "pytest-dev__pytest-7352-16659": {
+    "code_file": "src/_pytest/pathlib.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "pytest-dev__pytest-7352",
+    "repo": "pytest-dev/pytest",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "ensure_deletable"
   },
   "pytest-dev__pytest-7373-16660": {
     "code_file": "src/_pytest/mark/evaluate.py",
@@ -2606,6 +3464,15 @@
     "stage": "ok",
     "target": "pytest_runtest_call"
   },
+  "pytest-dev__pytest-7521-16667": {
+    "code_file": "src/_pytest/capture.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "pytest-dev__pytest-7521",
+    "repo": "pytest-dev/pytest",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "__init__"
+  },
   "pytest-dev__pytest-7535-16668": {
     "code_file": "src/_pytest/_code/code.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -2614,6 +3481,15 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "TracebackEntry"
+  },
+  "pytest-dev__pytest-7571-16669": {
+    "code_file": "src/_pytest/logging.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "pytest-dev__pytest-7571",
+    "repo": "pytest-dev/pytest",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "__init__"
   },
   "pytest-dev__pytest-7648-16670": {
     "code_file": "src/_pytest/deprecated.py",
@@ -2633,6 +3509,24 @@
     "stage": "ok",
     "target": "set_level"
   },
+  "pytest-dev__pytest-7982-16672": {
+    "code_file": "src/_pytest/pathlib.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "pytest-dev__pytest-7982",
+    "repo": "pytest-dev/pytest",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "visit"
+  },
+  "pytest-dev__pytest-7985-16673": {
+    "code_file": "src/_pytest/deprecated.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "error": "ValueError: No changed function found in src/_pytest/deprecated.py for this patch",
+    "instance_id": "pytest-dev__pytest-7985",
+    "repo": "pytest-dev/pytest",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "resolve_target_function"
+  },
   "pytest-dev__pytest-8124-16674": {
     "code_file": "src/_pytest/skipping.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -2641,6 +3535,15 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "evaluate_condition"
+  },
+  "pytest-dev__pytest-8250-16675": {
+    "code_file": "src/_pytest/faulthandler.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "pytest-dev__pytest-8250",
+    "repo": "pytest-dev/pytest",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_get_stderr_fileno"
   },
   "pytest-dev__pytest-8365-16676": {
     "code_file": "src/_pytest/tmpdir.py",
@@ -2679,6 +3582,15 @@
     "stage": "extract_and_validate",
     "target": "Item"
   },
+  "pytest-dev__pytest-8463-16681": {
+    "code_file": "src/_pytest/deprecated.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "error": "ValueError: No changed function found in src/_pytest/deprecated.py for this patch",
+    "instance_id": "pytest-dev__pytest-8463",
+    "repo": "pytest-dev/pytest",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "resolve_target_function"
+  },
   "pytest-dev__pytest-8516-16682": {
     "code_file": "src/_pytest/tmpdir.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -2687,6 +3599,15 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "getbasetemp"
+  },
+  "pytest-dev__pytest-8641-16683": {
+    "code_file": "src/_pytest/logging.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "pytest-dev__pytest-8641",
+    "repo": "pytest-dev/pytest",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "ColoredLevelFormatter"
   },
   "pytest-dev__pytest-8861-16684": {
     "code_file": "src/_pytest/doctest.py",
@@ -2815,6 +3736,71 @@
     "stage": "extract_and_validate",
     "target": "RidgeCV"
   },
+  "scikit-learn__scikit-learn-10382-16709": {
+    "code_file": "sklearn/model_selection/_validation.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-10382",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_fit_and_score"
+  },
+  "scikit-learn__scikit-learn-10397-16710": {
+    "code_file": "sklearn/linear_model/ridge.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-10397",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "RidgeClassifier"
+  },
+  "scikit-learn__scikit-learn-10428-16712": {
+    "code_file": "sklearn/utils/estimator_checks.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-10428",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_apply_func"
+  },
+  "scikit-learn__scikit-learn-10443-16713": {
+    "code_file": "sklearn/feature_extraction/text.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "error": "ValueError: TestContext validation failed for scikit-learn/scikit-learn @ 48f3303b:\n\n======================================================================\nTestContext Validation Report: scikit-learn/scikit-learn @ 48f3303b\n======================================================================\nSeeds: 7 | Context: 574 | Edges: 1521 | Tests: 37\n\n\u274c ERRORS:\n  - Ambiguous seed names (1): fit \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n======================================================================\n",
+    "instance_id": "scikit-learn__scikit-learn-10443",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "extract_and_validate",
+    "target": "TfidfVectorizer"
+  },
+  "scikit-learn__scikit-learn-10452-16714": {
+    "code_file": "sklearn/preprocessing/data.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-10452",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "fit"
+  },
+  "scikit-learn__scikit-learn-10459-16715": {
+    "code_file": "sklearn/utils/validation.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-10459",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_assert_all_finite"
+  },
+  "scikit-learn__scikit-learn-10471-16716": {
+    "code_file": "sklearn/cluster/k_means_.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "error": "ValueError: TestContext validation failed for scikit-learn/scikit-learn @ 52aaf826:\n\n======================================================================\nTestContext Validation Report: scikit-learn/scikit-learn @ 52aaf826\n======================================================================\nSeeds: 9 | Context: 1455 | Edges: 2937 | Tests: 40\n\n\u274c ERRORS:\n  - Ambiguous seed names (1): fit \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n======================================================================\n",
+    "instance_id": "scikit-learn__scikit-learn-10471",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "extract_and_validate",
+    "target": "KMeans"
+  },
   "scikit-learn__scikit-learn-10483-16717": {
     "code_file": "sklearn/impute.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -2833,6 +3819,15 @@
     "stage": "ok",
     "target": "Imputer"
   },
+  "scikit-learn__scikit-learn-10495-16719": {
+    "code_file": "sklearn/utils/validation.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-10495",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "check_array"
+  },
   "scikit-learn__scikit-learn-10508-16720": {
     "code_file": "sklearn/preprocessing/label.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -2841,6 +3836,42 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "inverse_transform"
+  },
+  "scikit-learn__scikit-learn-10558-16721": {
+    "code_file": "sklearn/preprocessing/imputation.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-10558",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "Imputer"
+  },
+  "scikit-learn__scikit-learn-10687-16724": {
+    "code_file": "sklearn/linear_model/coordinate_descent.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-10687",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "fit"
+  },
+  "scikit-learn__scikit-learn-10777-16727": {
+    "code_file": "sklearn/feature_extraction/text.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-10777",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_validate_params"
+  },
+  "scikit-learn__scikit-learn-10844-16729": {
+    "code_file": "sklearn/metrics/cluster/supervised.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-10844",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "fowlkes_mallows_score"
   },
   "scikit-learn__scikit-learn-10870-16730": {
     "code_file": "sklearn/mixture/gaussian_mixture.py",
@@ -2860,6 +3891,25 @@
     "stage": "ok",
     "target": "logistic_regression_path"
   },
+  "scikit-learn__scikit-learn-10899-16732": {
+    "code_file": "sklearn/feature_extraction/text.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "error": "ValueError: TestContext validation failed for scikit-learn/scikit-learn @ 12cdb832:\n\n======================================================================\nTestContext Validation Report: scikit-learn/scikit-learn @ 12cdb832\n======================================================================\nSeeds: 4 | Context: 230 | Edges: 409 | Tests: 19\n\n\u274c ERRORS:\n  - Ambiguous seed names (1): idf_ \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n======================================================================\n",
+    "instance_id": "scikit-learn__scikit-learn-10899",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "extract_and_validate",
+    "target": "TfidfTransformer"
+  },
+  "scikit-learn__scikit-learn-10908-16733": {
+    "code_file": "sklearn/feature_extraction/text.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-10908",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "inverse_transform"
+  },
   "scikit-learn__scikit-learn-10949-16735": {
     "code_file": "sklearn/utils/validation.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
@@ -2878,6 +3928,15 @@
     "stage": "ok",
     "target": "_fit"
   },
+  "scikit-learn__scikit-learn-11043-16740": {
+    "code_file": "sklearn/preprocessing/_function_transformer.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-11043",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "FunctionTransformer"
+  },
   "scikit-learn__scikit-learn-11160-16742": {
     "code_file": "sklearn/metrics/classification.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -2886,6 +3945,33 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "classification_report"
+  },
+  "scikit-learn__scikit-learn-11235-16746": {
+    "code_file": "sklearn/preprocessing/data.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-11235",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "partial_fit"
+  },
+  "scikit-learn__scikit-learn-11315-16750": {
+    "code_file": "sklearn/compose/_column_transformer.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-11315",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "ColumnTransformer"
+  },
+  "scikit-learn__scikit-learn-11574-16755": {
+    "code_file": "sklearn/ensemble/iforest.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-11574",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "IsolationForest"
   },
   "scikit-learn__scikit-learn-11578-16756": {
     "code_file": "sklearn/linear_model/logistic.py",
@@ -2906,6 +3992,24 @@
     "stage": "extract_and_validate",
     "target": "MiniBatchSparsePCA"
   },
+  "scikit-learn__scikit-learn-12258-16761": {
+    "code_file": "sklearn/metrics/cluster/unsupervised.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-12258",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "silhouette_samples"
+  },
+  "scikit-learn__scikit-learn-12421-16762": {
+    "code_file": "sklearn/cluster/optics_.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-12421",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "OPTICS"
+  },
   "scikit-learn__scikit-learn-12443-16763": {
     "code_file": "sklearn/preprocessing/_encoders.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -2914,6 +4018,15 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "_handle_deprecations"
+  },
+  "scikit-learn__scikit-learn-12471-16765": {
+    "code_file": "sklearn/preprocessing/_encoders.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-12471",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_transform"
   },
   "scikit-learn__scikit-learn-12486-16766": {
     "code_file": "sklearn/metrics/scorer.py",
@@ -2943,6 +4056,15 @@
     "stage": "ok",
     "target": "check_array"
   },
+  "scikit-learn__scikit-learn-12656-16771": {
+    "code_file": "sklearn/metrics/classification.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-12656",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "hamming_loss"
+  },
   "scikit-learn__scikit-learn-12682-16772": {
     "code_file": "sklearn/decomposition/dict_learning.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -2952,6 +4074,16 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "extract_and_validate",
     "target": "DictionaryLearning"
+  },
+  "scikit-learn__scikit-learn-12704-16773": {
+    "code_file": "sklearn/compose/_column_transformer.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "error": "ValueError: TestContext validation failed for scikit-learn/scikit-learn @ ccf0d928:\n\n======================================================================\nTestContext Validation Report: scikit-learn/scikit-learn @ ccf0d928\n======================================================================\nSeeds: 2 | Context: 60 | Edges: 89 | Tests: 0\n\n\u274c ERRORS:\n  - Ambiguous seed names (1): _validate_transformers \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "instance_id": "scikit-learn__scikit-learn-12704",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "extract_and_validate",
+    "target": "_validate_transformers"
   },
   "scikit-learn__scikit-learn-12758-16775": {
     "code_file": "sklearn/metrics/classification.py",
@@ -2971,6 +4103,43 @@
     "stage": "ok",
     "target": "QuantileTransformer"
   },
+  "scikit-learn__scikit-learn-12834-16782": {
+    "code_file": "sklearn/ensemble/forest.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-12834",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "predict"
+  },
+  "scikit-learn__scikit-learn-12860-16783": {
+    "code_file": "sklearn/linear_model/logistic.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "error": "ValueError: TestContext validation failed for scikit-learn/scikit-learn @ 4223633b:\n\n======================================================================\nTestContext Validation Report: scikit-learn/scikit-learn @ 4223633b\n======================================================================\nSeeds: 4 | Context: 913 | Edges: 1843 | Tests: 96\n\n\u274c ERRORS:\n  - Ambiguous seed names (1): fit \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n======================================================================\n",
+    "instance_id": "scikit-learn__scikit-learn-12860",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "extract_and_validate",
+    "target": "LogisticRegression"
+  },
+  "scikit-learn__scikit-learn-12908-16784": {
+    "code_file": "sklearn/preprocessing/_encoders.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-12908",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "OneHotEncoder"
+  },
+  "scikit-learn__scikit-learn-12989-16789": {
+    "code_file": "sklearn/decomposition/nmf.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-12989",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "NMF"
+  },
   "scikit-learn__scikit-learn-13046-16794": {
     "code_file": "sklearn/impute.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -2980,6 +4149,33 @@
     "stage": "ok",
     "target": "MissingIndicator"
   },
+  "scikit-learn__scikit-learn-13087-16795": {
+    "code_file": "sklearn/calibration.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-13087",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "calibration_curve"
+  },
+  "scikit-learn__scikit-learn-13124-16796": {
+    "code_file": "sklearn/model_selection/_split.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-13124",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "StratifiedKFold"
+  },
+  "scikit-learn__scikit-learn-13135-16797": {
+    "code_file": "sklearn/preprocessing/_discretization.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-13135",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "fit"
+  },
   "scikit-learn__scikit-learn-13165-16801": {
     "code_file": "sklearn/preprocessing/_discretization.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -2988,6 +4184,25 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "KBinsDiscretizer"
+  },
+  "scikit-learn__scikit-learn-13174-16802": {
+    "code_file": "sklearn/ensemble/weight_boosting.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "error": "ValueError: TestContext validation failed for scikit-learn/scikit-learn @ 09bc2763:\n\n======================================================================\nTestContext Validation Report: scikit-learn/scikit-learn @ 09bc2763\n======================================================================\nSeeds: 18 | Context: 1131 | Edges: 2170 | Tests: 35\n\n\u274c ERRORS:\n  - Ambiguous seed names (4): _boost, staged_predict, predict \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n======================================================================\n",
+    "instance_id": "scikit-learn__scikit-learn-13174",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "extract_and_validate",
+    "target": "BaseWeightBoosting"
+  },
+  "scikit-learn__scikit-learn-13253-16804": {
+    "code_file": "sklearn/preprocessing/_encoders.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-13253",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_BaseEncoder"
   },
   "scikit-learn__scikit-learn-13313-16808": {
     "code_file": "sklearn/utils/estimator_checks.py",
@@ -3016,6 +4231,24 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "extract_and_validate",
     "target": "QuantileTransformer"
+  },
+  "scikit-learn__scikit-learn-13368-16812": {
+    "code_file": "sklearn/model_selection/_validation.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-13368",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_fit_and_predict"
+  },
+  "scikit-learn__scikit-learn-13436-16814": {
+    "code_file": "sklearn/base.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-13436",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "__repr__"
   },
   "scikit-learn__scikit-learn-13439-16815": {
     "code_file": "sklearn/pipeline.py",
@@ -3062,6 +4295,15 @@
     "stage": "ok",
     "target": "_estimate_mi"
   },
+  "scikit-learn__scikit-learn-13536-16823": {
+    "code_file": "sklearn/pipeline.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-13536",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_fit"
+  },
   "scikit-learn__scikit-learn-13584-16825": {
     "code_file": "sklearn/utils/_pprint.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -3070,6 +4312,24 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "_changed_params"
+  },
+  "scikit-learn__scikit-learn-13618-16826": {
+    "code_file": "sklearn/linear_model/bayes.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-13618",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "BayesianRidge"
+  },
+  "scikit-learn__scikit-learn-13726-16831": {
+    "code_file": "sklearn/cluster/spectral.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-13726",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "SpectralClustering"
   },
   "scikit-learn__scikit-learn-13779-16832": {
     "code_file": "sklearn/ensemble/voting.py",
@@ -3108,6 +4368,24 @@
     "stage": "ok",
     "target": "_parallel_pairwise"
   },
+  "scikit-learn__scikit-learn-13915-16839": {
+    "code_file": "sklearn/preprocessing/_encoders.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-13915",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_handle_deprecations"
+  },
+  "scikit-learn__scikit-learn-13915-16841": {
+    "code_file": "sklearn/metrics/pairwise.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-13915",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_euclidean_distances_upcast"
+  },
   "scikit-learn__scikit-learn-13960-16843": {
     "code_file": "sklearn/decomposition/incremental_pca.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -3116,6 +4394,24 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "IncrementalPCA"
+  },
+  "scikit-learn__scikit-learn-13983-16844": {
+    "code_file": "sklearn/utils/_show_versions.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-13983",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_get_deps_info"
+  },
+  "scikit-learn__scikit-learn-14053-16846": {
+    "code_file": "sklearn/tree/export.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-14053",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "export_text"
   },
   "scikit-learn__scikit-learn-14087-16848": {
     "code_file": "sklearn/linear_model/logistic.py",
@@ -3162,6 +4458,15 @@
     "stage": "ok",
     "target": "_get_deps_info"
   },
+  "scikit-learn__scikit-learn-14237-16853": {
+    "code_file": "sklearn/compose/_column_transformer.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-14237",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "ColumnTransformer"
+  },
   "scikit-learn__scikit-learn-14430-16855": {
     "code_file": "sklearn/feature_extraction/text.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -3172,6 +4477,33 @@
     "stage": "extract_and_validate",
     "target": "VectorizerMixin"
   },
+  "scikit-learn__scikit-learn-14496-16860": {
+    "code_file": "sklearn/cluster/optics_.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-14496",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "OPTICS"
+  },
+  "scikit-learn__scikit-learn-14520-16861": {
+    "code_file": "sklearn/feature_extraction/text.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-14520",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "transform"
+  },
+  "scikit-learn__scikit-learn-14544-16862": {
+    "code_file": "sklearn/compose/_column_transformer.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-14544",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "ColumnTransformer"
+  },
   "scikit-learn__scikit-learn-14591-16863": {
     "code_file": "sklearn/linear_model/coordinate_descent.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -3180,6 +4512,15 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "fit"
+  },
+  "scikit-learn__scikit-learn-14706-16866": {
+    "code_file": "sklearn/kernel_approximation.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-14706",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "Nystroem"
   },
   "scikit-learn__scikit-learn-14732-16868": {
     "code_file": "sklearn/metrics/regression.py",
@@ -3245,6 +4586,33 @@
     "stage": "extract_and_validate",
     "target": "_BaseVoting"
   },
+  "scikit-learn__scikit-learn-15094-16881": {
+    "code_file": "sklearn/utils/validation.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-15094",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "check_array"
+  },
+  "scikit-learn__scikit-learn-15096-16882": {
+    "code_file": "sklearn/model_selection/_search.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-15096",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "fit"
+  },
+  "scikit-learn__scikit-learn-15100-16883": {
+    "code_file": "sklearn/feature_extraction/text.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-15100",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "strip_accents_unicode"
+  },
   "scikit-learn__scikit-learn-15119-16884": {
     "code_file": "sklearn/pipeline.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -3253,6 +4621,15 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "fit"
+  },
+  "scikit-learn__scikit-learn-15120-16885": {
+    "code_file": "sklearn/cluster/mean_shift_.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-15120",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "MeanShift"
   },
   "scikit-learn__scikit-learn-15512-16889": {
     "code_file": "sklearn/cluster/_affinity_propagation.py",
@@ -3271,6 +4648,15 @@
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "check_clusterings"
+  },
+  "scikit-learn__scikit-learn-23099-16894": {
+    "code_file": "sklearn/gaussian_process/_gpr.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-23099",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "GaussianProcessRegressor"
   },
   "scikit-learn__scikit-learn-24677-16896": {
     "code_file": "sklearn/metrics/cluster/_unsupervised.py",
@@ -3298,6 +4684,15 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "_validate_data"
+  },
+  "scikit-learn__scikit-learn-25299-16901": {
+    "code_file": "sklearn/metrics/_classification.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-25299",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "log_loss"
   },
   "scikit-learn__scikit-learn-25500-16908": {
     "code_file": "sklearn/isotonic.py",
@@ -3345,6 +4740,15 @@
     "stage": "ok",
     "target": "ndcg_score"
   },
+  "scikit-learn__scikit-learn-25694-16914": {
+    "code_file": "sklearn/neural_network/_multilayer_perceptron.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-25694",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_fit_stochastic"
+  },
   "scikit-learn__scikit-learn-25697-16915": {
     "code_file": "sklearn/linear_model/_bayes.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -3364,6 +4768,42 @@
     "stage": "ok",
     "target": "_wrap_in_pandas_container"
   },
+  "scikit-learn__scikit-learn-25805-16922": {
+    "code_file": "sklearn/calibration.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-25805",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "fit"
+  },
+  "scikit-learn__scikit-learn-25969-16924": {
+    "code_file": "sklearn/calibration.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-25969",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "CalibrationDisplay"
+  },
+  "scikit-learn__scikit-learn-25973-16925": {
+    "code_file": "sklearn/feature_selection/_sequential.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-25973",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_get_best_new_feature_score"
+  },
+  "scikit-learn__scikit-learn-26242-16927": {
+    "code_file": "sklearn/ensemble/_weight_boosting.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-26242",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "BaseWeightBoosting"
+  },
   "scikit-learn__scikit-learn-26289-16928": {
     "code_file": "sklearn/tree/_export.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
@@ -3381,6 +4821,25 @@
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "fit"
+  },
+  "scikit-learn__scikit-learn-26323-16930": {
+    "code_file": "sklearn/compose/_column_transformer.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-26323",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "set_output"
+  },
+  "scikit-learn__scikit-learn-26634-16932": {
+    "code_file": "sklearn/decomposition/_nmf.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "error": "ValueError: TestContext validation failed for scikit-learn/scikit-learn @ 9cbcc1f2:\n\n======================================================================\nTestContext Validation Report: scikit-learn/scikit-learn @ 9cbcc1f2\n======================================================================\nSeeds: 10 | Context: 995 | Edges: 1469 | Tests: 5\n\n\u274c ERRORS:\n  - Ambiguous seed names (1): __init__ \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n======================================================================\n",
+    "instance_id": "scikit-learn__scikit-learn-26634",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "extract_and_validate",
+    "target": "MiniBatchNMF"
   },
   "scikit-learn__scikit-learn-7760-16935": {
     "code_file": "sklearn/utils/estimator_checks.py",
@@ -3401,6 +4860,15 @@
     "stage": "extract_and_validate",
     "target": "BaseMultilayerPerceptron"
   },
+  "scikit-learn__scikit-learn-9304-16938": {
+    "code_file": "sklearn/pipeline.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "scikit-learn__scikit-learn-9304",
+    "repo": "scikit-learn/scikit-learn",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "predict"
+  },
   "sphinx-doc__sphinx-10097-16946": {
     "code_file": "sphinx/domains/std.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -3420,6 +4888,26 @@
     "stage": "extract_and_validate",
     "target": "TypeAliasForwardRef"
   },
+  "sphinx-doc__sphinx-10360-16953": {
+    "code_file": "sphinx/domains/c.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "error": "ValueError: TestContext validation failed for sphinx-doc/sphinx @ d951e55b:\n\n======================================================================\nTestContext Validation Report: sphinx-doc/sphinx @ d951e55b\n======================================================================\nSeeds: 18 | Context: 1248 | Edges: 1977 | Tests: 0\n\n\u274c ERRORS:\n  - Ambiguous seed names (4): _stringify, describe_signature, __init__ \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "instance_id": "sphinx-doc__sphinx-10360",
+    "repo": "sphinx-doc/sphinx",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "extract_and_validate",
+    "target": "__init__"
+  },
+  "sphinx-doc__sphinx-10360-16954": {
+    "code_file": "sphinx/domains/cpp.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "error": "ValueError: TestContext validation failed for sphinx-doc/sphinx @ d951e55b:\n\n======================================================================\nTestContext Validation Report: sphinx-doc/sphinx @ d951e55b\n======================================================================\nSeeds: 31 | Context: 1309 | Edges: 2142 | Tests: 0\n\n\u274c ERRORS:\n  - Ambiguous seed names (3): describe_signature, __init__, _stringify \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "instance_id": "sphinx-doc__sphinx-10360",
+    "repo": "sphinx-doc/sphinx",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "extract_and_validate",
+    "target": "__init__"
+  },
   "sphinx-doc__sphinx-7305-16977": {
     "code_file": "sphinx/pycode/ast.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -3438,6 +4926,16 @@
     "stage": "ok",
     "target": "_parse_attributes_section"
   },
+  "sphinx-doc__sphinx-7351-16979": {
+    "code_file": "sphinx/util/logging.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "error": "ValueError: TestContext validation failed for sphinx-doc/sphinx @ c75470f9:\n\n======================================================================\nTestContext Validation Report: sphinx-doc/sphinx @ c75470f9\n======================================================================\nSeeds: 17 | Context: 200 | Edges: 342 | Tests: 19\n\n\u274c ERRORS:\n  - Ambiguous seed names (2): filter, __init__ \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n======================================================================\n",
+    "instance_id": "sphinx-doc__sphinx-7351",
+    "repo": "sphinx-doc/sphinx",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "extract_and_validate",
+    "target": "OnceFilter"
+  },
   "sphinx-doc__sphinx-7380-16982": {
     "code_file": "sphinx/domains/cpp.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -3447,6 +4945,15 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "extract_and_validate",
     "target": "ASTBracedInitList"
+  },
+  "sphinx-doc__sphinx-7395-16983": {
+    "code_file": "sphinx/domains/python.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sphinx-doc__sphinx-7395",
+    "repo": "sphinx-doc/sphinx",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "PyFunction"
   },
   "sphinx-doc__sphinx-7454-16985": {
     "code_file": "sphinx/domains/python.py",
@@ -3525,6 +5032,15 @@
     "stage": "extract_and_validate",
     "target": "_escape_args_and_kwargs"
   },
+  "sphinx-doc__sphinx-7757-16994": {
+    "code_file": "sphinx/util/inspect.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sphinx-doc__sphinx-7757",
+    "repo": "sphinx-doc/sphinx",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "signature_from_str"
+  },
   "sphinx-doc__sphinx-7814-16995": {
     "code_file": "sphinx/domains/python.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -3591,6 +5107,16 @@
     "stage": "ok",
     "target": "append_epilog"
   },
+  "sphinx-doc__sphinx-7930-17002": {
+    "code_file": "sphinx/domains/python.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "error": "ValueError: TestContext validation failed for sphinx-doc/sphinx @ 2feb0b43:\n\n======================================================================\nTestContext Validation Report: sphinx-doc/sphinx @ 2feb0b43\n======================================================================\nSeeds: 6 | Context: 138 | Edges: 231 | Tests: 1\n\n\u274c ERRORS:\n  - Ambiguous seed names (1): handle_signature \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n======================================================================\n",
+    "instance_id": "sphinx-doc__sphinx-7930",
+    "repo": "sphinx-doc/sphinx",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "extract_and_validate",
+    "target": "_parse_annotation"
+  },
   "sphinx-doc__sphinx-7975-17003": {
     "code_file": "sphinx/environment/adapters/indexentries.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
@@ -3628,6 +5154,15 @@
     "stage": "ok",
     "target": "setup"
   },
+  "sphinx-doc__sphinx-8117-17010": {
+    "code_file": "sphinx/domains/c.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sphinx-doc__sphinx-8117",
+    "repo": "sphinx-doc/sphinx",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "__init__"
+  },
   "sphinx-doc__sphinx-8117-17011": {
     "code_file": "sphinx/domains/cpp.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -3646,6 +5181,15 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "_stringify_py37"
+  },
+  "sphinx-doc__sphinx-8265-17013": {
+    "code_file": "sphinx/pycode/ast.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sphinx-doc__sphinx-8265",
+    "repo": "sphinx-doc/sphinx",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "is_simple_tuple"
   },
   "sphinx-doc__sphinx-8273-17014": {
     "code_file": "sphinx/builders/manpage.py",
@@ -3710,6 +5254,24 @@
     "stage": "ok",
     "target": "restify"
   },
+  "sphinx-doc__sphinx-9104-17041": {
+    "code_file": "sphinx/domains/python.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sphinx-doc__sphinx-9104",
+    "repo": "sphinx-doc/sphinx",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "make_xrefs"
+  },
+  "sphinx-doc__sphinx-9128-17042": {
+    "code_file": "sphinx/domains/python.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sphinx-doc__sphinx-9128",
+    "repo": "sphinx-doc/sphinx",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "ObjectEntry"
+  },
   "sphinx-doc__sphinx-9155-17043": {
     "code_file": "sphinx/domains/c.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -3719,6 +5281,33 @@
     "stage": "ok",
     "target": "CObject"
   },
+  "sphinx-doc__sphinx-9155-17044": {
+    "code_file": "sphinx/domains/cpp.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sphinx-doc__sphinx-9155",
+    "repo": "sphinx-doc/sphinx",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "CPPObject"
+  },
+  "sphinx-doc__sphinx-9231-17045": {
+    "code_file": "sphinx/builders/manpage.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sphinx-doc__sphinx-9231",
+    "repo": "sphinx-doc/sphinx",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "write"
+  },
+  "sphinx-doc__sphinx-9258-17047": {
+    "code_file": "sphinx/domains/python.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sphinx-doc__sphinx-9258",
+    "repo": "sphinx-doc/sphinx",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "make_xrefs"
+  },
   "sphinx-doc__sphinx-9261-17049": {
     "code_file": "sphinx/util/inspect.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -3727,6 +5316,15 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "getdoc"
+  },
+  "sphinx-doc__sphinx-9281-17050": {
+    "code_file": "sphinx/util/inspect.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sphinx-doc__sphinx-9281",
+    "repo": "sphinx-doc/sphinx",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "object_description"
   },
   "sphinx-doc__sphinx-9320-17052": {
     "code_file": "sphinx/cmd/quickstart.py",
@@ -3745,6 +5343,33 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "apply"
+  },
+  "sphinx-doc__sphinx-9367-17054": {
+    "code_file": "sphinx/pycode/ast.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sphinx-doc__sphinx-9367",
+    "repo": "sphinx-doc/sphinx",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "visit_Tuple"
+  },
+  "sphinx-doc__sphinx-9459-17055": {
+    "code_file": "sphinx/ext/intersphinx.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sphinx-doc__sphinx-9459",
+    "repo": "sphinx-doc/sphinx",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_create_element_from_result"
+  },
+  "sphinx-doc__sphinx-9464-17056": {
+    "code_file": "sphinx/util/typing.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sphinx-doc__sphinx-9464",
+    "repo": "sphinx-doc/sphinx",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "stringify"
   },
   "sphinx-doc__sphinx-9547-17058": {
     "code_file": "sphinx/domains/c.py",
@@ -3811,6 +5436,24 @@
     "stage": "ok",
     "target": "get_index_text"
   },
+  "sphinx-doc__sphinx-9797-17066": {
+    "code_file": "sphinx/util/inspect.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sphinx-doc__sphinx-9797",
+    "repo": "sphinx-doc/sphinx",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "getdoc"
+  },
+  "sphinx-doc__sphinx-9798-17067": {
+    "code_file": "sphinx/domains/python.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sphinx-doc__sphinx-9798",
+    "repo": "sphinx-doc/sphinx",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "make_xrefs"
+  },
   "sphinx-doc__sphinx-9829-17068": {
     "code_file": "sphinx/ext/mathjax.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -3865,6 +5508,15 @@
     "stage": "ok",
     "target": "_stringify_py36"
   },
+  "sphinx-doc__sphinx-9997-17074": {
+    "code_file": "sphinx/util/inspect.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sphinx-doc__sphinx-9997",
+    "repo": "sphinx-doc/sphinx",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "stringify_signature"
+  },
   "sympy__sympy-11400-17079": {
     "code_file": "sympy/printing/ccode.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
@@ -3903,6 +5555,15 @@
     "stage": "extract_and_validate",
     "target": "Permutation"
   },
+  "sympy__sympy-12529-17122": {
+    "code_file": "sympy/ntheory/factor_.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-12529",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "eval"
+  },
   "sympy__sympy-13031-17133": {
     "code_file": "sympy/matrices/sparse.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -3911,6 +5572,15 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "col_join"
+  },
+  "sympy__sympy-13301-17149": {
+    "code_file": "sympy/printing/str.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-13301",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_print_AccumulationBounds"
   },
   "sympy__sympy-13309-17150": {
     "code_file": "sympy/functions/elementary/miscellaneous.py",
@@ -3921,6 +5591,16 @@
     "stage": "ok",
     "target": "Max"
   },
+  "sympy__sympy-13372-17154": {
+    "code_file": "sympy/core/evalf.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "error": "ValueError: TestContext validation failed for sympy/sympy @ 30379ea6:\n\n======================================================================\nTestContext Validation Report: sympy/sympy @ 30379ea6\n======================================================================\nSeeds: 2 | Context: 186 | Edges: 240 | Tests: 6\n\n\u274c ERRORS:\n  - Ambiguous seed names (1): evalf \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n======================================================================\n",
+    "instance_id": "sympy__sympy-13372",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "extract_and_validate",
+    "target": "evalf"
+  },
   "sympy__sympy-13471-17157": {
     "code_file": "sympy/core/numbers.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
@@ -3930,6 +5610,15 @@
     "stage": "ok",
     "target": "__new__"
   },
+  "sympy__sympy-13480-17158": {
+    "code_file": "sympy/functions/elementary/hyperbolic.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-13480",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "eval"
+  },
   "sympy__sympy-13551-17159": {
     "code_file": "sympy/concrete/products.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -3938,6 +5627,24 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "_eval_product"
+  },
+  "sympy__sympy-13624-17166": {
+    "code_file": "sympy/printing/pycode.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-13624",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "PythonCodePrinter"
+  },
+  "sympy__sympy-13744-17171": {
+    "code_file": "sympy/combinatorics/free_groups.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-13744",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "zero_mul_simp"
   },
   "sympy__sympy-13895-17185": {
     "code_file": "sympy/core/numbers.py",
@@ -3956,6 +5663,33 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "_eval_product"
+  },
+  "sympy__sympy-14085-17198": {
+    "code_file": "sympy/parsing/sympy_parser.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-14085",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_token_splittable"
+  },
+  "sympy__sympy-14166-17200": {
+    "code_file": "sympy/printing/latex.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-14166",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_print_Order"
+  },
+  "sympy__sympy-14180-17201": {
+    "code_file": "sympy/printing/latex.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-14180",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "LatexPrinter"
   },
   "sympy__sympy-14317-17206": {
     "code_file": "sympy/printing/latex.py",
@@ -3983,6 +5717,15 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "ConditionSet"
+  },
+  "sympy__sympy-14627-17212": {
+    "code_file": "sympy/functions/combinatorial/factorials.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-14627",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "eval"
   },
   "sympy__sympy-14711-17214": {
     "code_file": "sympy/physics/vector/vector.py",
@@ -4055,6 +5798,16 @@
     "stage": "ok",
     "target": "NumPyPrinter"
   },
+  "sympy__sympy-15596-17244": {
+    "code_file": "sympy/polys/polytools.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "error": "ValueError: TestContext validation failed for sympy/sympy @ 6e716b19:\n\n======================================================================\nTestContext Validation Report: sympy/sympy @ 6e716b19\n======================================================================\nSeeds: 2 | Context: 1405 | Edges: 2152 | Tests: 6\n\n\u274c ERRORS:\n  - Ambiguous seed names (1): degree \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n======================================================================\n",
+    "instance_id": "sympy__sympy-15596",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "extract_and_validate",
+    "target": "degree"
+  },
   "sympy__sympy-15599-17245": {
     "code_file": "sympy/core/mod.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -4082,6 +5835,15 @@
     "stage": "ok",
     "target": "idiff"
   },
+  "sympy__sympy-15685-17250": {
+    "code_file": "sympy/physics/units/definitions.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "error": "ValueError: No changed function found in sympy/physics/units/definitions.py for this patch",
+    "instance_id": "sympy__sympy-15685",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "resolve_target_function"
+  },
   "sympy__sympy-15933-17253": {
     "code_file": "sympy/physics/quantum/grover.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -4091,6 +5853,24 @@
     "stage": "ok",
     "target": "_represent_ZGate"
   },
+  "sympy__sympy-15933-17254": {
+    "code_file": "sympy/physics/quantum/qubit.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-15933",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "IntQubit"
+  },
+  "sympy__sympy-15948-17255": {
+    "code_file": "sympy/core/mul.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-15948",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_keep_coeff"
+  },
   "sympy__sympy-15948-17257": {
     "code_file": "sympy/matrices/expressions/matexpr.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -4099,6 +5879,16 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "_postprocessor"
+  },
+  "sympy__sympy-15976-17260": {
+    "code_file": "sympy/printing/mathml.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "error": "ValueError: TestContext validation failed for sympy/sympy @ 70144185:\n\n======================================================================\nTestContext Validation Report: sympy/sympy @ 70144185\n======================================================================\nSeeds: 3 | Context: 43 | Edges: 49 | Tests: 0\n\n\u274c ERRORS:\n  - Ambiguous seed names (1): join \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "instance_id": "sympy__sympy-15976",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "extract_and_validate",
+    "target": "_print_Symbol"
   },
   "sympy__sympy-16052-17262": {
     "code_file": "sympy/matrices/expressions/matexpr.py",
@@ -4119,6 +5909,33 @@
     "stage": "extract_and_validate",
     "target": "MCodePrinter"
   },
+  "sympy__sympy-16597-17281": {
+    "code_file": "sympy/core/assumptions.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "error": "ValueError: No changed function found in sympy/core/assumptions.py for this patch",
+    "instance_id": "sympy__sympy-16597",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "resolve_target_function"
+  },
+  "sympy__sympy-16637-17284": {
+    "code_file": "sympy/geometry/plane.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-16637",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "distance"
+  },
+  "sympy__sympy-16781-17286": {
+    "code_file": "sympy/printing/dot.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-16781",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "dotedges"
+  },
   "sympy__sympy-16792-17287": {
     "code_file": "sympy/utilities/codegen.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
@@ -4127,6 +5944,15 @@
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "routine"
+  },
+  "sympy__sympy-16862-17289": {
+    "code_file": "sympy/sets/fancysets.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-16862",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "__new__"
   },
   "sympy__sympy-17022-17307": {
     "code_file": "sympy/printing/pycode.py",
@@ -4146,6 +5972,25 @@
     "stage": "ok",
     "target": "isqrt"
   },
+  "sympy__sympy-17067-17309": {
+    "code_file": "sympy/simplify/fu.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "error": "ValueError: TestContext validation failed for sympy/sympy @ f20a763d:\n\n======================================================================\nTestContext Validation Report: sympy/sympy @ f20a763d\n======================================================================\nSeeds: 22 | Context: 1824 | Edges: 3016 | Tests: 22\n\n\u274c ERRORS:\n  - Ambiguous seed names (1): f \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n======================================================================\n",
+    "instance_id": "sympy__sympy-17067",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "extract_and_validate",
+    "target": "f"
+  },
+  "sympy__sympy-17103-17310": {
+    "code_file": "sympy/utilities/lambdify.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-17103",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "lambdify"
+  },
   "sympy__sympy-17194-17318": {
     "code_file": "sympy/printing/mathml.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -4155,6 +6000,24 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "extract_and_validate",
     "target": "MathMLContentPrinter"
+  },
+  "sympy__sympy-17223-17319": {
+    "code_file": "sympy/core/mul.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-17223",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "Mul"
+  },
+  "sympy__sympy-17239-17321": {
+    "code_file": "sympy/printing/glsl.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-17239",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "GLSLPrinter"
   },
   "sympy__sympy-17251-17322": {
     "code_file": "sympy/functions/elementary/exponential.py",
@@ -4174,6 +6037,24 @@
     "stage": "ok",
     "target": "convert_to"
   },
+  "sympy__sympy-17318-17328": {
+    "code_file": "sympy/simplify/sqrtdenest.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-17318",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_sqrt_match"
+  },
+  "sympy__sympy-17394-17331": {
+    "code_file": "sympy/printing/pycode.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-17394",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "MpmathPrinter"
+  },
   "sympy__sympy-17653-17333": {
     "code_file": "sympy/tensor/indexed.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -4192,6 +6073,15 @@
     "stage": "ok",
     "target": "Point"
   },
+  "sympy__sympy-17696-17335": {
+    "code_file": "sympy/assumptions/refine.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-17696",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "refine_sign"
+  },
   "sympy__sympy-17770-17337": {
     "code_file": "sympy/functions/elementary/hyperbolic.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -4202,6 +6092,42 @@
     "stage": "extract_and_validate",
     "target": "_eval_is_finite"
   },
+  "sympy__sympy-17809-17338": {
+    "code_file": "sympy/functions/elementary/hyperbolic.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-17809",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_eval_is_finite"
+  },
+  "sympy__sympy-17821-17340": {
+    "code_file": "sympy/core/numbers.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-17821",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "Catalan"
+  },
+  "sympy__sympy-17845-17341": {
+    "code_file": "sympy/printing/str.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-17845",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "StrPrinter"
+  },
+  "sympy__sympy-18087-17346": {
+    "code_file": "sympy/core/exprtools.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-18087",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "__init__"
+  },
   "sympy__sympy-18273-17361": {
     "code_file": "sympy/simplify/cse_main.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
@@ -4210,6 +6136,15 @@
     "run_at": "2026-07-28T15:40:41.393753+00:00",
     "stage": "ok",
     "target": "_find_repeated"
+  },
+  "sympy__sympy-18351-17362": {
+    "code_file": "sympy/printing/pycode.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-18351",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "NumPyPrinter"
   },
   "sympy__sympy-18532-17364": {
     "code_file": "sympy/core/basic.py",
@@ -4257,6 +6192,33 @@
     "stage": "ok",
     "target": "SchurNumber"
   },
+  "sympy__sympy-18728-17373": {
+    "code_file": "sympy/core/power.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-18728",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_eval_is_extended_real"
+  },
+  "sympy__sympy-18744-17374": {
+    "code_file": "sympy/printing/str.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-18744",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_print_MatMul"
+  },
+  "sympy__sympy-18765-17376": {
+    "code_file": "sympy/matrices/expressions/matmul.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-18765",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "__new__"
+  },
   "sympy__sympy-18765-17377": {
     "code_file": "sympy/matrices/expressions/matadd.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -4275,6 +6237,15 @@
     "stage": "ok",
     "target": "uniq"
   },
+  "sympy__sympy-18922-17382": {
+    "code_file": "sympy/plotting/textplot.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-18922",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "textplot"
+  },
   "sympy__sympy-19007-17384": {
     "code_file": "sympy/matrices/expressions/blockmatrix.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
@@ -4283,6 +6254,15 @@
     "run_at": "2026-07-28T14:03:29.738720+00:00",
     "stage": "ok",
     "target": "_entry"
+  },
+  "sympy__sympy-19091-17386": {
+    "code_file": "sympy/tensor/tensor.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-19091",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "TensExpr"
   },
   "sympy__sympy-19093-17389": {
     "code_file": "sympy/matrices/expressions/matpow.py",
@@ -4310,6 +6290,15 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "_eval_rewrite_as_Abs"
+  },
+  "sympy__sympy-19495-17398": {
+    "code_file": "sympy/sets/conditionset.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-19495",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "ConditionSet"
   },
   "sympy__sympy-19783-17403": {
     "code_file": "sympy/physics/quantum/dagger.py",
@@ -4339,6 +6328,15 @@
     "stage": "ok",
     "target": "Point"
   },
+  "sympy__sympy-20115-17406": {
+    "code_file": "sympy/printing/pycode.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-20115",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "PythonCodePrinter"
+  },
   "sympy__sympy-20134-17408": {
     "code_file": "sympy/printing/pycode.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -4366,6 +6364,24 @@
     "stage": "ok",
     "target": "lens_makers_formula"
   },
+  "sympy__sympy-20264-17412": {
+    "code_file": "sympy/printing/latex.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-20264",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_print_Pow"
+  },
+  "sympy__sympy-20322-17413": {
+    "code_file": "sympy/core/mul.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-20322",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "Mul"
+  },
   "sympy__sympy-20428-17414": {
     "code_file": "sympy/polys/domains/expressiondomain.py",
     "commit": "6b89733b4b67375b547243816b1e7b2ba3d4a61a",
@@ -4384,12 +6400,30 @@
     "stage": "ok",
     "target": "_get_conversion_matrix_for_expr"
   },
+  "sympy__sympy-20565-17417": {
+    "code_file": "sympy/sets/fancysets.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-20565",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_contains"
+  },
   "sympy__sympy-20639-17418": {
     "code_file": "sympy/printing/pretty/pretty.py",
     "instance_id": "sympy__sympy-20639",
     "repo": "sympy/sympy",
     "stage": "ok",
     "target": "_print_Pow"
+  },
+  "sympy__sympy-20691-17420": {
+    "code_file": "sympy/matrices/expressions/matexpr.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-20691",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "__new__"
   },
   "sympy__sympy-21055-17423": {
     "code_file": "sympy/assumptions/refine.py",
@@ -4399,6 +6433,15 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "refine_arg"
+  },
+  "sympy__sympy-21101-17424": {
+    "code_file": "sympy/printing/latex.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-21101",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "convert_args"
   },
   "sympy__sympy-21171-17425": {
     "code_file": "sympy/printing/latex.py",
@@ -4410,6 +6453,15 @@
     "stage": "extract_and_validate",
     "target": "_print_SingularityFunction"
   },
+  "sympy__sympy-21260-17428": {
+    "code_file": "sympy/core/singleton.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-21260",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "Singleton"
+  },
   "sympy__sympy-21379-17433": {
     "code_file": "sympy/core/mod.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -4419,6 +6471,25 @@
     "stage": "ok",
     "target": "eval"
   },
+  "sympy__sympy-21432-17435": {
+    "code_file": "sympy/functions/elementary/complexes.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "error": "ValueError: TestContext validation failed for sympy/sympy @ 05f5021f:\n\n======================================================================\nTestContext Validation Report: sympy/sympy @ 05f5021f\n======================================================================\nSeeds: 2 | Context: 1366 | Edges: 2599 | Tests: 4\n\n\u274c ERRORS:\n  - Ambiguous seed names (1): eval \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n======================================================================\n",
+    "instance_id": "sympy__sympy-21432",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "extract_and_validate",
+    "target": "eval"
+  },
+  "sympy__sympy-21527-17438": {
+    "code_file": "sympy/polys/matrices/linsolve.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-21527",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_linsolve"
+  },
   "sympy__sympy-21586-17441": {
     "code_file": "sympy/parsing/sympy_parser.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -4427,6 +6498,15 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "auto_symbol"
+  },
+  "sympy__sympy-21586-17442": {
+    "code_file": "sympy/core/sympify.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-21586",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "sympify"
   },
   "sympy__sympy-21596-17444": {
     "code_file": "sympy/sets/handlers/intersection.py",
@@ -4471,6 +6551,15 @@
     "stage": "ok",
     "target": "itermonomials"
   },
+  "sympy__sympy-21849-17451": {
+    "code_file": "sympy/printing/latex.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-21849",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_print_LambertW"
+  },
   "sympy__sympy-21864-17452": {
     "code_file": "sympy/utilities/iterables.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -4480,6 +6569,16 @@
     "stage": "ok",
     "target": "multiset_permutations"
   },
+  "sympy__sympy-21930-17453": {
+    "code_file": "sympy/physics/secondquant.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "error": "ValueError: TestContext validation failed for sympy/sympy @ de446c6d:\n\n======================================================================\nTestContext Validation Report: sympy/sympy @ de446c6d\n======================================================================\nSeeds: 3 | Context: 36 | Edges: 47 | Tests: 0\n\n\u274c ERRORS:\n  - Ambiguous seed names (1): _latex \u2014 this name matches more than one distinct function/method in this file; seed selection cannot tell them apart\n\n\u26a0\ufe0f  WARNINGS:\n  - Test coverage: no test_nodes found \u2014 may indicate missing test file\n\n======================================================================\n",
+    "instance_id": "sympy__sympy-21930",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "extract_and_validate",
+    "target": "_latex"
+  },
   "sympy__sympy-21931-17454": {
     "code_file": "sympy/printing/str.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -4488,6 +6587,15 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "StrPrinter"
+  },
+  "sympy__sympy-21932-17455": {
+    "code_file": "sympy/sets/fancysets.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-21932",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "__getitem__"
   },
   "sympy__sympy-22005-17457": {
     "code_file": "sympy/solvers/polysys.py",
@@ -4506,6 +6614,15 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "EvaluateFalseTransformer"
+  },
+  "sympy__sympy-22383-17461": {
+    "code_file": "sympy/core/numbers.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-22383",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "__new__"
   },
   "sympy__sympy-22456-17463": {
     "code_file": "sympy/codegen/ast.py",
@@ -4569,6 +6686,42 @@
     "stage": "ok",
     "target": "_recursive_to_string"
   },
+  "sympy__sympy-23413-17478": {
+    "code_file": "sympy/polys/matrices/normalforms.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-23413",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "_hermite_normal_form"
+  },
+  "sympy__sympy-23534-17479": {
+    "code_file": "sympy/core/symbol.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-23534",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "symbols"
+  },
+  "sympy__sympy-23560-17480": {
+    "code_file": "sympy/geometry/util.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-23560",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "idiff"
+  },
+  "sympy__sympy-23950-17484": {
+    "code_file": "sympy/sets/contains.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-23950",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "as_set"
+  },
   "sympy__sympy-24066-17485": {
     "code_file": "sympy/physics/units/unitsystem.py",
     "commit": "eda9cbd582d4f212272d3e8ab61d8b9d90c7b5fe",
@@ -4596,6 +6749,15 @@
     "stage": "ok",
     "target": "_collect_factor_and_dimension"
   },
+  "sympy__sympy-24325-17489": {
+    "code_file": "sympy/physics/units/systems/cgs.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "error": "ValueError: No changed function found in sympy/physics/units/systems/cgs.py for this patch",
+    "instance_id": "sympy__sympy-24325",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "resolve_target_function"
+  },
   "sympy__sympy-24443-17491": {
     "code_file": "sympy/combinatorics/homomorphisms.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -4605,6 +6767,15 @@
     "stage": "ok",
     "target": "_check_homomorphism"
   },
+  "sympy__sympy-24539-17493": {
+    "code_file": "sympy/polys/rings.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-24539",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "as_expr"
+  },
   "sympy__sympy-24562-17494": {
     "code_file": "sympy/core/numbers.py",
     "commit": "ee06f9ba73b223184ba19b7c876920d60da96278",
@@ -4613,5 +6784,23 @@
     "run_at": "2026-07-28T17:03:56.961993+00:00",
     "stage": "ok",
     "target": "__new__"
+  },
+  "sympy__sympy-24661-17496": {
+    "code_file": "sympy/parsing/sympy_parser.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-24661",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "EvaluateFalseTransformer"
+  },
+  "sympy__sympy-24909-17498": {
+    "code_file": "sympy/physics/units/prefixes.py",
+    "commit": "7e0fc31547af101ebe663f7ed4c285e62cd3f0a9",
+    "instance_id": "sympy__sympy-24909",
+    "repo": "sympy/sympy",
+    "run_at": "2026-07-29T04:04:11.509118+00:00",
+    "stage": "ok",
+    "target": "__mul__"
   }
 }
