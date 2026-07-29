@@ -195,9 +195,11 @@ def _parse_file(args: Tuple[str, str, str]) -> Optional[Dict]:
 
     nodes = []
     edges = []
+    
     # Deduplicate call edges within this file at creation time to avoid
     # accumulating one edge per call-site for frequently called functions
     seen_call_targets: Set[Tuple[str, str]] = set()
+
     # Factory-call assignment sites recorded for optional pyright type
     # resolution (see kg/type_inference.py). Each site is
     # (line, col, source_class_id, source_name), where exactly one of
@@ -1402,6 +1404,83 @@ class RepoKGBuilder:
         kg['metadata']['schema_version'] = SCHEMA_VERSION
         return kg
 
+    def build_from_dir(self, repo_name: str, local_path: Path) -> Dict:
+        """Build a structural KG from a local directory of Python source,
+        with no git dependency at all -- for a working tree, including
+        uncommitted changes, rather than a specific pushed commit
+        (kg_construction#83).
+
+        RepoASTParser.parse_repo only ever needs a directory of Python
+        files; it has no awareness of git, so this is a thin alternate
+        entry point, not new parsing logic.
+
+        Args:
+            repo_name: A label for this build (used in node IDs and as the
+                       'repo' field in metadata) -- does not need to be a
+                       real GitHub 'owner/name', since there's no clone
+                       involved.
+            local_path: Directory containing the Python source to parse.
+
+        Returns:
+            KG dict. metadata['base_commit'] is None (no single commit this
+            snapshot corresponds to) -- callers must not pass this KG to
+            save()/load(), which are keyed on a real commit; use
+            save_local()/load_local() instead.
+        """
+        kg = self.ast_parser.parse_repo(repo_name, Path(local_path))
+        kg['metadata']['base_commit'] = None
+        kg['metadata']['schema_version'] = SCHEMA_VERSION
+        return kg
+
+    def _local_cache_path(self, repo_name: str) -> Path:
+        """On-disk path for a build_from_dir() snapshot.
+
+        Kept separate from _cache_path (which is keyed on a real commit)
+        so a local working-tree build can never collide with, or be
+        silently confused for, a real commit-pinned KG -- a local build
+        has no commit to key on and can go stale the moment the working
+        tree changes again, so it must never be served from the same cache
+        a real commit-pinned build trusts.
+        """
+        safe_name = repo_name.replace('/', '_').replace('-', '_').replace('.', '_')
+        return self.output_dir / f"kg_local_{safe_name}.json"
+
+    def save_local(self, repo_name: str, kg: Dict):
+        """Save a build_from_dir() KG to kg_output/kg_local_{repo_name}.json.
+
+        Args:
+            repo_name: Same label passed to build_from_dir().
+            kg: KG dict as returned by build_from_dir().
+        """
+        output_file = self._local_cache_path(repo_name)
+        with open(output_file, 'w') as f:
+            json.dump(kg, f, indent=2)
+        print(f"Saved: {repo_name} (local) -> {output_file} "
+              f"({len(kg['nodes'])} nodes, {len(kg['edges'])} edges)")
+
+    def load_local(self, repo_name: str) -> Optional[Dict]:
+        """Load a previously saved build_from_dir() KG.
+
+        No freshness check against the working tree is possible (there's
+        no commit to compare against) -- callers that need an up-to-date
+        snapshot of a working tree that may have changed should call
+        build_from_dir() again rather than trust a cached local build.
+
+        Args:
+            repo_name: Same label passed to build_from_dir()/save_local().
+
+        Returns:
+            KG dict, or None if no cached local build exists.
+        """
+        kg_file = self._local_cache_path(repo_name)
+        if not kg_file.exists():
+            return None
+        with open(kg_file) as f:
+            kg = json.load(f)
+        if kg.get('metadata', {}).get('schema_version') != SCHEMA_VERSION:
+            return None
+        return kg
+
     def _cache_path(self, repo: str, commit: str) -> Path:
         """Return the on-disk cache path for a repo at a specific commit.
 
@@ -1420,8 +1499,18 @@ class RepoKGBuilder:
             repo: Repository name (used to derive the output filename).
             kg: KG dict as returned by build(). Must have metadata.base_commit
                 set (build() sets this automatically).
+
+        Raises:
+            ValueError: If kg has no base_commit -- a build_from_dir() KG
+                        has none, and must use save_local() instead, since
+                        this method's cache is keyed on a real commit.
         """
         commit = kg['metadata']['base_commit']
+        if commit is None:
+            raise ValueError(
+                "kg has no base_commit -- if this came from build_from_dir(), "
+                "use save_local() instead."
+            )
         output_file = self._cache_path(repo, commit)
         with open(output_file, 'w') as f:
             json.dump(kg, f, indent=2)
