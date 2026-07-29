@@ -94,8 +94,14 @@ SKIP_DIRS = {'docs', 'doc', 'examples', 'example', 'vendor', '.git'}
 # which SKIP_DIRS previously excluded wholesale (kg_construction#70).
 _GENERATED_MIGRATION_FILENAME = re.compile(r'^\d{4}_')
 
-# Files over this line count are skipped to avoid pathological parse times (e.g. generated files)
-MAX_FILE_LINES = 5000
+# Files over this line count are skipped to avoid pathological parse times.
+# Raised from 5000: a 400-instance TestGenEval validation run found real,
+# actively-maintained files this size (sphinx/domains/cpp.py at 7813 lines,
+# matplotlib's lib/matplotlib/axes/_axes.py at 8451) being silently skipped
+# at ~2.5% prevalence. ast.parse cost at this size is trivial (~37ms), so
+# this cap is a safety net for truly pathological files, not a realistic
+# bound on hand-written modules.
+MAX_FILE_LINES = 20000
 
 # Bumped whenever the KG node/edge shape changes. Stamped into every build's
 # metadata and checked on load, so a cached KG from an older schema is
