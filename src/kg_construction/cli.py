@@ -3,16 +3,16 @@ cli.py
 
 Scriptable, non-interactive command-line interface (kg_construction#83).
 
-    kg-run build psf/requests --commit a0df2cbb     # clone-by-SHA (existing path)
-    kg-run build . --name my-local-repo             # local working tree, no git
-    kg-run query kg_output/kg_x.json --callers send
-    kg-run query kg_output/kg_x.json --callees send
-    kg-run query kg_output/kg_x.json --file sessions.py
+    pkg-run build psf/requests --commit a0df2cbb     # clone-by-SHA (existing path)
+    pkg-run build . --name my-local-repo             # local working tree, no git
+    pkg-run query kg_output/kg_x.json --callers send
+    pkg-run query kg_output/kg_x.json --callees send
+    pkg-run query kg_output/kg_x.json --file sessions.py
 
 Every query subcommand prints a human-readable listing by default;
 pass --json for the raw dict, for scripting/piping.
 
-Running `kg-run` with no arguments falls back to the pre-existing
+Running `pkg-run` with no arguments falls back to the pre-existing
 interactive wizard (kg_construction.pipeline._interactive_mode) --
 nothing that already depends on that entry point breaks.
 """
@@ -132,7 +132,7 @@ def _print_file_contents(contents: Dict) -> None:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog='kg-run', description=__doc__,
+    parser = argparse.ArgumentParser(prog='pkg-run', description=__doc__,
                                       formatter_class=argparse.RawDescriptionHelpFormatter)
     subparsers = parser.add_subparsers(dest='command')
 

@@ -3,18 +3,38 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "kg-construction"
+name = "pycodekg"
 version = "0.1.0"
+description = "Build structural knowledge graphs from Python repositories via AST, for querying and LLM-context extraction."
+readme = "README.md"
 requires-python = ">=3.10"
+license = "MIT"
+authors = [
+    { name = "Miguel", email = "miguelandrevarilla@gmail.com" },
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Quality Assurance",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
 dependencies = []
+
+[project.urls]
+Repository = "https://github.com/miggle711/repo-kg-construction"
+Issues = "https://github.com/miggle711/repo-kg-construction/issues"
 
 [project.optional-dependencies]
 datasets = ["datasets"]
 types = ["pyright"]
-all = ["kg-construction[datasets,types]"]
+all = ["pycodekg[datasets,types]"]
 
 [project.scripts]
-kg-run = "kg_construction.cli:main"
+pkg-run = "kg_construction.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
