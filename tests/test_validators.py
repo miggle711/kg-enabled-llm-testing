@@ -70,6 +70,54 @@ class TestKGValidator:
         # Self-loop with non-'calls' relation should warn
         assert 'Self-loops' in report or 'self-loop' in report.lower()
 
+    def test_detects_a_real_cycle(self):
+        """A -> B -> C -> A must be reported as a cycle."""
+        kg = {
+            'nodes': [
+                {'id': 'n1', 'label': 'func_a', 'type': 'function', 'metadata': {'filepath': 'a.py'}},
+                {'id': 'n2', 'label': 'func_b', 'type': 'function', 'metadata': {'filepath': 'b.py'}},
+                {'id': 'n3', 'label': 'func_c', 'type': 'function', 'metadata': {'filepath': 'c.py'}},
+            ],
+            'edges': [
+                {'source': 'n1', 'target': 'n2', 'relation': 'calls'},
+                {'source': 'n2', 'target': 'n3', 'relation': 'calls'},
+                {'source': 'n3', 'target': 'n1', 'relation': 'calls'},
+            ],
+            'metadata': {'repo': 'test/repo'},
+        }
+        validator = KGValidator(kg)
+        is_valid, report = validator.validate()
+        assert 'Cycles' in report or 'cycle' in report.lower()
+
+    def test_no_false_positive_cycle_on_a_dag(self, valid_kg):
+        """A plain acyclic call graph (n1 -> n2) must not be flagged."""
+        validator = KGValidator(valid_kg)
+        is_valid, report = validator.validate()
+        assert 'Cycles' not in report
+
+    def test_deep_chain_does_not_raise_recursion_error(self):
+        """kg_construction#review: _check_cycles' DFS previously used real
+        Python recursion with no depth guard -- a sufficiently deep real
+        dependency chain could raise RecursionError and crash the whole
+        validation pass. Converted to an iterative DFS; this is a direct
+        regression test at a depth well past Python's default recursion
+        limit (1000).
+        """
+        depth = 5000
+        nodes = [
+            {'id': f'n{i}', 'label': f'func_{i}', 'type': 'function', 'metadata': {'filepath': f'{i}.py'}}
+            for i in range(depth)
+        ]
+        edges = [
+            {'source': f'n{i}', 'target': f'n{i + 1}', 'relation': 'calls'}
+            for i in range(depth - 1)
+        ]
+        kg = {'nodes': nodes, 'edges': edges, 'metadata': {'repo': 'test/repo'}}
+
+        validator = KGValidator(kg)
+        is_valid, report = validator.validate()  # must not raise RecursionError
+        assert 'Cycles' not in report
+
     def test_report_includes_stats(self, valid_kg):
         """Report includes node/edge statistics."""
         validator = KGValidator(valid_kg)

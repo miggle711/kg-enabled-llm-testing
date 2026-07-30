@@ -111,23 +111,44 @@ class KGValidator(ValidationBase):
         rec_stack: Set[str] = set()
         cycles: List[List[str]] = []
 
-        def dfs(node_id: str, path: List[str]) -> None:
-            visited.add(node_id)
-            rec_stack.add(node_id)
-            path.append(node_id)
+        def dfs(start_id: str) -> None:
+            """Iterative DFS (explicit stack, not real recursion); a
+            real repo's dependency chain can run deep enough to hit
+            Python's default recursion limit, which would crash this
+            whole validation pass instead of just reporting a warning.
+            Each stack frame tracks its own position in dep_graph.get(
+            node_id, []) so a node can be revisited after its neighbors
+            are exhausted, matching the original recursive version's
+            path/rec_stack bookkeeping exactly.
+            """
+            stack: List[Tuple[str, List[str], int]] = [(start_id, [], 0)]
+            visited.add(start_id)
+            rec_stack.add(start_id)
 
-            for neighbor in dep_graph.get(node_id, []):
+            while stack:
+                node_id, path, neighbor_idx = stack[-1]
+                if neighbor_idx == 0:
+                    path = path + [node_id]
+
+                neighbors = dep_graph.get(node_id, [])
+                if neighbor_idx >= len(neighbors):
+                    rec_stack.discard(node_id)
+                    stack.pop()
+                    continue
+
+                stack[-1] = (node_id, path, neighbor_idx + 1)
+                neighbor = neighbors[neighbor_idx]
                 if neighbor not in visited:
-                    dfs(neighbor, path.copy())
+                    visited.add(neighbor)
+                    rec_stack.add(neighbor)
+                    stack.append((neighbor, path, 0))
                 elif neighbor in rec_stack:
                     cycle = path[path.index(neighbor):] + [neighbor]
                     cycles.append(cycle)
 
-            rec_stack.discard(node_id)
-
         for node_id in dep_graph:
             if node_id not in visited:
-                dfs(node_id, [])
+                dfs(node_id)
 
         if cycles:
             cycle_strs = []
