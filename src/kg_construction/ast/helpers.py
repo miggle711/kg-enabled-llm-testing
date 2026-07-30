@@ -33,12 +33,14 @@ from typing import List, Dict, Set, Optional, Tuple, Union
 # ---------------------------------------------------------------------------
 
 def _make_id(text: str) -> str:
-    """Generate a deterministic 8-character ID from a qualified name string.
+    """Generate a deterministic 16-character ID from a qualified name string.
 
-    Uses MD5 truncated to 8 hex chars. Collision probability is negligible
-    for the scale of a single repo KG (~10k entities).
+    Uses MD5 truncated to 16 hex chars (64 bits). Raised from 8 (32 bits):
+    at django's real scale (46,520 nodes) collision probability was ~25%,
+    not negligible. A collision silently drops a node (see
+    _aggregate_and_index's dedup). At 16 chars it's ~6e-11.
     """
-    return hashlib.md5(text.encode()).hexdigest()[:8]
+    return hashlib.md5(text.encode()).hexdigest()[:16]
 
 
 def _is_test_file(filepath: str) -> bool:
