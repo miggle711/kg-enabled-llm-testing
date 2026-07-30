@@ -362,22 +362,56 @@ class TestTestContextValidator:
         assert 'Seeds:' in report or 'seeds' in report.lower()
         assert 'Context:' in report or 'context' in report.lower()
 
-    def test_same_named_seeds_in_different_classes_is_flagged(self):
-        """kg_construction#63: a changed function name that resolves to
-        more than one distinct node (e.g. two unrelated classes each
-        defining their own 'aclose' method, found via a real encode/httpx
-        patch to AsyncClient.aclose that also matched the unrelated
-        BoundAsyncStream.aclose in the same file) must be flagged as an
-        error -- LLMSerializer._build_seed_section trusts seeds[0]
-        unconditionally, so an unresolved collision means the model may
-        be shown a completely unrelated function as if it were the seed.
+    def test_same_named_seeds_in_different_classes_is_not_flagged(self):
+        """Two DIFFERENT classes each having their own real, correctly
+        resolved same-named method (e.g. both KMeans.fit and
+        MiniBatchKMeans.fit genuinely changed by the same patch) is not a
+        collision -- each is already unambiguously scoped to its own class.
+        PatchParser's real AST line ranges (kg_construction#75) can no
+        longer produce the original #63 false-positive-sweep scenario at
+        all (confirmed directly: a real single-class patch only ever
+        resolves to that one class's method). Confirmed via a full
+        TestGenEval validation run that flagging this shape wrongly
+        rejected ~8% of real instances (django, matplotlib, astropy,
+        pytest, scikit-learn, pylint, xarray) -- most were genuine
+        multi-class patches like this one.
+        """
+        context = TestContext(
+            seeds=[
+                {'id': 's1', 'label': 'fit', 'type': 'method',
+                 'metadata': {'filepath': 'k_means_.py', 'class': 'KMeans'}},
+                {'id': 's2', 'label': 'fit', 'type': 'method',
+                 'metadata': {'filepath': 'k_means_.py', 'class': 'MiniBatchKMeans'}},
+            ],
+            context_nodes=[
+                {'id': 'c1', 'label': 'helper', 'type': 'function', 'metadata': {'filepath': 'k_means_.py'}},
+            ],
+            edges=[
+                {'source': 's1', 'target': 'c1', 'relation': 'calls'},
+                {'source': 's2', 'target': 'c1', 'relation': 'calls'},
+            ],
+            test_nodes=[],
+            repo='test/repo',
+            base_commit='abc123def456',
+        )
+        validator = TestContextValidator(context)
+        is_valid, report = validator.validate()
+        assert is_valid is True
+
+    def test_same_class_same_named_seeds_is_still_flagged(self):
+        """The genuine remaining collision case: the SAME label on the
+        SAME class (or with no class hint at all) resolving to more than
+        one distinct node is a real, unresolved ambiguity -- seed lookup
+        genuinely cannot tell the two apart, and LLMSerializer's
+        seeds[0]-trusting behavior means the model could be shown either
+        one arbitrarily.
         """
         context = TestContext(
             seeds=[
                 {'id': 's1', 'label': 'aclose', 'type': 'method',
                  'metadata': {'filepath': 'client.py', 'class': 'AsyncClient'}},
                 {'id': 's2', 'label': 'aclose', 'type': 'method',
-                 'metadata': {'filepath': 'client.py', 'class': 'BoundAsyncStream'}},
+                 'metadata': {'filepath': 'client.py', 'class': 'AsyncClient'}},
             ],
             context_nodes=[
                 {'id': 'c1', 'label': 'helper', 'type': 'function', 'metadata': {'filepath': 'client.py'}},
