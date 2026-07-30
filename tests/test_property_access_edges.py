@@ -61,6 +61,56 @@ class TestSelfPropertyAccess:
         assert edge["metadata"]["confidence"] == "qualified"
 
 
+class TestCachedPropertyAccess:
+    """@cached_property (bare or functools-qualified) must be recognized
+    as a property too -- an exact 'property' string match previously
+    missed both spellings entirely, a common real pattern for expensive
+    derived attributes.
+    """
+
+    def test_bare_cached_property_read_resolves(self, tmp_path):
+        (tmp_path / "mod.py").write_text(
+            "from functools import cached_property\n"
+            "\n"
+            "class Widget:\n"
+            "    @cached_property\n"
+            "    def expensive(self):\n"
+            "        return compute()\n"
+            "\n"
+            "    def describe(self):\n"
+            "        return self.expensive\n"
+        )
+        parser = RepoASTParser(max_workers=1)
+        kg = parser.parse_repo("test/repo", tmp_path)
+
+        describe_id = _method_id(kg, "Widget", "describe")
+        expensive_id = _method_id(kg, "Widget", "expensive")
+
+        targets = _accesses_targets(kg, describe_id)
+        assert expensive_id in targets
+
+    def test_qualified_functools_cached_property_read_resolves(self, tmp_path):
+        (tmp_path / "mod.py").write_text(
+            "import functools\n"
+            "\n"
+            "class Widget:\n"
+            "    @functools.cached_property\n"
+            "    def expensive(self):\n"
+            "        return compute()\n"
+            "\n"
+            "    def describe(self):\n"
+            "        return self.expensive\n"
+        )
+        parser = RepoASTParser(max_workers=1)
+        kg = parser.parse_repo("test/repo", tmp_path)
+
+        describe_id = _method_id(kg, "Widget", "describe")
+        expensive_id = _method_id(kg, "Widget", "expensive")
+
+        targets = _accesses_targets(kg, describe_id)
+        assert expensive_id in targets
+
+
 class TestParameterAnnotatedPropertyAccess:
     """A property read through a type-annotated parameter must resolve via local_type_hint."""
 

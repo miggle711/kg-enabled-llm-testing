@@ -768,13 +768,21 @@ class RepoASTParser:
         all_edges: List[Dict] = [edge for result in results for edge in result['edges']]
 
         # Derived from class_method_to_ids (no extra AST walk needed): the
-        # same index, filtered to @property-decorated methods only, so
-        # 'accesses' edge resolution can't accidentally link a property
-        # read to a same-named plain method.
+        # same index, filtered to @property/@cached_property-decorated
+        # methods only, so 'accesses' edge resolution can't accidentally
+        # link a property read to a same-named plain method. Matches on
+        # the decorator's final dotted component, since ast.unparse can
+        # render it as 'property', 'cached_property', or
+        # 'functools.cached_property' depending on how it was imported --
+        # an exact 'property' string match previously missed the
+        # cached_property spellings entirely (a common real pattern for
+        # expensive derived attributes).
+        _PROPERTY_DECORATOR_NAMES = {'property', 'cached_property'}
         property_method_to_ids: Dict[Tuple[str, str], List[str]] = defaultdict(list)
         for (class_label, method_label), ids in class_method_to_ids.items():
             for node_id in ids:
-                if 'property' in nodes_by_id[node_id]['metadata'].get('decorators', []):
+                decorators = nodes_by_id[node_id]['metadata'].get('decorators', [])
+                if any(d.rsplit('.', 1)[-1] in _PROPERTY_DECORATOR_NAMES for d in decorators):
                     property_method_to_ids[(class_label, method_label)].append(node_id)
 
         indices = {
