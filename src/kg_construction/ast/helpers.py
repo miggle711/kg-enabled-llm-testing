@@ -13,12 +13,11 @@ Organised into sections (in file order):
                                          _extract_property_accesses, _collect_local_types)
     - Function/method metadata          (_get_docstring, _get_decorators, _get_signature,
                                          _get_exceptions, _extract_conditions, _extract_data_flows,
-                                         _count_branches, _get_assert_patterns, _get_return_types)
+                                         _count_branches, _get_assert_patterns)
     - Class metadata                    (_get_base_names, _get_class_attributes,
                                          _get_instantiated_classes_in_class)
     - Function-body analysis            (_get_attribute_accesses, _get_used_imports,
                                          _get_instantiated_classes)
-    - Test-target inference             (_get_test_target)
     - Aggregators                       (_build_func_metadata, _collect_file_level_info)
 """
 
@@ -610,78 +609,6 @@ def _get_assert_patterns(node: Union[ast.FunctionDef, ast.AsyncFunctionDef]) -> 
     return patterns
 
 
-def _get_return_types(func_node: Union[ast.FunctionDef, ast.AsyncFunctionDef]) -> List[str]:
-    """Extract the set of types actually returned by a function from return statements.
-
-    Supplements the type annotation (which may be absent) by inspecting
-    what the function actually returns. Useful for generating assertions
-    when there is no return annotation.
-
-    Examples:
-        return None                        → 'None'
-        return self                        → 'self'
-        return []                          → 'list'
-        return (a, b, c)                   → '(a, b, c)'
-        return response                    → 'response' (name, resolved by test generator)
-        return x > 5                       → 'bool'
-        return (x for x in items)          → 'generator'
-    """
-    return_types: List[str] = []
-
-    # Include explicit return annotation first (most authoritative)
-    if func_node.returns is not None:
-        unparsed = _safe_unparse(func_node.returns)
-        if unparsed:
-            return_types.append(unparsed)
-
-    for child in ast.walk(func_node):
-        if child is not func_node and isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef)):
-            continue
-        if isinstance(child, ast.Return):
-            if child.value is None:
-                return_types.append('None')
-            elif isinstance(child.value, ast.Constant) and child.value.value is None:
-                return_types.append('None')
-            elif isinstance(child.value, ast.ListComp):
-                return_types.append('list')
-            elif isinstance(child.value, ast.List):
-                unparsed = _safe_unparse(child.value)
-                return_types.append(unparsed or 'list')
-            elif isinstance(child.value, ast.DictComp):
-                return_types.append('dict')
-            elif isinstance(child.value, ast.Dict):
-                unparsed = _safe_unparse(child.value)
-                return_types.append(unparsed or 'dict')
-            elif isinstance(child.value, ast.SetComp):
-                return_types.append('set')
-            elif isinstance(child.value, ast.Set):
-                unparsed = _safe_unparse(child.value)
-                return_types.append(unparsed or 'set')
-            elif isinstance(child.value, ast.Tuple):
-                unparsed = _safe_unparse(child.value)
-                return_types.append(unparsed or 'tuple')
-            elif isinstance(child.value, ast.Constant):
-                return_types.append(type(child.value.value).__name__)
-            elif isinstance(child.value, ast.Compare):
-                return_types.append('bool')
-            elif isinstance(child.value, ast.BoolOp):
-                return_types.append('bool')
-            elif isinstance(child.value, ast.UnaryOp) and isinstance(child.value.op, ast.Not):
-                return_types.append('bool')
-            elif isinstance(child.value, ast.GeneratorExp):
-                return_types.append('generator')
-            elif isinstance(child.value, ast.Lambda):
-                return_types.append('function')
-            elif isinstance(child.value, (ast.BinOp, ast.UnaryOp)):
-                unparsed = _safe_unparse(child.value)
-                return_types.append(unparsed or 'numeric')
-            else:
-                unparsed = _safe_unparse(child.value)
-                if unparsed:
-                    return_types.append(unparsed)
-    return list(dict.fromkeys(return_types))
-
-
 # ---------------------------------------------------------------------------
 # Class metadata
 # ---------------------------------------------------------------------------
@@ -931,52 +858,6 @@ def _get_factory_call_sites(
 
     _walk(func_node)
     return sites
-
-
-# ---------------------------------------------------------------------------
-# Test-target inference
-# ---------------------------------------------------------------------------
-
-def _get_test_target(
-    func_node: Union[ast.FunctionDef, ast.AsyncFunctionDef],
-    label_to_names: Dict[str, str],
-) -> Optional[str]:
-    """Infer the function under test from a test function's name and body.
-
-    Two strategies:
-    1. Name convention: test_send → looks for 'send' in label_to_names
-    2. Body inspection: the first non-assert, non-setup Call in the body
-       whose callee matches a known function name
-
-    Args:
-        func_node: The test function AST node.
-        label_to_names: Set of known function/method labels in the repo.
-                        Passed in as a set for O(1) lookup.
-
-    Returns:
-        The inferred target function name, or None if not determinable.
-    """
-    # Strategy 1: strip 'test_' prefix and check if it matches a known function
-    name = func_node.name
-    if name.startswith('test_'):
-        candidate = name[5:]  # strip 'test_'
-        if candidate in label_to_names:
-            return candidate
-        # Handle test_send_request → try 'send', 'send_request'
-        parts = candidate.split('_')
-        for i in range(len(parts), 0, -1):
-            joined = '_'.join(parts[:i])
-            if joined in label_to_names:
-                return joined
-
-    # Strategy 2: first non-trivial call in body
-    for child in ast.walk(func_node):
-        if isinstance(child, ast.Call):
-            callee = _extract_callee_name(child)
-            if callee and callee in label_to_names and not callee.startswith('assert'):
-                return callee
-
-    return None
 
 
 # ---------------------------------------------------------------------------

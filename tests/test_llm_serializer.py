@@ -215,7 +215,7 @@ class TestSerializeContextSection:
         instance = {
             "seeds": [seed_node],
             "context_nodes": [used_node],
-            "edges": [{"source": seed_node["id"], "target": used_node["id"], "relation": "instantiates"}],
+            "edges": [{"source": seed_node["id"], "target": used_node["id"], "relation": "uses"}],
             "test_nodes": [],
         }
         result = LLMSerializer().serialize(instance)
@@ -263,7 +263,7 @@ class TestRelatedScopedToSeedOrSeedClass:
             "metadata": {"filepath": "requests/structures.py"},
         }
         instance = self._method_seed_instance(
-            extra_edges=[{"source": "class_preparedrequest", "target": "used", "relation": "instantiates"}],
+            extra_edges=[{"source": "class_preparedrequest", "target": "used", "relation": "uses"}],
             extra_nodes=[used_node],
         )
         result = LLMSerializer().serialize(instance)
