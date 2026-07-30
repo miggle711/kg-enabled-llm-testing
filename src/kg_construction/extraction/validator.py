@@ -11,7 +11,7 @@ Runs after TestContextExtractor.extract() to ensure the subgraph is:
 Errors block use; warnings flag issues to monitor.
 """
 
-from typing import Dict, List, Set, Tuple
+from typing import Dict, List, Optional, Set, Tuple
 from collections import defaultdict
 
 from kg_construction.extraction.context import TestContext
@@ -190,50 +190,61 @@ class TestContextValidator(ValidationBase):
     # --- Should-haves ---
 
     def _check_no_ambiguous_seed_names(self) -> None:
-        """Flag when the same seed LABEL resolves to more than one distinct
-        node -- e.g. two unrelated classes each defining their own
-        'aclose' method, and a patch's changed-function detection finding
-        the name 'aclose' with no way to tell which class's version it
-        actually belongs to (kg_construction#63, found via a real
-        encode/httpx patch to AsyncClient.aclose that also matched the
-        unrelated BoundAsyncStream.aclose in the same file).
+        """Flag when the same seed LABEL, on the SAME class (or with no
+        class at all), resolves to more than one distinct node -- a real,
+        unresolved collision that seed lookup couldn't distinguish
+        (kg_construction#63, originally found via a real encode/httpx
+        patch, back when patch resolution used diff-text/hunk scanning
+        and could sweep an unrelated sibling's def line into the same
+        hunk).
 
-        This is an ERROR, not a warning: LLMSerializer._build_seed_section
-        trusts seeds[0] unconditionally, so an unresolved name collision
-        means the model may be shown a completely unrelated function's
-        code as if it were the one the patch actually changed, depending
-        on subgraph node ordering (BFS visited-order, confirmed
-        non-deterministic across runs during kg_construction#54's
-        investigation) -- not a lesser-severity issue than #54's
-        test-file-as-seed defect, just a different trigger for the same
-        failure shape.
+        Grouped by (label, class), not label alone: two DIFFERENT classes
+        each having their own real, independently-and-correctly-resolved
+        same-named method (e.g. both KMeans.fit and MiniBatchKMeans.fit
+        genuinely changed by the same patch) is not a collision at all --
+        each is already unambiguously scoped to its own class by
+        PatchParser's real AST line ranges (kg_construction#75), which
+        replaced the old diff-scanning approach specifically because it
+        eliminates this false-positive-sweep failure mode at the source.
+        Confirmed directly: #75's PatchParser can no longer reproduce the
+        original #63 scenario at all (a real single-class patch only ever
+        resolves to that one class's method) -- and confirmed via a full
+        TestGenEval validation run that grouping by label alone wrongly
+        rejected ~8% of real instances across django/matplotlib/astropy/
+        pytest/scikit-learn/pylint/xarray, most tracing to real multi-class
+        patches (and, via kg_construction#102, real nested classes that
+        previously had no KG node, forcing seed lookup to fall back to
+        every same-named method in the file, unfiltered).
+
+        This is still an ERROR, not a warning, for the case it does catch:
+        LLMSerializer._build_seed_section trusts seeds[0] unconditionally,
+        so a GENUINE same-class or no-class collision means the model may
+        be shown a completely unrelated function's code as if it were the
+        one the patch actually changed, depending on subgraph node
+        ordering (BFS visited-order, confirmed non-deterministic across
+        runs during kg_construction#54's investigation).
 
         Distinct from a genuine multi-function patch (e.g.
         api_multi_verb_2012 changing patch/put/request/post together,
         which correctly produces multiple seeds with DIFFERENT labels):
-        the signal here is specifically the same label resolving to more
-        than one node, not "more than one seed" in general.
+        the signal here is specifically the same (label, class) resolving
+        to more than one node, not "more than one seed" in general.
 
-        A seed marked newly_created_file (kg_construction#93) is exempt:
-        for a wholly new file, EVERY symbol in it genuinely is
-        changed/new, so two different classes each having their own
-        '__init__' isn't an unresolved collision the way #63 was -- #63's
-        real bug was that only ONE of two same-named methods was actually
-        changed by the patch, and seed resolution couldn't tell which;
-        here, every seed is already correctly, individually resolved --
-        there's no "which one is real" question to fail to answer.
-        Confirmed on a real wholly-new-file instance
-        (src/_pytest/mark/expression.py, pytest-dev/pytest) with several
-        classes each defining their own '__init__'/'__str__'.
+        A seed marked newly_created_file (kg_construction#93) is exempt
+        regardless: for a wholly new file, EVERY symbol in it genuinely is
+        changed/new, so even a same-class collision there (e.g. two
+        overload-shaped methods) reflects the real post-patch source, not
+        an unresolved lookup ambiguity.
         """
-        seen_ids_by_label: Dict[str, Set[str]] = defaultdict(set)
+        seen_ids_by_key: Dict[Tuple[str, Optional[str]], Set[str]] = defaultdict(set)
         for seed in self.context.seeds:
             if seed.get('metadata', {}).get('newly_created_file'):
                 continue
-            seen_ids_by_label[seed['label']].add(seed['id'])
+            key = (seed['label'], seed.get('metadata', {}).get('class'))
+            seen_ids_by_key[key].add(seed['id'])
 
         ambiguous = [
-            label for label, ids in seen_ids_by_label.items() if len(ids) > 1
+            label for (label, _cls), ids in seen_ids_by_key.items() if len(ids) > 1
         ]
 
         if ambiguous:

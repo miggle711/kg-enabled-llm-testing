@@ -105,8 +105,12 @@ MAX_FILE_LINES = 20000
 # metadata and checked on load, so a cached KG from an older schema is
 # rebuilt rather than silently served as if it matched the current shape.
 # 2: _make_id widened from 8 to 16 hex chars (collision-risk fix); every
-# node/edge ID in an old cached KG is a different length now.
-SCHEMA_VERSION = 2
+#    node/edge ID in an old cached KG is a different length now.
+# 3: nested classes (a class defined inside a function or another class
+#    body, e.g. Django's real `class __proxy__` inside `lazy()`) are now
+#    emitted as real class/method nodes (kg_construction#102) -- an old
+#    cached KG is silently missing these nodes entirely.
+SCHEMA_VERSION = 3
 
 
 @dataclass
@@ -440,127 +444,141 @@ def _parse_file(args: Tuple[str, str, str]) -> Optional[Dict]:
             if source_name:
                 factory_sites.append((line, col, None, source_name))
 
-    def _emit_nested_functions(
-        enclosing_node: Union[ast.FunctionDef, ast.AsyncFunctionDef],
-        enclosing_func_id: str,
-        enclosing_qualname: str,
-        class_name: Optional[str],
+    def _emit_class(
+        class_node: ast.ClassDef,
+        container_id: str,
+        qualname: str,
     ):
-        """Emit nodes for functions defined inside enclosing_node's own body
-        (closures) -- previously never extracted at all, so a patch whose
-        changed function is a nested closure had no matching KG node to seed
-        from (kg_construction#74).
-
-        Only direct children of enclosing_node's body are handled here;
-        recursion (for a closure that itself contains another nested
-        function) happens by calling this again on each one found.
+        """Emit a class node (and everything nested inside it) and a
+        'contains' edge from container_id; shared by both a top-level
+        class and a class nested inside another class/function body
+        (kg_construction#102/#85: a class this deeply nested -- e.g.
+        Django's real `class __proxy__(Promise):` inside its `lazy()`
+        factory function -- previously had no KG node at all, so a patch
+        changing it had nothing to seed from, and seed lookup silently
+        fell back to every same-named method across the whole file
+        instead, producing a spurious ambiguous-seed error).
 
         Args:
-            enclosing_qualname: Dotted qualified name of enclosing_node
-                                (e.g. 'outer' or 'Klass.method'), used to
-                                build a readable, unique node ID for each
-                                nested function found.
+            container_id: Node ID of whatever directly contains this class
+                          -- a file, another class, or a function.
+            qualname: Dotted qualified name (e.g. 'Klass' for a top-level
+                      class, 'lazy.__proxy__' for one nested inside a
+                      function, 'Outer.Inner' for one nested inside
+                      another class) -- used to build a unique node ID.
         """
-        for child in ast.iter_child_nodes(enclosing_node):
-            if not isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef)):
-                continue
-            child_qualname = f"{enclosing_qualname}.{child.name}"
-            func_id = _make_id(f"func_{repo}_{rel_path}_{child_qualname}")
-            nodes.append(asdict(KGNode(
-                id=func_id,
-                type='test_function' if child.name.startswith('test_') else 'function',
-                label=child.name,
-                metadata=_build_func_metadata(child, rel_path, repo,
-                                              parent_function=enclosing_node.name,
-                                              import_map=import_map,
-                                              source_lines=source_lines)
-            )))
-            edges.append(asdict(KGEdge(source=enclosing_func_id, target=func_id, relation='contains')))
-            child_local_types = _collect_local_types(child)
-            _emit_call_edges(func_id, child, child_local_types, class_name=class_name)
-            _emit_access_edges(func_id, child, child_local_types, class_name=class_name)
-            _emit_func_edges(func_id, child, class_name=class_name)
+        bases = _get_base_names(class_node)
+        class_id = _make_id(f"class_{repo}_{rel_path}_{qualname}")
+        nodes.append(asdict(KGNode(
+            id=class_id, type='class', label=class_node.name,
+            metadata={
+                'filepath': rel_path, 'repo': repo, 'lineno': class_node.lineno,
+                'bases': bases,
+                'decorators': _get_decorators(class_node),
+                'docstring': _get_docstring(class_node),
+                'attributes': _get_class_attributes(class_node),
+            }
+        )))
+        edges.append(asdict(KGEdge(source=container_id, target=class_id, relation='contains')))
 
-            _emit_nested_functions(child, func_id, child_qualname, class_name=class_name)
+        # Inheritance edges are emitted unresolved here; the second pass
+        # in parse_repo resolves base names to actual class node IDs
+        for base in bases:
+            edges.append(asdict(KGEdge(
+                source=class_id, target=base, relation='inherits',
+                metadata={'unresolved': True}
+            )))
+
+        # uses: classes instantiated within any method of this class
+        for inst_cls in _get_instantiated_classes_in_class(class_node):
+            edges.append(asdict(KGEdge(source=class_id, target=inst_cls, relation='uses',
+                                       metadata={'unresolved': True})))
+
+        for child in ast.iter_child_nodes(class_node):
+            if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                _emit_function(
+                    child, container_id=class_id, qualname=f"{qualname}.{child.name}",
+                    parent_class=class_node.name, enclosing_class_id=class_id,
+                    bases=bases,
+                )
+            elif isinstance(child, ast.ClassDef):
+                _emit_class(child, container_id=class_id, qualname=f"{qualname}.{child.name}")
+
+    def _emit_function(
+        func_node: Union[ast.FunctionDef, ast.AsyncFunctionDef],
+        container_id: str,
+        qualname: str,
+        parent_class: Optional[str] = None,
+        parent_function: Optional[str] = None,
+        enclosing_class_id: Optional[str] = None,
+        bases: Optional[List[str]] = None,
+    ):
+        """Emit a function/method node (and everything nested inside it)
+        and a 'contains' edge from container_id -- shared by a top-level
+        function, a class's own method, and a function/class nested
+        inside a function body (closures, kg_construction#74).
+
+        Args:
+            container_id: Node ID of whatever directly contains this
+                          function -- a file, a class, or another function.
+            qualname: Dotted qualified name, used to build a unique node ID.
+            parent_class: Set only when this is a direct method of a class
+                          (not a closure nested further inside a method).
+            parent_function: Set only when this is a closure nested inside
+                             another function/method, not a direct method.
+            enclosing_class_id: The real class node ID this function
+                                belongs to (directly, as a method, or
+                                transitively via an enclosing method) --
+                                threaded through so a nested closure's own
+                                factory-call sites still resolve against
+                                the real class, not just its immediate
+                                function.
+            bases: The enclosing class's own base names, for 'overrides'
+                  guesses -- only meaningful when parent_class is set.
+        """
+        func_type = 'test_function' if func_node.name.startswith('test_') else (
+            'method' if parent_class is not None else 'function'
+        )
+        func_id = _make_id(f"func_{repo}_{rel_path}_{qualname}")
+        nodes.append(asdict(KGNode(
+            id=func_id, type=func_type, label=func_node.name,
+            metadata=_build_func_metadata(func_node, rel_path, repo,
+                                          parent_class=parent_class,
+                                          parent_function=parent_function,
+                                          import_map=import_map,
+                                          source_lines=source_lines)
+        )))
+        edges.append(asdict(KGEdge(source=container_id, target=func_id, relation='contains')))
+
+        if parent_class is not None and func_node.name != '__init__':
+            for base in (bases or []):
+                edges.append(asdict(KGEdge(
+                    source=func_id, target=f"{base}.{func_node.name}", relation='overrides',
+                    metadata={'unresolved': True}
+                )))
+
+        local_types = _collect_local_types(func_node)
+        _emit_call_edges(func_id, func_node, local_types, class_name=parent_class)
+        _emit_access_edges(func_id, func_node, local_types, class_name=parent_class)
+        _emit_func_edges(func_id, func_node, class_name=parent_class)
+
+        _record_factory_sites(func_node, enclosing_class_id=enclosing_class_id)
+
+        for child in ast.iter_child_nodes(func_node):
+            if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                _emit_function(
+                    child, container_id=func_id, qualname=f"{qualname}.{child.name}",
+                    parent_function=func_node.name, enclosing_class_id=enclosing_class_id,
+                )
+            elif isinstance(child, ast.ClassDef):
+                _emit_class(child, container_id=func_id, qualname=f"{qualname}.{child.name}")
 
     # Emit class, method, and top-level function nodes
     for node in ast.iter_child_nodes(tree):
         if isinstance(node, ast.ClassDef):
-            bases = _get_base_names(node)
-            class_id = _make_id(f"class_{repo}_{rel_path}_{node.name}")
-            nodes.append(asdict(KGNode(
-                id=class_id, type='class', label=node.name,
-                metadata={
-                    'filepath': rel_path, 'repo': repo, 'lineno': node.lineno,
-                    'bases': bases,
-                    'decorators': _get_decorators(node),
-                    'docstring': _get_docstring(node),
-                    'attributes': _get_class_attributes(node),
-                }
-            )))
-            edges.append(asdict(KGEdge(source=file_id, target=class_id, relation='contains')))
-
-            # Inheritance edges are emitted unresolved here; the second pass
-            # in parse_repo resolves base names to actual class node IDs
-            for base in bases:
-                edges.append(asdict(KGEdge(
-                    source=class_id, target=base, relation='inherits',
-                    metadata={'unresolved': True}
-                )))
-
-            # uses: classes instantiated within any method of this class
-            for inst_cls in _get_instantiated_classes_in_class(node):
-                edges.append(asdict(KGEdge(source=class_id, target=inst_cls, relation='uses',
-                                           metadata={'unresolved': True})))
-
-            for child in ast.iter_child_nodes(node):
-                if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef)):
-                    func_id = _make_id(f"func_{repo}_{rel_path}_{node.name}_{child.name}")
-                    nodes.append(asdict(KGNode(
-                        id=func_id,
-                        type='test_function' if child.name.startswith('test_') else 'method',
-                        label=child.name,
-                        metadata=_build_func_metadata(child, rel_path, repo,
-                                                      parent_class=node.name,
-                                                      import_map=import_map,
-                                                      source_lines=source_lines)
-                    )))
-                    edges.append(asdict(KGEdge(source=class_id, target=func_id, relation='contains')))
-                    # overrides: if method name matches a known base class method (resolved in pass 2)
-                    if child.name != '__init__':
-                        for base in bases:
-                            edges.append(asdict(KGEdge(
-                                source=func_id, target=f"{base}.{child.name}", relation='overrides',
-                                metadata={'unresolved': True}
-                            )))
-                    child_local_types = _collect_local_types(child)
-                    _emit_call_edges(func_id, child, child_local_types, class_name=node.name)
-                    _emit_access_edges(func_id, child, child_local_types, class_name=node.name)
-                    _emit_func_edges(func_id, child, class_name=node.name)
-
-                    _record_factory_sites(child, enclosing_class_id=class_id)
-
-                    _emit_nested_functions(
-                        child, func_id, f"{node.name}.{child.name}", class_name=node.name
-                    )
-
+            _emit_class(node, container_id=file_id, qualname=node.name)
         elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
-            func_type = 'test_function' if node.name.startswith('test_') else 'function'
-            func_id = _make_id(f"func_{repo}_{rel_path}_{node.name}")
-            nodes.append(asdict(KGNode(
-                id=func_id, type=func_type, label=node.name,
-                metadata=_build_func_metadata(node, rel_path, repo, import_map=import_map,
-                                              source_lines=source_lines)
-            )))
-            edges.append(asdict(KGEdge(source=file_id, target=func_id, relation='contains')))
-            node_local_types = _collect_local_types(node)
-            _emit_call_edges(func_id, node, node_local_types)
-            _emit_access_edges(func_id, node, node_local_types)
-            _emit_func_edges(func_id, node)
-
-            _record_factory_sites(node, enclosing_class_id=None)
-
-            _emit_nested_functions(node, func_id, node.name, class_name=None)
+            _emit_function(node, container_id=file_id, qualname=node.name)
 
     factory_sites_out = [
         (rel_path, source_class_id, source_name, line, col)
