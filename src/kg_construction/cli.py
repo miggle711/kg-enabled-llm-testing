@@ -8,6 +8,12 @@ Scriptable, non-interactive command-line interface (kg_construction#83).
     pkg-run query kg_output/kg_x.json --callers send
     pkg-run query kg_output/kg_x.json --callees send
     pkg-run query kg_output/kg_x.json --file sessions.py
+    pkg-run query kg_output/kg_x.json --tests send
+    pkg-run query kg_output/kg_x.json --class Session
+    pkg-run query kg_output/kg_x.json --list-files
+    pkg-run query kg_output/kg_x.json --list-functions
+    pkg-run query kg_output/kg_x.json --list-classes
+    pkg-run query kg_output/kg_x.json --export send,resolve_redirects
 
 Every query subcommand prints a human-readable listing by default;
 pass --json for the raw dict, for scripting/piping.
@@ -76,6 +82,18 @@ def _resolve_function(engine: KGQueryEngine, name: str) -> Optional[Dict]:
     return matches[0]
 
 
+def _resolve_class(engine: KGQueryEngine, name: str) -> Optional[Dict]:
+    matches = engine.find_class_by_name(name)
+    if not matches:
+        print(f"No class named '{name}' found in this KG.", file=sys.stderr)
+        return None
+    if len(matches) > 1:
+        print(f"'{name}' is ambiguous ({len(matches)} matches); using the first:", file=sys.stderr)
+        for m in matches:
+            print(f"  {m['metadata'].get('filepath', '?')}:{m['metadata'].get('lineno', '?')} -- {m['label']}", file=sys.stderr)
+    return matches[0]
+
+
 def _cmd_query(args: argparse.Namespace) -> int:
     engine = _load_engine(args.kg_file)
 
@@ -118,7 +136,77 @@ def _cmd_query(args: argparse.Namespace) -> int:
         _print_or_json(contents, args.json, _print_file_contents)
         return 0
 
-    print("Specify one of --callers, --callees, --file.", file=sys.stderr)
+    if args.tests:
+        node = _resolve_function(engine, args.tests)
+        if node is None:
+            return 1
+        results = engine.find_test_functions_for(node['id'])
+        _print_or_json(
+            results, args.json,
+            lambda data: print(f"Existing tests for {args.tests}:\n" + "\n".join(
+                f"  {_fmt_func(n)}" for n in data
+            ) if data else f"No existing tests found for {args.tests}.")
+        )
+        return 0
+
+    if args.cls:
+        node = _resolve_class(engine, args.cls)
+        if node is None:
+            return 1
+        results = engine.get_class_methods(node['id'])
+        _print_or_json(
+            results, args.json,
+            lambda data: print(f"Methods of {args.cls}:\n" + "\n".join(
+                f"  {_fmt_func(n)}" for n in data
+            ) if data else f"No methods found for {args.cls}.")
+        )
+        return 0
+
+    if args.list_files:
+        results = engine.get_files()
+        _print_or_json(
+            results, args.json,
+            lambda data: print("Files:\n" + "\n".join(
+                f"  {n['metadata'].get('path', '?')}" for n in data
+            ) if data else "No files found.")
+        )
+        return 0
+
+    if args.list_functions:
+        results = engine.get_functions()
+        _print_or_json(
+            results, args.json,
+            lambda data: print("Functions:\n" + "\n".join(
+                f"  {_fmt_func(n)}" for n in data
+            ) if data else "No functions found.")
+        )
+        return 0
+
+    if args.list_classes:
+        results = engine.nodes_by_type.get('class', [])
+        _print_or_json(
+            results, args.json,
+            lambda data: print("Classes:\n" + "\n".join(
+                f"  {n['metadata'].get('filepath', '?')}:{n['metadata'].get('lineno', '?')} -- {n['label']}"
+                for n in data
+            ) if data else "No classes found.")
+        )
+        return 0
+
+    if args.export:
+        names = [n.strip() for n in args.export.split(',') if n.strip()]
+        node_ids = []
+        for name in names:
+            node = _resolve_function(engine, name)
+            if node is None:
+                return 1
+            node_ids.append(node['id'])
+        subgraph = engine.export_subgraph(node_ids)
+        _print_or_json(subgraph, args.json, lambda data: print(json.dumps(data, indent=2)))
+        return 0
+
+    print("Specify one of --callers, --callees, --file, --tests, --class, "
+          "--list-files, --list-functions, --list-classes, --export.", file=sys.stderr)
     return 1
 
 
@@ -148,6 +236,13 @@ def build_parser() -> argparse.ArgumentParser:
     query_p.add_argument('--callers', metavar='FUNC_NAME', help='List callers of a function/method')
     query_p.add_argument('--callees', metavar='FUNC_NAME', help='List callees of a function/method')
     query_p.add_argument('--file', metavar='PATH', help='List classes/functions defined in a file')
+    query_p.add_argument('--tests', metavar='FUNC_NAME', help='List existing tests that call a function/method')
+    query_p.add_argument('--class', dest='cls', metavar='CLASS_NAME', help='List methods of a class')
+    query_p.add_argument('--list-files', action='store_true', help='List all files in the KG')
+    query_p.add_argument('--list-functions', action='store_true', help='List all functions/methods in the KG')
+    query_p.add_argument('--list-classes', action='store_true', help='List all classes in the KG')
+    query_p.add_argument('--export', metavar='FUNC_NAME,...',
+                          help='Export a subgraph (seed nodes + immediate neighbors) for comma-separated function names')
     query_p.add_argument('--json', action='store_true', help='Print raw JSON instead of a human-readable listing')
     query_p.set_defaults(func=_cmd_query)
 

@@ -17,8 +17,17 @@ pkg-run build . --name my-project
 
 # Query it
 pkg-run query kg_output/kg_psf_requests_a0df2cbb.json --callers send
+pkg-run query kg_output/kg_psf_requests_a0df2cbb.json --callees send
 pkg-run query kg_output/kg_psf_requests_a0df2cbb.json --file sessions.py
+pkg-run query kg_output/kg_psf_requests_a0df2cbb.json --tests send
+pkg-run query kg_output/kg_psf_requests_a0df2cbb.json --class Session
+pkg-run query kg_output/kg_psf_requests_a0df2cbb.json --list-files
+pkg-run query kg_output/kg_psf_requests_a0df2cbb.json --list-functions
+pkg-run query kg_output/kg_psf_requests_a0df2cbb.json --list-classes
+pkg-run query kg_output/kg_psf_requests_a0df2cbb.json --export send,resolve_redirects
 ```
+
+All query subcommands print a human-readable listing by default; pass `--json` for the raw dict.
 
 Running `pkg-run` with no arguments falls back to an interactive wizard that walks you through building a KG and extracting/validating an LLM-ready subgraph for a specific code change (repo, commit, patch file, code file, test file).
 
