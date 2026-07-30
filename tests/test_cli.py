@@ -27,6 +27,10 @@ def _write_repo(tmp_path: Path) -> Path:
         "def standalone():\n"
         "    return Widget().build()\n"
     )
+    (tmp_path / "test_mod.py").write_text(
+        "def test_helper():\n"
+        "    assert Widget().helper() == 42\n"
+    )
     return tmp_path
 
 
@@ -51,6 +55,11 @@ class TestBuildParser:
         assert args.kg_file == "kg.json"
         assert args.callers == "send"
         assert args.json is True
+
+    def test_query_subcommand_class_flag_uses_cls_dest(self):
+        parser = build_parser()
+        args = parser.parse_args(["query", "kg.json", "--class", "Session"])
+        assert args.cls == "Session"
 
     def test_no_command_is_none(self):
         parser = build_parser()
@@ -116,7 +125,7 @@ class TestCmdQuery:
         out = capsys.readouterr().out
         parsed = json.loads(out)
         assert isinstance(parsed, list)
-        assert parsed[0]["label"] == "build"
+        assert {n["label"] for n in parsed} == {"build", "test_helper"}
 
     def test_callees_lists_functions_called_by_the_target(self, tmp_path, capsys):
         kg_path = self._kg_path(tmp_path)
@@ -149,6 +158,99 @@ class TestCmdQuery:
         kg_path = self._kg_path(tmp_path)
         parser = build_parser()
         args = parser.parse_args(["query", str(kg_path)])
+
+        result = _cmd_query(args)
+        assert result == 1
+
+    def test_tests_lists_test_functions_calling_the_target(self, tmp_path, capsys):
+        kg_path = self._kg_path(tmp_path)
+        parser = build_parser()
+        args = parser.parse_args(["query", str(kg_path), "--tests", "helper"])
+
+        result = _cmd_query(args)
+        out = capsys.readouterr().out
+        assert result == 0
+        assert "test_helper" in out
+
+    def test_tests_reports_no_tests_found(self, tmp_path, capsys):
+        kg_path = self._kg_path(tmp_path)
+        parser = build_parser()
+        args = parser.parse_args(["query", str(kg_path), "--tests", "standalone"])
+
+        result = _cmd_query(args)
+        out = capsys.readouterr().out
+        assert result == 0
+        assert "No existing tests found" in out
+
+    def test_class_lists_methods_of_the_class(self, tmp_path, capsys):
+        kg_path = self._kg_path(tmp_path)
+        parser = build_parser()
+        args = parser.parse_args(["query", str(kg_path), "--class", "Widget"])
+
+        result = _cmd_query(args)
+        out = capsys.readouterr().out
+        assert result == 0
+        assert "build" in out
+        assert "helper" in out
+
+    def test_class_unknown_name_returns_error_exit_code(self, tmp_path):
+        kg_path = self._kg_path(tmp_path)
+        parser = build_parser()
+        args = parser.parse_args(["query", str(kg_path), "--class", "DoesNotExist"])
+
+        result = _cmd_query(args)
+        assert result == 1
+
+    def test_list_files_lists_all_files(self, tmp_path, capsys):
+        kg_path = self._kg_path(tmp_path)
+        parser = build_parser()
+        args = parser.parse_args(["query", str(kg_path), "--list-files"])
+
+        result = _cmd_query(args)
+        out = capsys.readouterr().out
+        assert result == 0
+        assert "mod.py" in out
+        assert "test_mod.py" in out
+
+    def test_list_functions_lists_all_functions_and_methods(self, tmp_path, capsys):
+        kg_path = self._kg_path(tmp_path)
+        parser = build_parser()
+        args = parser.parse_args(["query", str(kg_path), "--list-functions"])
+
+        result = _cmd_query(args)
+        out = capsys.readouterr().out
+        assert result == 0
+        for name in ("build", "helper", "standalone", "test_helper"):
+            assert name in out
+
+    def test_list_classes_lists_all_classes(self, tmp_path, capsys):
+        kg_path = self._kg_path(tmp_path)
+        parser = build_parser()
+        args = parser.parse_args(["query", str(kg_path), "--list-classes"])
+
+        result = _cmd_query(args)
+        out = capsys.readouterr().out
+        assert result == 0
+        assert "Widget" in out
+
+    def test_export_produces_subgraph_json_for_named_functions(self, tmp_path, capsys):
+        kg_path = self._kg_path(tmp_path)
+        parser = build_parser()
+        args = parser.parse_args(["query", str(kg_path), "--export", "build,helper"])
+
+        result = _cmd_query(args)
+        out = capsys.readouterr().out
+        parsed = json.loads(out)
+        assert result == 0
+        assert "nodes" in parsed and "edges" in parsed
+        labels = {n["label"] for n in parsed["nodes"]}
+        assert "build" in labels
+        assert "helper" in labels
+
+    def test_export_unknown_function_returns_error_exit_code(self, tmp_path):
+        kg_path = self._kg_path(tmp_path)
+        parser = build_parser()
+        args = parser.parse_args(["query", str(kg_path), "--export", "does_not_exist"])
 
         result = _cmd_query(args)
         assert result == 1
