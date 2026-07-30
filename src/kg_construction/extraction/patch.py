@@ -158,8 +158,6 @@ def _changed_pre_patch_lines(patch: str, code_file: str) -> Tuple[Set[int], Set[
 
     return removed_lines, insertion_anchor_lines
 
-    return changed_lines
-
 
 def reconstruct_post_patch_source(pre_patch_source: str, patch: str, code_file: str) -> Optional[str]:
     """Reconstruct code_file's post-patch text by applying patch's hunks

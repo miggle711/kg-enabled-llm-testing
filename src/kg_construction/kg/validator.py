@@ -34,6 +34,7 @@ class KGValidator(ValidationBase):
         # Build lookup structures
         self.node_ids: Set[str] = {n['id'] for n in self.nodes}
         self.node_types: Dict[str, str] = {n['id']: n['type'] for n in self.nodes}
+        self.nodes_by_id: Dict[str, Dict] = {n['id']: n for n in self.nodes}
         self.edges_by_source: Dict[str, List[Dict]] = defaultdict(list)
         self.edges_by_target: Dict[str, List[Dict]] = defaultdict(list)
 
@@ -58,7 +59,13 @@ class KGValidator(ValidationBase):
         return self._format_report()
 
     def _check_orphaned_nodes(self) -> None:
-        """Flag nodes with no incoming or outgoing edges (except files/imports)."""
+        """Flag nodes with no incoming or outgoing edges (except files/imports).
+
+        Looks nodes up via nodes_by_id rather than a linear scan over
+        self.nodes -- at real repo scale (e.g. django's ~40-46k nodes),
+        a scan per orphaned node found is quadratic exactly when orphaning
+        is widespread, the failure mode this check exists to catch.
+        """
         exclude_types = {'file', 'test_file', 'import'}
         orphaned = []
 
@@ -70,7 +77,7 @@ class KGValidator(ValidationBase):
             has_edges = bool(self.edges_by_source.get(node_id) or
                            self.edges_by_target.get(node_id))
             if not has_edges:
-                node = next((n for n in self.nodes if n['id'] == node_id), None)
+                node = self.nodes_by_id[node_id]
                 orphaned.append(f"{node['label']} ({node_type})")
 
         if orphaned:
@@ -245,7 +252,7 @@ class KGValidator(ValidationBase):
         truncated prefix risks two different nodes looking identical in
         a report at real repo scale.
         """
-        node = next((n for n in self.nodes if n['id'] == node_id), None)
+        node = self.nodes_by_id.get(node_id)
         return node['label'] if node else node_id
 
     def _format_report(self) -> Tuple[bool, str]:

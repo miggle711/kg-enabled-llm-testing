@@ -148,10 +148,10 @@ class LLMSerializer:
             - callers: Functions that call the seed
             - callees: Functions called by the seed
             - related: Classes the seed itself, or the seed's own class,
-              inherits from or instantiates (not any inherits/uses/
-              instantiates edge anywhere in the subgraph -- restricted to
-              edges sourced from the seed or its containing class, so this
-              reflects the seed's own relationships, not an unrelated
+              inherits from or instantiates (not any inherits/uses edge
+              anywhere in the subgraph -- restricted to edges sourced
+              from the seed or its containing class, so this reflects
+              the seed's own relationships, not an unrelated
               caller/callee/sibling's). Each entry's "source" field is
               "seed" (the seed function/method itself) or "seed_class" (the
               seed's owning class, e.g. via __init__) so the model can tell
@@ -236,9 +236,7 @@ class LLMSerializer:
                         "source": "seed" if src_id in seed_ids else "seed_class",
                     }
                 )
-            elif (relation == "uses" or relation == "instantiates") and (
-                src_id in seed_ids or src_id in seed_class_ids
-            ):
+            elif relation == "uses" and (src_id in seed_ids or src_id in seed_class_ids):
                 related.append(
                     {
                         "type": "instantiation",

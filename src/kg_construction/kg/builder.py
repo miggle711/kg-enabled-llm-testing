@@ -67,7 +67,6 @@ from kg_construction.ast.helpers import (
     _get_exceptions,
     _count_branches,
     _get_assert_patterns,
-    _get_return_types,
     _get_base_names,
     _get_class_attributes,
     _get_instantiated_classes_in_class,
@@ -75,7 +74,6 @@ from kg_construction.ast.helpers import (
     _get_used_imports,
     _get_instantiated_classes,
     _get_factory_call_sites,
-    _get_test_target,
     _build_func_metadata,
     _collect_file_level_info,
 )
