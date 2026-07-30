@@ -106,7 +106,9 @@ MAX_FILE_LINES = 20000
 # Bumped whenever the KG node/edge shape changes. Stamped into every build's
 # metadata and checked on load, so a cached KG from an older schema is
 # rebuilt rather than silently served as if it matched the current shape.
-SCHEMA_VERSION = 1
+# 2: _make_id widened from 8 to 16 hex chars (collision-risk fix); every
+# node/edge ID in an old cached KG is a different length now.
+SCHEMA_VERSION = 2
 
 
 @dataclass

@@ -99,11 +99,15 @@ class TestContextValidator(ValidationBase):
             )
 
     def _check_no_broken_edges(self) -> None:
-        """Flag edges where source or target is not in the subgraph."""
+        """Flag edges where source or target is not in the subgraph.
+
+        Shows the full node ID, not a truncated prefix. Truncation
+        risks different nodes looking identical in a report.
+        """
         broken = []
         for edge in self.edges:
             if edge['source'] not in self.node_ids or edge['target'] not in self.node_ids:
-                broken.append(f"{edge['source'][:4]}...→{edge['target'][:4]}... ({edge['relation']})")
+                broken.append(f"{edge['source']}...→{edge['target']}... ({edge['relation']})")
 
         if broken:
             self.errors.append(
@@ -151,13 +155,16 @@ class TestContextValidator(ValidationBase):
             )
 
     def _check_closed_subgraph(self) -> None:
-        """Ensure all edge endpoints are in the node set."""
+        """Ensure all edge endpoints are in the node set.
+
+        Shows the full node ID, same reasoning as _check_no_broken_edges.
+        """
         dangling = set()
         for edge in self.edges:
             if edge['source'] not in self.node_ids:
-                dangling.add(f"source {edge['source'][:8]}")
+                dangling.add(f"source {edge['source']}")
             if edge['target'] not in self.node_ids:
-                dangling.add(f"target {edge['target'][:8]}")
+                dangling.add(f"target {edge['target']}")
 
         if dangling:
             self.errors.append(

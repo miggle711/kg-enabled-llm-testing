@@ -218,9 +218,14 @@ class KGValidator(ValidationBase):
         return expectations.get(node_type, set())
 
     def _node_label(self, node_id: str) -> str:
-        """Get human-readable label for a node ID."""
+        """Get human-readable label for a node ID.
+
+        Falls back to the full node_id, not a truncated prefix. A
+        truncated prefix risks two different nodes looking identical in
+        a report at real repo scale.
+        """
         node = next((n for n in self.nodes if n['id'] == node_id), None)
-        return node['label'] if node else node_id[:8]
+        return node['label'] if node else node_id
 
     def _format_report(self) -> Tuple[bool, str]:
         """Format validation report using base class formatter."""
