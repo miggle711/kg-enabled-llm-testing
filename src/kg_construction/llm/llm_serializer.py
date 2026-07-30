@@ -106,7 +106,11 @@ class LLMSerializer:
                           (see kg-test-generation issue #14).
             - signature: Function signature
             - docstring: Function docstring
-            - exceptions: Declared exceptions
+            - exceptions: Exception expressions this function itself raises
+                          (metadata['raises'] -- what a test generator
+                          needs to know to write pytest.raises assertions;
+                          metadata['catches'] is a separate, less directly
+                          test-relevant signal, not included here)
             - source_code: Complete function source
         """
         if not seeds:
@@ -124,7 +128,7 @@ class LLMSerializer:
             "class_name": metadata.get("class", ""),
             "signature": metadata.get("signature", ""),
             "docstring": metadata.get("docstring", ""),
-            "exceptions": metadata.get("exceptions", []),
+            "exceptions": metadata.get("raises", []),
             "source_code": metadata.get("source_code", ""),
             "decorators": metadata.get("decorators", []),
             "type_hints": metadata.get("type_hints", {}),

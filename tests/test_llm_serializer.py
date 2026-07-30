@@ -50,6 +50,37 @@ class TestSerializeSeedSection:
         assert result["seed"]["module"] == ""
         assert result["seed"]["filepath"] == ""
 
+    def test_seed_exceptions_reads_from_raises_metadata_key(self):
+        """_build_func_metadata (ast/helpers.py) stores raised exceptions
+        under the 'raises' key (never 'exceptions') -- the seed section's
+        exceptions field must read from that real key, not a key that
+        never actually appears in real node metadata (previously
+        metadata.get("exceptions", []) always silently returned [], since
+        real metadata never has an 'exceptions' key at all).
+        """
+        seed_node = {
+            "id": "n1",
+            "label": "send",
+            "type": "function",
+            "metadata": {
+                "raises": ["ValueError('bad input')", "TypeError"],
+                "catches": ["KeyError"],
+            },
+        }
+        result = LLMSerializer().serialize(
+            {"seeds": [seed_node], "context_nodes": [], "edges": [], "test_nodes": []}
+        )
+
+        assert set(result["seed"]["exceptions"]) == {"ValueError('bad input')", "TypeError"}
+
+    def test_seed_with_no_raises_metadata_gets_empty_exceptions(self):
+        seed_node = {"id": "n1", "label": "send", "type": "function", "metadata": {}}
+        result = LLMSerializer().serialize(
+            {"seeds": [seed_node], "context_nodes": [], "edges": [], "test_nodes": []}
+        )
+
+        assert result["seed"]["exceptions"] == []
+
     def test_method_seed_includes_class_name(self):
         """A method's class name (e.g. "Session") must be surfaced so the
         LLM knows to import/instantiate the class rather than attempting a
