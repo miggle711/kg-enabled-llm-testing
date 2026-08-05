@@ -1,0 +1,50 @@
+name: Build KGs for TestGenEval instances
+
+on:
+  workflow_dispatch:
+    inputs:
+      instances:
+        description: "Comma-separated instance ids to build KGs for (empty = every row in the dataset)"
+        default: ""
+      dataset:
+        description: "HuggingFace dataset to load instances from (ignored if a repo dataset artifact is used)"
+        type: choice
+        options:
+          - kjain14/testgenevallite
+          - kjain14/testgeneval
+        default: kjain14/testgenevallite
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[datasets]"
+
+      - name: Build KGs
+        run: |
+          PYTHONPATH=src python scripts/build_kgs_for_instances.py \
+            --instances "${{ github.event.inputs.instances }}" \
+            --dataset "${{ github.event.inputs.dataset }}"
+
+      - name: Upload KG outputs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kg-outputs
+          path: kg_output/
+          retention-days: 30
