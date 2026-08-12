@@ -73,7 +73,7 @@ class TestSerializeSeedSection:
             {"seeds": [seed_node], "context_nodes": [], "edges": [], "test_nodes": []}
         )
 
-        assert "decorators" not in result["seed"]
+        assert "decorators" not in result["seed"][0]
 
     def test_seed_exceptions_reads_from_raises_metadata_key(self):
         """_build_func_metadata (ast/helpers.py) stores raised exceptions
