@@ -488,3 +488,102 @@ class TestClassLevelSeedLookup:
         # The old fallback behavior (file-as-seed) must not happen now that
         # the class itself resolves correctly.
         assert "mod.py" not in {s["label"] for s in context.seeds}
+
+
+class TestSeedSourceIsPostPatch:
+    """kg_construction#124: the KG is built once from base_commit, with no
+    patch applied, so every stored node's source_code -- including a
+    seed's -- is PRE-patch content. Generated tests are evaluated against
+    the real, current (POST-patch) repository state either way, so a
+    seed's source_code must reflect the patch's fix, not the KG's stored
+    (stale) value. Context nodes are unaffected since the patch never
+    touches them.
+    """
+
+    def _write_pre_patch_repo(self, tmp_path: Path) -> Path:
+        (tmp_path / "mod.py").write_text(
+            "class Widget:\n"
+            "    def build(self):\n"
+            "        return self.helper() + OLD_VALUE\n"
+            "\n"
+            "    def helper(self):\n"
+            "        return 42\n"
+        )
+        return tmp_path
+
+    def test_seed_source_reflects_the_patch_not_the_kg(self, tmp_path):
+        # KG is built from the PRE-patch file -- same as a real KG built
+        # once from base_commit, before the patch is ever applied.
+        repo_dir = self._write_pre_patch_repo(tmp_path)
+        parser = RepoASTParser(max_workers=1)
+        kg = parser.parse_repo("test/repo", repo_dir)
+
+        engine = KGQueryEngine(kg)
+        # _LocalFileRepoManager also reads the same pre-patch file, same
+        # as RepoManager.read_file_at_commit would for a real base_commit.
+        extractor = TestContextExtractor(engine, repo_manager=_LocalFileRepoManager(repo_dir))
+
+        patch = (
+            "--- a/mod.py\n"
+            "+++ b/mod.py\n"
+            "@@ -1,3 +1,3 @@\n"
+            " class Widget:\n"
+            "     def build(self):\n"
+            "-        return self.helper() + OLD_VALUE\n"
+            "+        return self.helper() + NEW_VALUE\n"
+        )
+        instance = {
+            "repo": "test/repo",
+            "base_commit": "deadbeef",
+            "patch": patch,
+            "code_file": "mod.py",
+            "test_file": "test_mod.py",
+        }
+
+        context = extractor.extract(instance, depth=2)
+
+        seed = next(s for s in context.seeds if s["label"] == "build")
+        assert "NEW_VALUE" in seed["metadata"]["source_code"]
+        assert "OLD_VALUE" not in seed["metadata"]["source_code"]
+
+        # helper is a context node (a callee), never touched by the
+        # patch -- its source must stay exactly what the KG has, since
+        # pre-patch and post-patch content are identical for it.
+        helper = next(n for n in context.context_nodes if n["label"] == "helper")
+        assert "return 42" in helper["metadata"]["source_code"]
+
+    def test_kg_own_cached_node_is_not_mutated(self, tmp_path):
+        # The fix must return a COPY of the seed node, never mutate the
+        # KG's own cached node in place -- that node object is shared
+        # across every extract() call that happens to touch it.
+        repo_dir = self._write_pre_patch_repo(tmp_path)
+        parser = RepoASTParser(max_workers=1)
+        kg = parser.parse_repo("test/repo", repo_dir)
+
+        engine = KGQueryEngine(kg)
+        extractor = TestContextExtractor(engine, repo_manager=_LocalFileRepoManager(repo_dir))
+
+        patch = (
+            "--- a/mod.py\n"
+            "+++ b/mod.py\n"
+            "@@ -1,3 +1,3 @@\n"
+            " class Widget:\n"
+            "     def build(self):\n"
+            "-        return self.helper() + OLD_VALUE\n"
+            "+        return self.helper() + NEW_VALUE\n"
+        )
+        instance = {
+            "repo": "test/repo",
+            "base_commit": "deadbeef",
+            "patch": patch,
+            "code_file": "mod.py",
+            "test_file": "test_mod.py",
+        }
+
+        extractor.extract(instance, depth=2)
+
+        raw_build_node = next(
+            n for n in kg["nodes"] if n["label"] == "build" and n["type"] == "method"
+        )
+        assert "OLD_VALUE" in raw_build_node["metadata"]["source_code"]
+        assert "NEW_VALUE" not in raw_build_node["metadata"]["source_code"]
