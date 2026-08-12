@@ -209,10 +209,10 @@ def reconstruct_post_patch_source(pre_patch_source: str, patch: str, code_file: 
             saw_any_hunk = True
             hunk_start = int(match.group(1)) - 1  # 0-indexed
             # -1 is the real "new file" convention (@@ -0,0 @@), not a
-            # mismatch. Anything beyond pre_lines' real length means
-            # pre_patch_source doesn't match what this patch assumes
-            # (kg_construction#128).
-            if hunk_start > len(pre_lines):
+            # mismatch. Anything beyond pre_lines' real length, or behind
+            # pre_idx (an out-of-order hunk), means pre_patch_source
+            # doesn't match what this patch assumes (kg_construction#128).
+            if hunk_start > len(pre_lines) or (hunk_start != -1 and hunk_start < pre_idx):
                 return None
             # Copy everything between the end of the last hunk (or file
             # start) and the start of this one, unchanged.

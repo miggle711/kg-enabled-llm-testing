@@ -544,6 +544,26 @@ class TestReconstructPostPatchSource:
         )
         assert reconstruct_post_patch_source(pre, patch, 'mod.py') is None
 
+    def test_out_of_order_hunk_returns_none(self):
+        # A well-formed diff's hunks are always ascending and
+        # non-overlapping. A second hunk starting behind where the first
+        # hunk already advanced pre_idx means pre_patch_source doesn't
+        # correspond to what this patch was generated against -- the same
+        # mismatch as a forward overshoot past pre_lines' length, just in
+        # the other direction (kg_construction#128).
+        pre = "a\nb\nc\nd\ne\n"
+        patch = (
+            "--- a/mod.py\n"
+            "+++ b/mod.py\n"
+            "@@ -4,1 +4,1 @@\n"
+            "-d\n"
+            "+D\n"
+            "@@ -1,1 +1,1 @@\n"
+            "-a\n"
+            "+A\n"
+        )
+        assert reconstruct_post_patch_source(pre, patch, 'mod.py') is None
+
 
 class TestWhollyNewFunctionsAndClasses:
     """kg_construction#84: a wholly new top-level function/class doesn't
