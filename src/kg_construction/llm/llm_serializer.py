@@ -132,7 +132,6 @@ class LLMSerializer:
             "docstring": metadata.get("docstring", ""),
             "exceptions": metadata.get("raises", []),
             "source_code": metadata.get("source_code", ""),
-            "decorators": metadata.get("decorators", []),
             "type_hints": metadata.get("type_hints", {}),
         }
 
