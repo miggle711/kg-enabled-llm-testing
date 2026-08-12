@@ -1,23 +1,29 @@
 """
 build_kg_prompts.py
 
-Pre-computes KG-only completion prompts for a set of TestGenEval instances:
-no code_src/test_src (the whole file), only what pycodekg's
-TestContextExtractor + LLMSerializer surface for the one seed function the
-instance's patch touches -- its own source, structural metadata (module,
-class), callers/callees/siblings, and any existing tests already linked to
-it in the KG.
+Pre-computes KG-only test-generation prompts for a set of TestGenEval
+instances, targeting TestGenEval's `full` setting (generate a complete
+test file from scratch, no existing test content shown to either arm).
 
-This answers "does KG-only, surgical context work as well as (or better/worse
-than) dumping the whole file" -- a deliberately different question from
-"does KG context help on TOP OF the whole file" (which would need the KG
-prompt to also include code_src/test_src, additively).
+For each instance, surfaces what pycodekg's TestContextExtractor +
+LLMSerializer retrieve for the one seed function/class the instance's
+patch touches: its own source, structural metadata (module, class),
+callers/callees/siblings, and any existing tests already linked to it in
+the KG.
+
+Also writes the seed's function name (and enclosing class, if any) as a
+separate field per instance, meant to be merged into the `instruct` arm's
+dataset construction on the testgeneval side so both arms can be told to
+focus on the same changed function -- without which the two arms answer
+different tasks (kg_only implicitly focuses on the seed; instruct's
+generic `full`-setting prompt does not name any function at all). See
+miggle711/pycodekg#125 and miggle711/testgeneval#6.
 
 Run from repo-kg-construction's own environment (not testgeneval's --
 pycodekg isn't installed there by design, to keep the two projects'
 dependency stacks decoupled). Writes one JSON file mapping instance id ->
-{first, last, extra} prompt strings, meant to be merged into the dataset on
-the testgeneval side before running inference.
+{prompt, target_function, target_class} , meant to be merged into the
+dataset on the testgeneval side before running inference.
 
 Usage:
     python scripts/build_kg_prompts.py \
@@ -37,9 +43,10 @@ from kg_construction.llm.llm_serializer import LLMSerializer
 
 SYSTEM_MESSAGE = (
     "You are an expert Python software testing assistant. Your job is to "
-    "complete the next test given structural context about the function "
-    "under test (no full source file is provided -- work from the "
-    "function's own source and its callers/callees/related tests)."
+    "generate a complete test file for the given code, using structural "
+    "context about the function under test (no full source file is "
+    "provided -- work from the function's own source and its "
+    "callers/callees/related tests)."
 )
 
 PROMPT_TEMPLATE = """Function under test: {function_name}
@@ -54,15 +61,17 @@ Source:
 Declared exceptions: {exceptions}
 
 {sections}
-Your job is to write the Python code for the next test for this function. Ideally your next
-test should improve coverage of the function's behavior, including error cases and boundary
-conditions.
+Your job is to output a corresponding unit test file for this function that obtains high
+coverage, including error cases and boundary conditions.
 
-Only output the next unit test, preserve indentation and formatting. Do not output anything
-else. Format like this:
+Each unit test must be a function starting with test_. Include all your test imports and setup
+before your first test. Do not run the tests in the file, just output a series of tests. Do not
+include a main method to run the tests.
+
+Only output the unit test Python file in this format:
 
 ```python
-Next unit test Python code
+Unit test Python code (file level)
 ```
 """
 
@@ -151,17 +160,14 @@ def main():
                 failures.append((row["id"], "no seed extracted"))
                 continue
 
+            seed = serialized["seed"]
             prompt_text = _build_prompt(serialized)
-            # Same prompt text for all 3 completion settings -- the KG
-            # context doesn't depend on which test-file fragment the plain
-            # arm would have seen, since we deliberately don't include
-            # test_src/code_src at all in this arm.
             prompts[row["id"]] = {
-                "first": prompt_text,
-                "last": prompt_text,
-                "extra": prompt_text,
+                "prompt": prompt_text,
+                "target_function": seed.get("function_name", ""),
+                "target_class": seed.get("class_name") or None,
             }
-            print(f"  OK: {row['id']} (seed: {serialized['seed'].get('function_name')})")
+            print(f"  OK: {row['id']} (seed: {seed.get('function_name')})")
         except Exception as e:
             failures.append((row["id"], f"{type(e).__name__}: {e}"))
             print(f"  FAILED: {row['id']}: {type(e).__name__}: {e}", file=sys.stderr)
