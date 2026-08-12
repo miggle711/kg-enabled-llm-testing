@@ -127,6 +127,7 @@ def main():
     kg_dir = Path(args.kg_dir)
     prompts = {}
     failures = []
+    stale_seed_instances = []
 
     for row in rows:
         repo_slug = row["repo"].replace("/", "_")
@@ -149,6 +150,8 @@ def main():
                 "test_file": row["test_file"],
             }
             context = extractor.extract(instance, depth=args.depth)
+            if context.stale_seed_labels:
+                stale_seed_instances.append((row["id"], context.stale_seed_labels))
             context_dict = {
                 "seeds": context.seeds,
                 "context_nodes": context.context_nodes,
@@ -180,6 +183,13 @@ def main():
         print(f"{len(failures)} failures:")
         for instance_id, err in failures:
             print(f"  {instance_id}: {err}")
+    if stale_seed_instances:
+        # A seed staying on pre-patch source (kg_construction#124's fix
+        # couldn't find it in the post-patch AST) should be rare -- a
+        # growing count here is worth investigating, not routine.
+        print(f"{len(stale_seed_instances)} instance(s) with a stale (pre-patch) seed:")
+        for instance_id, labels in stale_seed_instances:
+            print(f"  {instance_id}: {labels}")
 
 
 if __name__ == "__main__":
