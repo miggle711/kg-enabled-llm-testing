@@ -6,24 +6,26 @@ instances, targeting TestGenEval's `full` setting (generate a complete
 test file from scratch, no existing test content shown to either arm).
 
 For each instance, surfaces what pycodekg's TestContextExtractor +
-LLMSerializer retrieve for the one seed function/class the instance's
-patch touches: its own source, structural metadata (module, class),
+LLMSerializer retrieve for every seed function/class the instance's patch
+touches (a patch can change more than one -- 6/66 real django instances
+do): each seed's own source, structural metadata (module, class),
 callers/callees/siblings, and any existing tests already linked to it in
 the KG.
 
-Also writes the seed's function name (and enclosing class, if any) as a
+Also writes each seed's function name (and enclosing class, if any) as a
 separate field per instance, meant to be merged into the `instruct` arm's
 dataset construction on the testgeneval side so both arms can be told to
-focus on the same changed function -- without which the two arms answer
-different tasks (kg_only implicitly focuses on the seed; instruct's
-generic `full`-setting prompt does not name any function at all). See
-miggle711/pycodekg#125 and miggle711/testgeneval#6.
+focus on the same changed function(s) -- without which the two arms
+answer different tasks (kg_only implicitly focuses on the seed(s);
+instruct's generic `full`-setting prompt does not name any function at
+all). See miggle711/pycodekg#125 and miggle711/testgeneval#6.
 
 Run from repo-kg-construction's own environment (not testgeneval's --
 pycodekg isn't installed there by design, to keep the two projects'
 dependency stacks decoupled). Writes one JSON file mapping instance id ->
-{prompt, target_function, target_class} , meant to be merged into the
-dataset on the testgeneval side before running inference.
+{prompt, target_functions, target_classes} (both lists, one entry per
+seed), meant to be merged into the dataset on the testgeneval side before
+running inference.
 
 Usage:
     python scripts/build_kg_prompts.py \
@@ -49,7 +51,7 @@ SYSTEM_MESSAGE = (
     "callers/callees/related tests)."
 )
 
-PROMPT_TEMPLATE = """Function under test: {function_name}
+SEED_BLOCK_TEMPLATE = """Function under test: {function_name}
 Module: {module}
 Class: {class_name}
 
@@ -59,10 +61,12 @@ Source:
 ```
 
 Declared exceptions: {exceptions}
+"""
 
+PROMPT_TEMPLATE = """{seed_blocks}
 {sections}
-Your job is to output a corresponding unit test file for this function that obtains high
-coverage, including error cases and boundary conditions.
+Your job is to output a corresponding unit test file for {function_or_functions} that obtains
+high coverage, including error cases and boundary conditions.
 
 Each unit test must be a function starting with test_. Include all your test imports and setup
 before your first test. Do not run the tests in the file, just output a series of tests. Do not
@@ -86,9 +90,24 @@ def _snippet_section(title: str, items: list) -> str:
     return "\n".join(parts) + "\n"
 
 
+def _build_seed_block(seed: dict) -> str:
+    return SEED_BLOCK_TEMPLATE.format(
+        function_name=seed.get("function_name", ""),
+        module=seed.get("module", ""),
+        class_name=seed.get("class_name", "") or "(none -- top-level function)",
+        source_code=seed.get("source_code", ""),
+        exceptions=", ".join(seed.get("exceptions", [])) or "(none declared)",
+    )
+
+
 def _build_prompt(serialized: dict) -> str:
-    seed = serialized["seed"]
+    # serialized["seed"] is a list -- a patch can change more than one
+    # function/class in the same file (6/66 real django instances do),
+    # so every seed gets its own block, not just the first.
+    seeds = serialized["seed"]
     context = serialized["context"]
+
+    seed_blocks = "\n".join(_build_seed_block(seed) for seed in seeds)
 
     sections = "\n".join(filter(None, [
         _snippet_section("Callers", context.get("callers", [])),
@@ -100,12 +119,9 @@ def _build_prompt(serialized: dict) -> str:
     ]))
 
     return PROMPT_TEMPLATE.format(
-        function_name=seed.get("function_name", ""),
-        module=seed.get("module", ""),
-        class_name=seed.get("class_name", "") or "(none -- top-level function)",
-        source_code=seed.get("source_code", ""),
-        exceptions=", ".join(seed.get("exceptions", [])) or "(none declared)",
+        seed_blocks=seed_blocks,
         sections=sections,
+        function_or_functions="this function" if len(seeds) == 1 else "these functions",
     )
 
 
@@ -128,6 +144,7 @@ def main():
     prompts = {}
     failures = []
     stale_seed_instances = []
+    multi_seed_instances = []
 
     for row in rows:
         repo_slug = row["repo"].replace("/", "_")
@@ -163,14 +180,17 @@ def main():
                 failures.append((row["id"], "no seed extracted"))
                 continue
 
-            seed = serialized["seed"]
+            seeds = serialized["seed"]
+            if len(seeds) > 1:
+                multi_seed_instances.append((row["id"], [s.get("function_name") for s in seeds]))
             prompt_text = _build_prompt(serialized)
             prompts[row["id"]] = {
                 "prompt": prompt_text,
-                "target_function": seed.get("function_name", ""),
-                "target_class": seed.get("class_name") or None,
+                "target_functions": [s.get("function_name", "") for s in seeds],
+                "target_classes": [s.get("class_name") or None for s in seeds],
             }
-            print(f"  OK: {row['id']} (seed: {seed.get('function_name')})")
+            seed_names = [s.get("function_name") for s in seeds]
+            print(f"  OK: {row['id']} (seed{'s' if len(seeds) > 1 else ''}: {seed_names})")
         except Exception as e:
             failures.append((row["id"], f"{type(e).__name__}: {e}"))
             print(f"  FAILED: {row['id']}: {type(e).__name__}: {e}", file=sys.stderr)
@@ -185,11 +205,18 @@ def main():
             print(f"  {instance_id}: {err}")
     if stale_seed_instances:
         # A seed staying on pre-patch source (kg_construction#124's fix
-        # couldn't find it in the post-patch AST) should be rare -- a
+        # couldn't find it in the post-patch AST) should be rare, a
         # growing count here is worth investigating, not routine.
         print(f"{len(stale_seed_instances)} instance(s) with a stale (pre-patch) seed:")
         for instance_id, labels in stale_seed_instances:
             print(f"  {instance_id}: {labels}")
+    if multi_seed_instances:
+        # Real, not rare (6/66 real django instances) -- visible here so
+        # a run's actual seed count per instance isn't only discoverable
+        # by reading kg_prompts.json directly.
+        print(f"{len(multi_seed_instances)} instance(s) with multiple seeds:")
+        for instance_id, names in multi_seed_instances:
+            print(f"  {instance_id}: {names}")
 
 
 if __name__ == "__main__":
