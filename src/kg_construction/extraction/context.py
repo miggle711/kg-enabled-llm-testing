@@ -18,7 +18,7 @@ import ast
 import json
 from dataclasses import dataclass
 from pathlib import Path
-from typing import List, Dict, Optional, Set
+from typing import List, Dict, Optional, Set, Tuple
 
 from kg_construction.ast.helpers import (
     _make_id,
@@ -28,6 +28,7 @@ from kg_construction.ast.helpers import (
     _get_class_attributes,
     _get_decorators,
     _get_docstring,
+    _get_signature_and_source_text,
 )
 from kg_construction.kg.query import KGQueryEngine
 from kg_construction.kg.repo_manager import RepoManager
@@ -213,6 +214,38 @@ class TestContextExtractor:
             pre_patch_source,
         )
 
+        # KG nodes store pre-patch source. Seeds need post-patch source
+        # since generated tests are evaluated against the real, current
+        # repo state (kg_construction#124). Context nodes are unaffected
+        # since the patch never touched them.
+        post_patch_source = reconstruct_post_patch_source(
+            pre_patch_source, instance['patch'], instance['code_file']
+        )
+        post_patch_ranges: Dict[Tuple[str, Optional[str]], ast.AST] = {}
+        post_patch_lines: List[str] = []
+        if post_patch_source is not None:
+            try:
+                post_tree = ast.parse(post_patch_source)
+            except SyntaxError:
+                post_tree = None
+            if post_tree is not None:
+                post_patch_lines = post_patch_source.splitlines(keepends=True)
+                class_stack: List[str] = []
+
+                class _PostPatchVisitor(ast.NodeVisitor):
+                    def visit_ClassDef(self, node):
+                        post_patch_ranges[(node.name, class_stack[-1] if class_stack else None)] = node
+                        class_stack.append(node.name)
+                        self.generic_visit(node)
+                        class_stack.pop()
+
+                    def visit_FunctionDef(self, node):
+                        post_patch_ranges[(node.name, class_stack[-1] if class_stack else None)] = node
+
+                    visit_AsyncFunctionDef = visit_FunctionDef
+
+                _PostPatchVisitor().visit(post_tree)
+
         # Find the code file node
         code_file_results = self.engine.find_file_by_path(instance['code_file'])
         if not code_file_results:
@@ -320,7 +353,10 @@ class TestContextExtractor:
 
         # Separate seeds from context
         seed_node_ids = set(seed_ids)
-        seed_nodes = [n for n in subgraph_nodes if n['id'] in seed_node_ids]
+        seed_nodes = [
+            self._refresh_seed_source(n, post_patch_ranges, post_patch_lines)
+            for n in subgraph_nodes if n['id'] in seed_node_ids
+        ]
         context_nodes = [n for n in subgraph_nodes if n['id'] not in seed_node_ids]
 
         return TestContext(
@@ -331,6 +367,42 @@ class TestContextExtractor:
             repo=instance['repo'],
             base_commit=instance['base_commit'],
         )
+
+    def _refresh_seed_source(
+        self,
+        node: Dict,
+        post_patch_ranges: Dict[Tuple[str, Optional[str]], ast.AST],
+        post_patch_lines: List[str],
+    ) -> Dict:
+        """Return a copy of a seed node with source_code/signature replaced
+        by the post-patch version, leaving everything else (id, edges,
+        docstring, decorators, etc.) untouched.
+
+        Never mutates the passed-in node in place: it's the KG's own
+        cached node object, shared across every extract() call that
+        touches it, so mutating it here would corrupt the KG for other
+        instances/callers.
+
+        Falls back to the node as-is (stale source_code) if the seed
+        can't be located in the post-patch AST; e.g. the patch had no
+        hunks for this file, or the reconstructed source failed to parse.
+        This should not normally happen for a real seed on a real
+        (non-new-file) instance.
+        """
+        key = (node['label'], node.get('metadata', {}).get('class'))
+        ast_node = post_patch_ranges.get(key)
+        if ast_node is None:
+            return node
+
+        signature, source_code = _get_signature_and_source_text(ast_node, post_patch_lines)
+        if not source_code:
+            return node
+
+        refreshed = dict(node)
+        refreshed['metadata'] = dict(node.get('metadata', {}))
+        refreshed['metadata']['source_code'] = source_code
+        refreshed['metadata']['signature'] = signature
+        return refreshed
 
     def _extract_for_new_file(self, instance: Dict) -> TestContext:
         """Build a TestContext for a file the patch itself creates.
