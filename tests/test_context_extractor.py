@@ -587,3 +587,115 @@ class TestSeedSourceIsPostPatch:
         )
         assert "OLD_VALUE" in raw_build_node["metadata"]["source_code"]
         assert "NEW_VALUE" not in raw_build_node["metadata"]["source_code"]
+
+    def test_stale_seed_labels_is_empty_on_a_successful_refresh(self, tmp_path):
+        repo_dir = self._write_pre_patch_repo(tmp_path)
+        parser = RepoASTParser(max_workers=1)
+        kg = parser.parse_repo("test/repo", repo_dir)
+
+        engine = KGQueryEngine(kg)
+        extractor = TestContextExtractor(engine, repo_manager=_LocalFileRepoManager(repo_dir))
+
+        patch = (
+            "--- a/mod.py\n"
+            "+++ b/mod.py\n"
+            "@@ -1,3 +1,3 @@\n"
+            " class Widget:\n"
+            "     def build(self):\n"
+            "-        return self.helper() + OLD_VALUE\n"
+            "+        return self.helper() + NEW_VALUE\n"
+        )
+        instance = {
+            "repo": "test/repo",
+            "base_commit": "deadbeef",
+            "patch": patch,
+            "code_file": "mod.py",
+            "test_file": "test_mod.py",
+        }
+
+        context = extractor.extract(instance, depth=2)
+        assert context.stale_seed_labels == []
+
+    def test_stale_seed_labels_reports_a_seed_that_could_not_be_refreshed(self, tmp_path):
+        # A patch string with hunks for a DIFFERENT file than code_file --
+        # reconstruct_post_patch_source has nothing to apply, so the seed
+        # can't be found in a post-patch AST and must fall back to stale
+        # (pre-patch) source. This should be visible on the TestContext,
+        # not just silent.
+        repo_dir = self._write_pre_patch_repo(tmp_path)
+        parser = RepoASTParser(max_workers=1)
+        kg = parser.parse_repo("test/repo", repo_dir)
+
+        engine = KGQueryEngine(kg)
+        extractor = TestContextExtractor(engine, repo_manager=_LocalFileRepoManager(repo_dir))
+
+        patch = (
+            "--- a/other.py\n"
+            "+++ b/other.py\n"
+            "@@ -1,1 +1,1 @@\n"
+            "-old\n"
+            "+new\n"
+        )
+        instance = {
+            "repo": "test/repo",
+            "base_commit": "deadbeef",
+            "patch": patch,
+            "code_file": "mod.py",
+            "test_file": "test_mod.py",
+        }
+
+        context = extractor.extract(instance, depth=2)
+        # No changed functions found for mod.py in this patch, so extract()
+        # falls back to the file itself as the seed (see "If no changed
+        # functions found, use the code_file itself as seed" in extract()).
+        # A file-type seed has no matching (label, class) key in
+        # post_patch_ranges, so it must be reported as stale.
+        assert context.stale_seed_labels == ["mod.py"]
+
+
+class TestNestedSeedSourceIsPostPatch:
+    """A closure or a class defined inside a function body is a real,
+    resolvable seed too (builder.py's _emit_function recurses the same
+    way for kg_construction#74's nested-scope case). _PostPatchVisitor
+    must recurse into function bodies too, or a patch changing such a
+    seed silently keeps stale pre-patch source -- caught in review on
+    kg_construction#124's PR (#127).
+    """
+
+    def test_nested_closure_seed_reflects_the_patch(self, tmp_path):
+        (tmp_path / "mod.py").write_text(
+            "def outer():\n"
+            "    def inner():\n"
+            "        return OLD_VALUE\n"
+            "    return inner\n"
+        )
+        parser = RepoASTParser(max_workers=1)
+        kg = parser.parse_repo("test/repo", tmp_path)
+
+        engine = KGQueryEngine(kg)
+        extractor = TestContextExtractor(engine, repo_manager=_LocalFileRepoManager(tmp_path))
+
+        patch = (
+            "--- a/mod.py\n"
+            "+++ b/mod.py\n"
+            "@@ -1,4 +1,4 @@\n"
+            " def outer():\n"
+            "     def inner():\n"
+            "-        return OLD_VALUE\n"
+            "+        return NEW_VALUE\n"
+            "     return inner\n"
+        )
+        instance = {
+            "repo": "test/repo",
+            "base_commit": "deadbeef",
+            "patch": patch,
+            "code_file": "mod.py",
+            "test_file": "test_mod.py",
+        }
+
+        context = extractor.extract(instance, depth=2)
+
+        seed = next(s for s in context.seeds if s["label"] == "inner")
+        assert "NEW_VALUE" in seed["metadata"]["source_code"]
+        assert "OLD_VALUE" not in seed["metadata"]["source_code"]
+        assert context.stale_seed_labels == []
