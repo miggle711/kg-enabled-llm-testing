@@ -22,6 +22,11 @@ class TestFilepathToModule:
 
 
 class TestSerializeSeedSection:
+    """result["seed"] is a list, one dict per seed. A patch can change
+    more than one function/class in the same file, so a single-dict shape
+    would silently drop every seed but the first.
+    """
+
     def test_seed_includes_module_and_filepath(self):
         seed_node = {
             "id": "n1",
@@ -37,9 +42,10 @@ class TestSerializeSeedSection:
             {"seeds": [seed_node], "context_nodes": [], "edges": [], "test_nodes": []}
         )
 
-        assert result["seed"]["module"] == "requests.sessions"
-        assert result["seed"]["filepath"] == "requests/sessions.py"
-        assert result["seed"]["function_name"] == "send"
+        assert len(result["seed"]) == 1
+        assert result["seed"][0]["module"] == "requests.sessions"
+        assert result["seed"][0]["filepath"] == "requests/sessions.py"
+        assert result["seed"][0]["function_name"] == "send"
 
     def test_seed_with_no_filepath_metadata_gets_empty_module(self):
         seed_node = {"id": "n1", "label": "send", "type": "method", "metadata": {}}
@@ -47,8 +53,8 @@ class TestSerializeSeedSection:
             {"seeds": [seed_node], "context_nodes": [], "edges": [], "test_nodes": []}
         )
 
-        assert result["seed"]["module"] == ""
-        assert result["seed"]["filepath"] == ""
+        assert result["seed"][0]["module"] == ""
+        assert result["seed"][0]["filepath"] == ""
 
     def test_seed_exceptions_reads_from_raises_metadata_key(self):
         """_build_func_metadata (ast/helpers.py) stores raised exceptions
@@ -71,7 +77,7 @@ class TestSerializeSeedSection:
             {"seeds": [seed_node], "context_nodes": [], "edges": [], "test_nodes": []}
         )
 
-        assert set(result["seed"]["exceptions"]) == {"ValueError('bad input')", "TypeError"}
+        assert set(result["seed"][0]["exceptions"]) == {"ValueError('bad input')", "TypeError"}
 
     def test_seed_with_no_raises_metadata_gets_empty_exceptions(self):
         seed_node = {"id": "n1", "label": "send", "type": "function", "metadata": {}}
@@ -79,7 +85,7 @@ class TestSerializeSeedSection:
             {"seeds": [seed_node], "context_nodes": [], "edges": [], "test_nodes": []}
         )
 
-        assert result["seed"]["exceptions"] == []
+        assert result["seed"][0]["exceptions"] == []
 
     def test_method_seed_includes_class_name(self):
         """A method's class name (e.g. "Session") must be surfaced so the
@@ -100,7 +106,7 @@ class TestSerializeSeedSection:
             {"seeds": [seed_node], "context_nodes": [], "edges": [], "test_nodes": []}
         )
 
-        assert result["seed"]["class_name"] == "Session"
+        assert result["seed"][0]["class_name"] == "Session"
 
     def test_function_seed_has_empty_class_name(self):
         seed_node = {
@@ -113,13 +119,30 @@ class TestSerializeSeedSection:
             {"seeds": [seed_node], "context_nodes": [], "edges": [], "test_nodes": []}
         )
 
-        assert result["seed"]["class_name"] == ""
+        assert result["seed"][0]["class_name"] == ""
 
-    def test_no_seeds_returns_empty_dict(self):
+    def test_no_seeds_returns_empty_list(self):
         result = LLMSerializer().serialize(
             {"seeds": [], "context_nodes": [], "edges": [], "test_nodes": []}
         )
-        assert result["seed"] == {}
+        assert result["seed"] == []
+
+    def test_multiple_seeds_are_all_included_not_just_the_first(self):
+        seed_node_1 = {
+            "id": "n1", "label": "send", "type": "method",
+            "metadata": {"filepath": "requests/sessions.py", "class": "Session"},
+        }
+        seed_node_2 = {
+            "id": "n2", "label": "get", "type": "function",
+            "metadata": {"filepath": "requests/api.py"},
+        }
+        result = LLMSerializer().serialize(
+            {"seeds": [seed_node_1, seed_node_2], "context_nodes": [], "edges": [], "test_nodes": []}
+        )
+
+        assert len(result["seed"]) == 2
+        names = {s["function_name"] for s in result["seed"]}
+        assert names == {"send", "get"}
 
 
 class TestSerializeContextSection:

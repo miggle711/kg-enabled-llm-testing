@@ -90,10 +90,15 @@ class LLMSerializer:
             "instructions": instructions_section,
         }
 
-    def _build_seed_section(self, seeds: List[Dict], node_by_id: Dict) -> Dict:
-        """Extract and structure metadata from seed nodes.
+    def _build_seed_section(self, seeds: List[Dict], node_by_id: Dict) -> List[Dict]:
+        """Extract and structure metadata from every seed node.
 
-        Returns dict with:
+        A patch can change more than one function/class in the same file
+        (6/66 real django instances have multiple seeds) -- returns one
+        dict per seed, not just the first, so a multi-seed instance's
+        other seed(s) aren't silently dropped.
+
+        Each dict has:
             - function_name: Name of the modified function
             - module: Dotted import path (e.g. "requests.sessions"), derived
                       from the node's filepath -- so the LLM can write a
@@ -113,13 +118,10 @@ class LLMSerializer:
                           test-relevant signal, not included here)
             - source_code: Complete function source
         """
-        if not seeds:
-            return {}
+        return [self._seed_node_to_dict(seed_node) for seed_node in seeds]
 
-        # For now, assume single seed (most common case)
-        seed_node = seeds[0]
+    def _seed_node_to_dict(self, seed_node: Dict) -> Dict:
         metadata = seed_node.get("metadata", {})
-
         return {
             "function_name": seed_node.get("label", ""),
             "type": seed_node.get("type", "function"),
@@ -301,10 +303,15 @@ class LLMSerializer:
             "isolation": "Each test should be independent",
         }
 
+        task = (
+            "Generate comprehensive unit tests for the seed function"
+            if len(seeds) == 1
+            else "Generate comprehensive unit tests for the seed functions"
+        )
         return {
             "coverage_targets": coverage_targets,
             "conventions": conventions,
-            "task": "Generate comprehensive unit tests for the seed function",
+            "task": task,
         }
 
     def _node_to_snippet(self, node: Dict) -> Dict:
