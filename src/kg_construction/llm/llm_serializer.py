@@ -76,9 +76,9 @@ class LLMSerializer:
         # Build Seed section from seed nodes
         seed_section = self._build_seed_section(seeds, node_by_id)
 
-        # Build Context section from context_nodes, edges, and test_nodes
+        # Build Context section from context_nodes and edges
         context_section = self._build_context_section(
-            seeds, context_nodes, test_nodes, edges, node_by_id
+            seeds, context_nodes, edges, node_by_id
         )
 
         # Build Instructions section with coverage targets and conventions
@@ -139,7 +139,6 @@ class LLMSerializer:
         self,
         seeds: List[Dict],
         context_nodes: List[Dict],
-        test_nodes: List[Dict],
         edges: List[Dict],
         node_by_id: Dict,
     ) -> Dict:
@@ -162,8 +161,11 @@ class LLMSerializer:
               flat single-function extraction (the baseline arm) can
               never provide, since it has no notion of "what else does
               this class define" (see issue #50 in kg-test-generation).
-            - existing_tests: Test functions that reference the seed
             - patterns: Control flow, type hints, error handling patterns
+
+        existing_tests is deliberately not included: instruct's full-setting
+        prompt shows no existing test content, and full-only generation is
+        meant to be a from-scratch task for both arms (miggle711/pycodekg#130).
         """
         seed_ids = {s["id"] for s in seeds}
 
@@ -185,7 +187,6 @@ class LLMSerializer:
         callees = []
         related = []
         sibling_methods = []
-        existing_tests = []
 
         # Extract relationships from edges
         for edge in edges:
@@ -260,15 +261,6 @@ class LLMSerializer:
             ):
                 sibling_methods.append(self._node_to_snippet(tgt_node))
 
-        # Extract test functions
-        for test_node in test_nodes:
-            existing_tests.append(
-                {
-                    "name": test_node.get("label", ""),
-                    "source_code": test_node.get("metadata", {}).get("source_code", ""),
-                }
-            )
-
         # Extract patterns from seed nodes
         patterns = self._extract_patterns(seeds, context_nodes)
 
@@ -277,7 +269,6 @@ class LLMSerializer:
             "callees": callees,
             "related": related,
             "sibling_methods": sibling_methods,
-            "existing_tests": existing_tests,
             "patterns": patterns,
         }
 
