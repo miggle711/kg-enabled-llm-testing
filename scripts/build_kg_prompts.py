@@ -113,9 +113,6 @@ def _build_prompt(serialized: dict) -> str:
         _snippet_section("Callers", context.get("callers", [])),
         _snippet_section("Callees", context.get("callees", [])),
         _snippet_section("Sibling methods", context.get("sibling_methods", [])),
-        _snippet_section(
-            "Existing tests already covering related code", context.get("existing_tests", [])
-        ),
     ]))
 
     return PROMPT_TEMPLATE.format(

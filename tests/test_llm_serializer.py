@@ -456,3 +456,22 @@ class TestSiblingMethods:
         )
 
         assert result["context"]["sibling_methods"] == []
+
+    def test_existing_tests_are_not_included_even_when_test_nodes_are_present(self):
+        # kg_only must not get existing-test content instruct's full-setting
+        # prompt has no equivalent of (pycodekg#130).
+        seed_node = {"id": "seed", "label": "f", "type": "function", "metadata": {}}
+        test_node = {
+            "id": "t1", "label": "test_f", "type": "function",
+            "metadata": {"source_code": "def test_f(): assert f() == 1"},
+        }
+        result = LLMSerializer().serialize(
+            {
+                "seeds": [seed_node],
+                "context_nodes": [],
+                "edges": [{"source": test_node["id"], "target": seed_node["id"], "relation": "tests"}],
+                "test_nodes": [test_node],
+            }
+        )
+
+        assert "existing_tests" not in result["context"]
