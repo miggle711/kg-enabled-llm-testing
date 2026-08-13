@@ -8,9 +8,9 @@ test file from scratch, no existing test content shown to either arm).
 For each instance, surfaces what pycodekg's TestContextExtractor +
 LLMSerializer retrieve for every seed function/class the instance's patch
 touches (a patch can change more than one -- 6/66 real django instances
-do): each seed's own source, structural metadata (module, class),
-callers/callees/siblings, and any existing tests already linked to it in
-the KG.
+do): each seed's own source, docstring, structural metadata (module,
+class), callers/callees/siblings, and related classes it inherits from
+or instantiates.
 
 Also writes each seed's function name (and enclosing class, if any) as a
 separate field per instance, meant to be merged into the `instruct` arm's
@@ -54,6 +54,7 @@ SYSTEM_MESSAGE = (
 SEED_BLOCK_TEMPLATE = """Function under test: {function_name}
 Module: {module}
 Class: {class_name}
+Docstring: {docstring}
 
 Source:
 ```python
@@ -90,11 +91,33 @@ def _snippet_section(title: str, items: list) -> str:
     return "\n".join(parts) + "\n"
 
 
+def _related_section(items: list) -> str:
+    # related has two entry shapes (parent_class has source_code,
+    # instantiation doesn't), so it needs its own renderer instead of
+    # _snippet_section's single generic shape.
+    if not items:
+        return ""
+    parts = ["Related classes:"]
+    for item in items:
+        name = item.get("name", "?")
+        module = item.get("module", "")
+        via = "the seed" if item.get("source") == "seed" else "the seed's class"
+        if item.get("type") == "parent_class":
+            parts.append(
+                f"- {name} ({module}), parent class of {via}:\n"
+                f"```python\n{item.get('source_code', '')}\n```"
+            )
+        else:
+            parts.append(f"- {name} ({module}), instantiated by {via}")
+    return "\n".join(parts) + "\n"
+
+
 def _build_seed_block(seed: dict) -> str:
     return SEED_BLOCK_TEMPLATE.format(
         function_name=seed.get("function_name", ""),
         module=seed.get("module", ""),
         class_name=seed.get("class_name", "") or "(none -- top-level function)",
+        docstring=seed.get("docstring") or "(none)",
         source_code=seed.get("source_code", ""),
         exceptions=", ".join(seed.get("exceptions", [])) or "(none declared)",
     )
@@ -113,6 +136,7 @@ def _build_prompt(serialized: dict) -> str:
         _snippet_section("Callers", context.get("callers", [])),
         _snippet_section("Callees", context.get("callees", [])),
         _snippet_section("Sibling methods", context.get("sibling_methods", [])),
+        _related_section(context.get("related", [])),
     ]))
 
     return PROMPT_TEMPLATE.format(
