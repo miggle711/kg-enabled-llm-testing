@@ -63,8 +63,10 @@ from kg_construction.ast.helpers import (
     _collect_local_types,
     _get_docstring,
     _get_decorators,
+    _get_bare_decorator_names,
     _get_signature,
     _get_exceptions,
+    _get_exception_class_names,
     _count_branches,
     _get_assert_patterns,
     _get_base_names,
@@ -562,6 +564,21 @@ def _parse_file(args: Tuple[str, str, str]) -> Optional[Dict]:
         _emit_access_edges(func_id, func_node, local_types, class_name=parent_class)
         _emit_func_edges(func_id, func_node, class_name=parent_class)
 
+        # raises/decorated_by: unresolved here, resolved in _resolve_edges
+        # against the repo's own class/function index, same pattern as
+        # inherits/uses/overrides above (kg_construction#112, #113).
+        exc_names = _get_exception_class_names(func_node)
+        for exc_name in exc_names['raises'] + exc_names['catches']:
+            edges.append(asdict(KGEdge(
+                source=func_id, target=exc_name, relation='raises',
+                metadata={'unresolved': True}
+            )))
+        for dec_name in _get_bare_decorator_names(func_node):
+            edges.append(asdict(KGEdge(
+                source=func_id, target=dec_name, relation='decorated_by',
+                metadata={'unresolved': True}
+            )))
+
         _record_factory_sites(func_node, enclosing_class_id=enclosing_class_id)
 
         for child in ast.iter_child_nodes(func_node):
@@ -984,6 +1001,44 @@ class RepoASTParser:
                         seen_edges.add(key)
                         resolved_edges.append(asdict(KGEdge(
                             source=edge['source'], target=target_id, relation='inherits',
+                            metadata={'confidence': confidence}
+                        )))
+
+            elif edge['relation'] == 'raises' and meta.get('unresolved'):
+                # Only resolves when the raised/caught name is a real
+                # in-repo class (kg_construction#112) -- builtins and
+                # external exceptions have nothing to match and are
+                # dropped, same "drop rather than guess" rule as calls.
+                exc_name = edge['target']
+                matches = class_label_to_ids.get(exc_name, [])
+                if not matches:
+                    continue
+                confidence = 'exact' if len(matches) == 1 else 'ambiguous'
+                for target_id in matches:
+                    key = (edge['source'], target_id, 'raises')
+                    if key not in seen_edges:
+                        seen_edges.add(key)
+                        resolved_edges.append(asdict(KGEdge(
+                            source=edge['source'], target=target_id, relation='raises',
+                            metadata={'confidence': confidence}
+                        )))
+
+            elif edge['relation'] == 'decorated_by' and meta.get('unresolved'):
+                # A decorator can itself be a class (rare) or, far more
+                # commonly, a plain function (kg_construction#113) --
+                # check both indices, since a bare decorator name isn't
+                # tagged with which kind it is ahead of time.
+                dec_name = edge['target']
+                matches = class_label_to_ids.get(dec_name, []) or label_to_ids.get(dec_name, [])
+                if not matches:
+                    continue
+                confidence = 'exact' if len(matches) == 1 else 'ambiguous'
+                for target_id in matches:
+                    key = (edge['source'], target_id, 'decorated_by')
+                    if key not in seen_edges:
+                        seen_edges.add(key)
+                        resolved_edges.append(asdict(KGEdge(
+                            source=edge['source'], target=target_id, relation='decorated_by',
                             metadata={'confidence': confidence}
                         )))
 
