@@ -385,7 +385,6 @@ def _parse_file(args: Tuple[str, str, str]) -> Optional[Dict]:
         for dunder, receiver in _extract_operator_dispatches(func_node):
             if (func_id, dunder) in seen_call_targets:
                 continue
-            seen_call_targets.add((func_id, dunder))
 
             class_hint: Optional[str] = None
             local_type_hint: Optional[str] = None
@@ -396,6 +395,12 @@ def _parse_file(args: Tuple[str, str, str]) -> Optional[Dict]:
                 local_type_hint = local_types[receiver]
             else:
                 continue  # receiver's type isn't inferable, drop rather than guess
+
+            # Marked only once resolvable, so an earlier unresolvable
+            # site for the same dunder doesn't consume the dedup slot
+            # a later, genuinely resolvable site needs (kg_construction#137
+            # review).
+            seen_call_targets.add((func_id, dunder))
 
             edges.append(asdict(KGEdge(
                 source=func_id, target=dunder, relation='calls',

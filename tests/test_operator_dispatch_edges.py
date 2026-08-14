@@ -151,6 +151,48 @@ class TestOperatorDispatchEdges:
         calls_edges = [e for e in kg["edges"] if e["relation"] == "calls"]
         assert calls_edges == []
 
+    def test_unresolvable_site_does_not_block_a_later_resolvable_one(self, tmp_path):
+        """An earlier operator site for a dunder that can't be resolved
+        must not consume the dedup slot a later, resolvable site for the
+        same dunder needs (kg_construction#137 review). Order must not
+        matter.
+        """
+        source = (
+            "class Thing:\n"
+            "    def __or__(self, other):\n"
+            "        return self\n"
+            "\n"
+            "def combine(unresolvable, y: Thing):\n"
+            "    a = unresolvable | y\n"
+            "    b = y | y\n"
+        )
+        (tmp_path / "mod.py").write_text(source)
+        parser = RepoASTParser(max_workers=1)
+        kg = parser.parse_repo("test/repo", tmp_path)
+
+        calls_edges = [e for e in kg["edges"] if e["relation"] == "calls"]
+        assert len(calls_edges) == 1
+
+    def test_unresolvable_site_does_not_block_a_resolvable_one_reverse_order(self, tmp_path):
+        """Same as above with the two sites swapped, confirms the fix
+        isn't order dependent in either direction.
+        """
+        source = (
+            "class Thing:\n"
+            "    def __or__(self, other):\n"
+            "        return self\n"
+            "\n"
+            "def combine(unresolvable, y: Thing):\n"
+            "    b = y | y\n"
+            "    a = unresolvable | y\n"
+        )
+        (tmp_path / "mod.py").write_text(source)
+        parser = RepoASTParser(max_workers=1)
+        kg = parser.parse_repo("test/repo", tmp_path)
+
+        calls_edges = [e for e in kg["edges"] if e["relation"] == "calls"]
+        assert len(calls_edges) == 1
+
     def test_chained_comparison_is_skipped(self, tmp_path):
         """a < b < c is a real, if less common, shape (single Compare
         node with 2 ops) -- explicitly out of scope for this first cut,
