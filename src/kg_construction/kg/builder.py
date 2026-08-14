@@ -899,7 +899,10 @@ class RepoASTParser:
                     if hits:
                         return hits, 'qualified'
 
-            hits = label_to_ids.get(callee_name, [])
+            # Bare Foo(...) is a constructor call when Foo is a class, so
+            # check class names too, not just functions/methods
+            # (kg_construction#120).
+            hits = label_to_ids.get(callee_name, []) + class_label_to_ids.get(callee_name, [])
 
             # A bare call (no receiver at all, e.g. `request(...)` calling
             # a module-level function, as opposed to `x.request()`) that
