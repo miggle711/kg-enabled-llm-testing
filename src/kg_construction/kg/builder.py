@@ -60,6 +60,7 @@ from kg_construction.ast.helpers import (
     _extract_callee_name,
     _extract_call_receiver,
     _extract_property_accesses,
+    _extract_operator_dispatches,
     _collect_local_types,
     _get_docstring,
     _get_decorators,
@@ -371,6 +372,48 @@ def _parse_file(args: Tuple[str, str, str]) -> Optional[Dict]:
                 }
             )))
 
+    def _emit_operator_edges(func_id: str, func_node: Union[ast.FunctionDef, ast.AsyncFunctionDef],
+                             local_types: Dict[str, str], class_name: Optional[str] = None):
+        """Emit a 'calls' edge for operator dispatch sites (kg_construction#122).
+
+        `a | b` never appears as an ast.Call, Python's own dispatch
+        routes it to a.__or__(b). Emitted as relation='calls' with the
+        same hint shape _emit_call_edges uses, so it resolves through
+        the existing _resolve_call path unchanged, no new resolution
+        logic needed.
+        """
+        for dunder, receiver in _extract_operator_dispatches(func_node):
+            if (func_id, dunder) in seen_call_targets:
+                continue
+
+            class_hint: Optional[str] = None
+            local_type_hint: Optional[str] = None
+
+            if receiver == 'self' and class_name is not None:
+                class_hint = class_name
+            elif receiver in local_types:
+                local_type_hint = local_types[receiver]
+            else:
+                continue  # receiver's type isn't inferable, drop rather than guess
+
+            # Marked only once resolvable, so an earlier unresolvable
+            # site for the same dunder doesn't consume the dedup slot
+            # a later, genuinely resolvable site needs (kg_construction#137
+            # review).
+            seen_call_targets.add((func_id, dunder))
+
+            edges.append(asdict(KGEdge(
+                source=func_id, target=dunder, relation='calls',
+                metadata={
+                    'unresolved': True,
+                    'receiver': receiver,
+                    'class_hint': class_hint,
+                    'local_type_hint': local_type_hint,
+                    'import_resolved': None,
+                    'is_super_call': False,
+                }
+            )))
+
     def _emit_func_edges(func_id: str, func_node: Union[ast.FunctionDef, ast.AsyncFunctionDef],
                          class_name: Optional[str] = None):
         """Emit semantic edges for a function or method beyond call relationships.
@@ -563,6 +606,7 @@ def _parse_file(args: Tuple[str, str, str]) -> Optional[Dict]:
         _emit_call_edges(func_id, func_node, local_types, class_name=parent_class)
         _emit_access_edges(func_id, func_node, local_types, class_name=parent_class)
         _emit_func_edges(func_id, func_node, class_name=parent_class)
+        _emit_operator_edges(func_id, func_node, local_types, class_name=parent_class)
 
         # raises/decorated_by: unresolved here, resolved in _resolve_edges
         # against the repo's own class/function index, same pattern as

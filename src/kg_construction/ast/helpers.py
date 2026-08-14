@@ -190,6 +190,70 @@ def _extract_property_accesses(
     return accesses
 
 
+# Common overloadable binary operators -> the dunder method Python
+# dispatches to. Right-operand fallback (__ror__ etc, when the left
+# side returns NotImplemented) and in-place variants (__iadd__ etc)
+# are out of scope for a first cut (kg_construction#122).
+_BINOP_DUNDER_METHODS = {
+    ast.Add: '__add__', ast.Sub: '__sub__', ast.Mult: '__mul__',
+    ast.Div: '__truediv__', ast.FloorDiv: '__floordiv__', ast.Mod: '__mod__',
+    ast.Pow: '__pow__', ast.LShift: '__lshift__', ast.RShift: '__rshift__',
+    ast.BitOr: '__or__', ast.BitXor: '__xor__', ast.BitAnd: '__and__',
+    ast.MatMult: '__matmul__',
+}
+
+_COMPARE_DUNDER_METHODS = {
+    ast.Eq: '__eq__', ast.NotEq: '__ne__', ast.Lt: '__lt__',
+    ast.LtE: '__le__', ast.Gt: '__gt__', ast.GtE: '__ge__',
+}
+
+
+def _extract_operator_dispatches(
+    func_node: Union[ast.FunctionDef, ast.AsyncFunctionDef],
+) -> List[Tuple[str, str]]:
+    """Find operator sites whose left operand is a bare name (kg_construction#122).
+
+    `a | b` never appears as an ast.Call, so _emit_call_edges has no
+    signal for it at all -- Python's own dispatch routes it to
+    `a.__or__(b)`. Only the left operand is handled (no __ror__
+    fallback), and only when it's a bare Name -- the same shape
+    _extract_call_receiver already resolves for `x.method()`, so the
+    existing local_types/class_hint machinery can resolve it without
+    any new type inference. Chained comparisons (`a < b < c`) are
+    skipped, only the simple a OP b shape is handled.
+
+    Returns a deduplicated list of (dunder_method, receiver) pairs,
+    e.g. `self | x` -> ('__or__', 'self').
+    """
+    dispatches: List[Tuple[str, str]] = []
+    seen: Set[Tuple[str, str]] = set()
+
+    def _walk_no_nested(n: ast.AST):
+        for child in ast.iter_child_nodes(n):
+            if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                continue  # nested fn -- its operator sites belong to that scope
+
+            dunder = None
+            left = None
+            if isinstance(child, ast.BinOp):
+                dunder = _BINOP_DUNDER_METHODS.get(type(child.op))
+                left = child.left
+            elif isinstance(child, ast.Compare) and len(child.ops) == 1:
+                dunder = _COMPARE_DUNDER_METHODS.get(type(child.ops[0]))
+                left = child.left
+
+            if dunder and isinstance(left, ast.Name):
+                key = (dunder, left.id)
+                if key not in seen:
+                    seen.add(key)
+                    dispatches.append(key)
+
+            _walk_no_nested(child)
+
+    _walk_no_nested(func_node)
+    return dispatches
+
+
 def _collect_local_types(
     func_node: Union[ast.FunctionDef, ast.AsyncFunctionDef],
     before_line: Optional[int] = None,
