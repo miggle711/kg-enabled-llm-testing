@@ -1024,14 +1024,25 @@ class RepoASTParser:
                         )))
 
             elif edge['relation'] == 'decorated_by' and meta.get('unresolved'):
-                # A decorator can itself be a class (rare) or, far more
-                # commonly, a plain function (kg_construction#113) --
-                # check both indices, since a bare decorator name isn't
-                # tagged with which kind it is ahead of time.
+                # Check both indices unconditionally, not short-circuited,
+                # a class and function of the same name can both exist
+                # (kg_construction#135 review).
                 dec_name = edge['target']
-                matches = class_label_to_ids.get(dec_name, []) or label_to_ids.get(dec_name, [])
+                matches = class_label_to_ids.get(dec_name, []) + label_to_ids.get(dec_name, [])
                 if not matches:
                     continue
+                # A bare decorator name resolves via the decorated
+                # function's own module scope, same reasoning as bare
+                # calls above. Prefer a single same-file match over
+                # reporting every same-named candidate as ambiguous.
+                if len(matches) > 1:
+                    decorated_filepath = nodes_by_id.get(edge['source'], {}).get('metadata', {}).get('filepath')
+                    same_file_matches = [
+                        mid for mid in matches
+                        if nodes_by_id.get(mid, {}).get('metadata', {}).get('filepath') == decorated_filepath
+                    ]
+                    if len(same_file_matches) == 1:
+                        matches = same_file_matches
                 confidence = 'exact' if len(matches) == 1 else 'ambiguous'
                 for target_id in matches:
                     key = (edge['source'], target_id, 'decorated_by')

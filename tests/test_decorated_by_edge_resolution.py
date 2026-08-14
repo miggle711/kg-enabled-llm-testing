@@ -129,3 +129,82 @@ class TestDecoratedByEdgeResolution:
         ]
         assert len(dec_edges) == 1
         assert dec_edges[0]["target"] == class_id
+
+    def test_name_colliding_across_class_and_function_prefers_same_file(self, tmp_path):
+        """A class and a function share the same bare name in different
+        files -- must not silently pick the class and call it exact
+        just because class_label_to_ids was checked first
+        (kg_construction#135 review). The decorated function's own
+        module scope resolves the real Python semantics here: same
+        file as the decorated function wins, same as bare calls do.
+        """
+        (tmp_path / "a.py").write_text(
+            "class registered:\n"
+            "    def __call__(self, func):\n"
+            "        return func\n"
+        )
+        (tmp_path / "b.py").write_text(
+            "def registered(func):\n"
+            "    return func\n"
+            "\n"
+            "@registered\n"
+            "def process():\n"
+            "    pass\n"
+        )
+        parser = RepoASTParser(max_workers=1)
+        kg = parser.parse_repo("test/repo", tmp_path)
+
+        process_id = next(
+            n["id"] for n in kg["nodes"]
+            if n["type"] == "function" and n["label"] == "process"
+        )
+        func_registered_id = next(
+            n["id"] for n in kg["nodes"]
+            if n["type"] == "function" and n["label"] == "registered"
+        )
+        dec_edges = [
+            e for e in kg["edges"]
+            if e["relation"] == "decorated_by" and e["source"] == process_id
+        ]
+        assert len(dec_edges) == 1
+        assert dec_edges[0]["target"] == func_registered_id
+        assert dec_edges[0]["metadata"]["confidence"] == "exact"
+
+    def test_name_colliding_in_neither_same_file_stays_ambiguous(self, tmp_path):
+        """Same collision, but now neither candidate is in the decorated
+        function's own file -- no same-file signal to prefer one, so
+        both stay linked as ambiguous.
+        """
+        (tmp_path / "a.py").write_text(
+            "class registered:\n"
+            "    def __call__(self, func):\n"
+            "        return func\n"
+        )
+        (tmp_path / "b.py").write_text(
+            "def registered(func):\n"
+            "    return func\n"
+        )
+        (tmp_path / "c.py").write_text(
+            "@registered\n"
+            "def process():\n"
+            "    pass\n"
+        )
+        parser = RepoASTParser(max_workers=1)
+        kg = parser.parse_repo("test/repo", tmp_path)
+
+        process_id = next(
+            n["id"] for n in kg["nodes"]
+            if n["type"] == "function" and n["label"] == "process"
+        )
+        dec_edges = [
+            e for e in kg["edges"]
+            if e["relation"] == "decorated_by" and e["source"] == process_id
+        ]
+        assert len(dec_edges) == 2
+        assert all(e["metadata"]["confidence"] == "ambiguous" for e in dec_edges)
+
+        targets = {
+            n["type"] for n in kg["nodes"]
+            if n["id"] in {e["target"] for e in dec_edges}
+        }
+        assert targets == {"class", "function"}
