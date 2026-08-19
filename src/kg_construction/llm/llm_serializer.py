@@ -47,6 +47,16 @@ class LLMInput:
     instructions: Dict
 
 
+# Per-seed cap on callers/callees/sibling_methods. A high fan-in/fan-out
+# function (e.g. sklearn's check_array, sympy's sympify) has a real
+# caller/callee list in the hundreds under an uncapped depth-2 BFS,
+# producing prompts up to 2.7MB for a single instance -- both a context-
+# window overflow risk and noise that likely hurts generation quality
+# even when it fits (kg_construction#141). 10 real examples of usage is
+# enough signal; #11 onward adds no new information.
+MAX_CONTEXT_ITEMS_PER_CATEGORY = 10
+
+
 class LLMSerializer:
     """Converts TestContext (flat subgraph) to LLM-friendly hierarchical JSON."""
 
@@ -201,11 +211,13 @@ class LLMSerializer:
 
             # Edges pointing to seed = callers
             if tgt_id in seed_ids and relation == "calls":
-                callers.append(self._node_to_snippet(src_node))
+                if len(callers) < MAX_CONTEXT_ITEMS_PER_CATEGORY:
+                    callers.append(self._node_to_snippet(src_node))
 
             # Edges from seed = callees
             elif src_id in seed_ids and relation == "calls":
-                callees.append(self._node_to_snippet(tgt_node))
+                if len(callees) < MAX_CONTEXT_ITEMS_PER_CATEGORY:
+                    callees.append(self._node_to_snippet(tgt_node))
 
             # Inheritance and composition -- restricted to edges sourced from
             # the seed itself OR the seed's own class (src_id in seed_ids or
@@ -259,7 +271,8 @@ class LLMSerializer:
                 and tgt_id not in seed_ids
                 and tgt_node.get("type") in ("method", "function")
             ):
-                sibling_methods.append(self._node_to_snippet(tgt_node))
+                if len(sibling_methods) < MAX_CONTEXT_ITEMS_PER_CATEGORY:
+                    sibling_methods.append(self._node_to_snippet(tgt_node))
 
         # Extract patterns from seed nodes
         patterns = self._extract_patterns(seeds, context_nodes)

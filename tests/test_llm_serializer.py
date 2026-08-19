@@ -475,3 +475,88 @@ class TestSiblingMethods:
         )
 
         assert "existing_tests" not in result["context"]
+
+
+class TestContextItemsAreCapped:
+    """A high fan-in/fan-out seed (e.g. sklearn's check_array, called from
+    hundreds of sites) produced uncapped callers/callees/sibling_methods
+    lists under an unbounded depth-2 BFS, real prompts up to 2.7MB for a
+    single instance (kg_construction#141). Each category is capped so one
+    densely-connected seed can't blow out the prompt size.
+    """
+
+    def test_callers_are_capped(self):
+        seed_node = {"id": "seed", "label": "check_array", "type": "function", "metadata": {}}
+        caller_nodes = [
+            {"id": f"caller{i}", "label": f"fn{i}", "type": "function", "metadata": {}}
+            for i in range(15)
+        ]
+        edges = [
+            {"source": n["id"], "target": seed_node["id"], "relation": "calls"}
+            for n in caller_nodes
+        ]
+        result = LLMSerializer().serialize(
+            {"seeds": [seed_node], "context_nodes": caller_nodes, "edges": edges, "test_nodes": []}
+        )
+
+        assert len(result["context"]["callers"]) == 10
+
+    def test_callees_are_capped(self):
+        seed_node = {"id": "seed", "label": "f", "type": "function", "metadata": {}}
+        callee_nodes = [
+            {"id": f"callee{i}", "label": f"fn{i}", "type": "function", "metadata": {}}
+            for i in range(15)
+        ]
+        edges = [
+            {"source": seed_node["id"], "target": n["id"], "relation": "calls"}
+            for n in callee_nodes
+        ]
+        result = LLMSerializer().serialize(
+            {"seeds": [seed_node], "context_nodes": callee_nodes, "edges": edges, "test_nodes": []}
+        )
+
+        assert len(result["context"]["callees"]) == 10
+
+    def test_sibling_methods_are_capped(self):
+        seed_node = {"id": "seed", "label": "send", "type": "method", "metadata": {}}
+        seed_class_node = {"id": "cls", "label": "Session", "type": "class", "metadata": {}}
+        sibling_nodes = [
+            {"id": f"sib{i}", "label": f"method{i}", "type": "method", "metadata": {}}
+            for i in range(15)
+        ]
+        edges = [
+            {"source": seed_class_node["id"], "target": seed_node["id"], "relation": "contains"},
+        ] + [
+            {"source": seed_class_node["id"], "target": n["id"], "relation": "contains"}
+            for n in sibling_nodes
+        ]
+        result = LLMSerializer().serialize(
+            {
+                "seeds": [seed_node],
+                "context_nodes": [seed_class_node] + sibling_nodes,
+                "edges": edges,
+                "test_nodes": [],
+            }
+        )
+
+        assert len(result["context"]["sibling_methods"]) == 10
+
+    def test_cap_keeps_first_encountered_order_not_arbitrary(self):
+        # Determinism matters here: a rebuild of kg_prompts.json must
+        # keep selecting the same 10 callers, not some other subset,
+        # since edges are stored in a fixed order in the KG, not a set.
+        seed_node = {"id": "seed", "label": "f", "type": "function", "metadata": {}}
+        caller_nodes = [
+            {"id": f"caller{i}", "label": f"fn{i}", "type": "function", "metadata": {}}
+            for i in range(15)
+        ]
+        edges = [
+            {"source": n["id"], "target": seed_node["id"], "relation": "calls"}
+            for n in caller_nodes
+        ]
+        result = LLMSerializer().serialize(
+            {"seeds": [seed_node], "context_nodes": caller_nodes, "edges": edges, "test_nodes": []}
+        )
+
+        kept_names = [c["name"] for c in result["context"]["callers"]]
+        assert kept_names == [f"fn{i}" for i in range(10)]
