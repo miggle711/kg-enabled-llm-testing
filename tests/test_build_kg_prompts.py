@@ -3,7 +3,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
 
-from build_kg_prompts import _build_prompt, _related_section  # noqa: E402
+from build_kg_prompts import _build_prompt, _related_section, _repo_slug  # noqa: E402
 
 
 def _serialized(seed_overrides=None, related=None):
@@ -69,3 +69,19 @@ class TestRelatedSection:
         result = _related_section(related)
         assert "A (m), instantiated by the seed\n" in result
         assert "B (m), instantiated by the seed's class" in result
+
+
+class TestRepoSlug:
+    """Must match RepoKGBuilder._cache_path's sanitization exactly
+    (kg/builder.py) -- a mismatch here means this script can never find
+    the KG file a real build actually produced (kg_construction#141).
+    """
+
+    def test_slashes_become_underscores(self):
+        assert _repo_slug("psf/requests") == "psf_requests"
+
+    def test_hyphens_become_underscores(self):
+        assert _repo_slug("scikit-learn/scikit-learn") == "scikit_learn_scikit_learn"
+
+    def test_dots_become_underscores(self):
+        assert _repo_slug("foo.bar/baz.qux") == "foo_bar_baz_qux"

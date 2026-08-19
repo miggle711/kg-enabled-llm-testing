@@ -146,6 +146,17 @@ def _build_prompt(serialized: dict) -> str:
     )
 
 
+def _repo_slug(repo: str) -> str:
+    """Sanitize a repo name for use in a kg_<slug>_<commit>.json filename.
+
+    Must match RepoKGBuilder._cache_path's sanitization exactly
+    (kg/builder.py), which also replaces "-" and "." -- a repo like
+    scikit-learn/scikit-learn produced kg files this script could never
+    find when only "/" was being replaced here (kg_construction#141).
+    """
+    return repo.replace("/", "_").replace("-", "_").replace(".", "_")
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--kg-dir", type=str, required=True,
@@ -168,7 +179,7 @@ def main():
     multi_seed_instances = []
 
     for row in rows:
-        repo_slug = row["repo"].replace("/", "_")
+        repo_slug = _repo_slug(row["repo"])
         commit = row["base_commit"]
         kg_path = kg_dir / f"kg_{repo_slug}_{commit[:8]}.json"
         if not kg_path.exists():
