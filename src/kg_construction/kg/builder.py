@@ -46,7 +46,7 @@ import re
 import tempfile
 from pathlib import Path
 from collections import defaultdict
-from concurrent.futures import ProcessPoolExecutor, as_completed
+from concurrent.futures import ProcessPoolExecutor
 from dataclasses import dataclass, asdict, field
 from typing import List, Dict, Set, Optional, Tuple, Union
 
@@ -788,21 +788,28 @@ class RepoASTParser:
             if 'migrations' in rel.parts and _GENERATED_MIGRATION_FILENAME.match(py_file.name):
                 continue
             file_args.append((repo, str(rel), str(py_file)))
+        # rglob's traversal order isn't guaranteed deterministic across
+        # runs/filesystems -- sort so downstream node/edge ordering (and
+        # anything that truncates by list position, e.g.
+        # llm_serializer's MAX_CONTEXT_ITEMS_PER_CATEGORY caps) doesn't
+        # vary between separate builds of the same repo+commit.
+        file_args.sort(key=lambda args: args[1])
         return file_args
 
     def _run_parallel_parse(self, file_args: List[Tuple[str, str, str]]) -> List[Dict]:
         """Run _parse_file in parallel via ProcessPoolExecutor.
 
-        Returns list of parse results (nodes + unresolved edges from each file).
+        Returns list of parse results (nodes + unresolved edges from each
+        file), in a fixed order matching file_args -- as_completed()
+        previously returned results in whichever order each worker
+        process happened to finish, which varies run-to-run and made
+        all_nodes/all_edges ordering (and anything downstream that
+        truncates by list position) non-deterministic across separate
+        builds of the same repo+commit.
         """
-        results = []
         with ProcessPoolExecutor(max_workers=self.max_workers) as executor:
-            futures = {executor.submit(_parse_file, args): args for args in file_args}
-            for future in as_completed(futures):
-                result = future.result()
-                if result:
-                    results.append(result)
-        return results
+            results = list(executor.map(_parse_file, file_args))
+        return [r for r in results if r]
 
     def _aggregate_and_index(self, results: List[Dict]) -> Tuple[List[Dict], List[Dict], Dict]:
         """Aggregate nodes from parse results and build resolution indices.
