@@ -13,6 +13,9 @@ on:
           - kjain14/testgenevallite
           - kjain14/testgeneval
         default: kjain14/testgenevallite
+      depth:
+        description: "BFS traversal depth for kg_only context retrieval"
+        default: "2"
 
 permissions:
   contents: read
@@ -56,7 +59,8 @@ jobs:
           PYTHONPATH=src python scripts/build_kg_prompts.py \
             --kg-dir kg_output \
             --dataset-path dataset_on_disk \
-            --output kg_prompts.json
+            --output kg_prompts.json \
+            --depth "${{ github.event.inputs.depth }}"
 
       - name: Upload KG outputs
         if: always()
