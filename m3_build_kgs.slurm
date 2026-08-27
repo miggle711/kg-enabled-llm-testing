@@ -6,16 +6,19 @@
 #SBATCH --mem=32G
 #SBATCH --output=build-kgs-%j.out
 
-# Runs scripts/build_kgs_for_instances.py + scripts/build_kg_prompts.py
-# directly on M3, no GitHub Actions involved. Same two scripts the
-# build-kg-prompts.yml workflow runs on GitHub-hosted compute, just run
-# here for more CPU cores (RepoASTParser's ProcessPoolExecutor benefits
-# directly) and no GitHub-hosted runner time/disk limits.
+# Runs scripts/build_kgs_for_instances.py directly on M3, no GitHub
+# Actions involved. More CPU cores for RepoASTParser's ProcessPoolExecutor
+# than a GitHub-hosted runner gets, and no GitHub-hosted time/disk limits.
+#
+# KG construction is depth-independent -- BFS depth only affects the
+# separate prompt-building step (see m3_build_kg_prompts.slurm), so this
+# only needs to run once per (INSTANCES, DATASET) pair, not once per
+# depth you want to compare.
 #
 # Configure via env vars, same pattern as m3_run_inference.slurm:
 #
 #   INSTANCES="django__django-10390-15718,sympy__sympy-11400-17079" \
-#   DATASET="kjain14/testgeneval" DEPTH="2" \
+#   DATASET="kjain14/testgeneval" \
 #     sbatch m3_build_kgs.slurm
 #
 # INSTANCES empty (default) builds every row in DATASET.
@@ -24,14 +27,13 @@
 # ~/al49_scratch/.../repo-kg-construction), not $HOME -- RepoManager's
 # bare git clones land in ./repo_cache, relative to wherever this runs
 # from, and django/sympy's real clone sizes would otherwise eat $HOME's
-# small quota the same way HF_HOME/HF_DATASETS_CACHE would below.
+# small quota the same way HF_HOME/HF_DATASETS_CACHE would.
 
 set -euo pipefail
 cd "$SLURM_SUBMIT_DIR"
 
 INSTANCES="${INSTANCES:-}"
 DATASET="${DATASET:-kjain14/testgenevallite}"
-DEPTH="${DEPTH:-2}"
 
 # $HOME has its own small, easy-to-exhaust quota on M3 (confirmed real
 # this session on the testgeneval side, same load_dataset default cache
@@ -57,18 +59,5 @@ PYTHONPATH=src python3 scripts/build_kgs_for_instances.py \
   --instances "$INSTANCES" \
   --dataset "$DATASET"
 
-echo "---- Saving dataset to disk ----"
-python3 -c "
-from datasets import load_dataset
-ds = load_dataset('$DATASET')
-ds.save_to_disk('dataset_on_disk')
-"
-
-echo "---- Building kg_only prompts ----"
-PYTHONPATH=src python3 scripts/build_kg_prompts.py \
-  --kg-dir kg_output \
-  --dataset-path dataset_on_disk \
-  --output kg_prompts.json \
-  --depth "$DEPTH"
-
-echo "Done. kg_output/ and kg_prompts.json are in $SLURM_SUBMIT_DIR"
+echo "Done. kg_output/ is in $SLURM_SUBMIT_DIR"
+echo "Next: submit m3_build_kg_prompts.slurm (once per depth you want)."
