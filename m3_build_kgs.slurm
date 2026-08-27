@@ -46,17 +46,25 @@ export HF_DATASETS_CACHE="${HF_DATASETS_CACHE:-$HOME/al49_scratch/$USER/hf-datas
 
 module load miniforge3
 
+# conda create -n <name> (no --prefix) puts the env under ~/.conda/envs,
+# inside $HOME, same quota problem as HF_HOME/HF_DATASETS_CACHE above,
+# confirmed real: a real run hit "OSError: [Errno 122] Disk quota
+# exceeded" installing dependencies into ~/.conda/envs/pycodekg on a
+# $HOME already at 20G/20G (100%) used. --prefix puts the env on scratch
+# space instead, same as HF_HOME/HF_DATASETS_CACHE.
+CONDA_ENV_DIR="${CONDA_ENV_DIR:-$HOME/al49_scratch/$USER/conda-envs/pycodekg}"
+
 # Create the env once, reused on every subsequent submission.
 # requires-python is >=3.10 (see pyproject.toml). Dependencies are
-# installed every run regardless -- pip install is a fast no-op when
+# installed every run regardless, pip install is a fast no-op when
 # already satisfied, and skipping it on an existing env once left a
 # real dependency (datasets) missing after an interrupted/cancelled
 # earlier attempt had created the env but not finished installing.
-if ! conda env list | grep -q "^pycodekg "; then
-  echo "---- Creating pycodekg conda env (first run) ----"
-  conda create -y -n pycodekg python=3.11
+if [ ! -d "$CONDA_ENV_DIR" ]; then
+  echo "---- Creating pycodekg conda env at $CONDA_ENV_DIR (first run) ----"
+  conda create -y --prefix "$CONDA_ENV_DIR" python=3.11
 fi
-source activate pycodekg
+source activate "$CONDA_ENV_DIR"
 pip install -e ".[datasets]"
 
 echo "---- Building KGs ----"

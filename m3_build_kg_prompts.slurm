@@ -39,11 +39,12 @@ export HF_DATASETS_CACHE="${HF_DATASETS_CACHE:-$HOME/al49_scratch/$USER/hf-datas
 
 module load miniforge3
 
-if ! conda env list | grep -q "^pycodekg "; then
-  echo "pycodekg conda env not found. Run m3_build_kgs.slurm first (it creates it)."
+CONDA_ENV_DIR="${CONDA_ENV_DIR:-$HOME/al49_scratch/$USER/conda-envs/pycodekg}"
+if [ ! -d "$CONDA_ENV_DIR" ]; then
+  echo "pycodekg conda env not found at $CONDA_ENV_DIR. Run m3_build_kgs.slurm first (it creates it)."
   exit 1
 fi
-source activate pycodekg
+source activate "$CONDA_ENV_DIR"
 
 echo "---- Saving dataset to disk ----"
 python3 -c "
