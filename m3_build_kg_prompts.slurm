@@ -53,10 +53,13 @@ ds.save_to_disk('dataset_on_disk')
 "
 
 echo "---- Building kg_only prompts (depth=$DEPTH) ----"
+PROMPTS_BUILD_START=$(date +%s)
 PYTHONPATH=src python3 scripts/build_kg_prompts.py \
   --kg-dir kg_output \
   --dataset-path dataset_on_disk \
   --output "$OUTPUT" \
   --depth "$DEPTH"
+PROMPTS_BUILD_END=$(date +%s)
+echo "Prompt build time (depth=$DEPTH): $((PROMPTS_BUILD_END - PROMPTS_BUILD_START))s"
 
 echo "Done. $OUTPUT is in $SLURM_SUBMIT_DIR"

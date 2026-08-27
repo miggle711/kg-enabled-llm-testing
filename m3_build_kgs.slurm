@@ -46,21 +46,26 @@ export HF_DATASETS_CACHE="${HF_DATASETS_CACHE:-$HOME/al49_scratch/$USER/hf-datas
 
 module load miniforge3
 
-# First run on this account: create the env once, reused on every
-# subsequent submission. requires-python is >=3.10 (see pyproject.toml).
+# Create the env once, reused on every subsequent submission.
+# requires-python is >=3.10 (see pyproject.toml). Dependencies are
+# installed every run regardless -- pip install is a fast no-op when
+# already satisfied, and skipping it on an existing env once left a
+# real dependency (datasets) missing after an interrupted/cancelled
+# earlier attempt had created the env but not finished installing.
 if ! conda env list | grep -q "^pycodekg "; then
   echo "---- Creating pycodekg conda env (first run) ----"
   conda create -y -n pycodekg python=3.11
-  source activate pycodekg
-  pip install -e ".[datasets]"
-else
-  source activate pycodekg
 fi
+source activate pycodekg
+pip install -e ".[datasets]"
 
 echo "---- Building KGs ----"
+KG_BUILD_START=$(date +%s)
 PYTHONPATH=src python3 scripts/build_kgs_for_instances.py \
   --instances "$INSTANCES" \
   --dataset "$DATASET"
+KG_BUILD_END=$(date +%s)
+echo "KG build time: $((KG_BUILD_END - KG_BUILD_START))s"
 
 echo "Done. kg_output/ is in $SLURM_SUBMIT_DIR"
 echo "Next: submit m3_build_kg_prompts.slurm (once per depth you want)."
