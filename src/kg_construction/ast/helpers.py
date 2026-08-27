@@ -474,7 +474,14 @@ def _get_exceptions(node: Union[ast.FunctionDef, ast.AsyncFunctionDef]) -> Dict:
             unparsed = _safe_unparse(child.type)
             if unparsed:
                 catches.append(unparsed)
-    return {'raises': list(set(raises)), 'catches': list(set(catches))}
+    # sorted(), not list(set(...)): Python randomizes set iteration
+    # order for strings per-process by default (PYTHONHASHSEED unset),
+    # so two separate builds of the same function could otherwise
+    # report 'raises'/'catches' in a different order. This feeds
+    # exceptions in the rendered prompt directly (SEED_BLOCK_TEMPLATE's
+    # "Declared exceptions" field), the same class of bug as #145's
+    # BFS visited-node-order fix, just a different call site.
+    return {'raises': sorted(set(raises)), 'catches': sorted(set(catches))}
 
 
 def _extract_exception_class_name(expr: ast.AST) -> Optional[str]:
@@ -676,10 +683,13 @@ def _extract_data_flows(node: Union[ast.FunctionDef, ast.AsyncFunctionDef]) -> D
     for param in flows['parameter_usage']:
         flows['parameter_usage'][param] = sorted(list(set(flows['parameter_usage'][param])))
 
-    # Deduplicate return values and mutations
-    flows['returns'] = list(set(flows['returns']))
+    # Deduplicate return values and mutations. sorted(), not
+    # list(set(...)), for the same reason as parameter_usage above and
+    # _extract_exceptions' raises/catches: Python randomizes set
+    # iteration order for strings per-process by default.
+    flows['returns'] = sorted(set(flows['returns']))
     for attr in flows['mutates_attributes']:
-        flows['mutates_attributes'][attr] = list(set(flows['mutates_attributes'][attr]))
+        flows['mutates_attributes'][attr] = sorted(set(flows['mutates_attributes'][attr]))
 
     return flows
 
