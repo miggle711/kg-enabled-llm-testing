@@ -578,7 +578,12 @@ class TestContextExtractor:
             directions={"outgoing", "incoming"},
         )
 
-        # Convert visited node IDs to node dicts
-        nodes_list = [self.engine.nodes_by_id[nid] for nid in visited_node_ids]
+        # Convert visited node IDs to node dicts. Sorted, not iterated
+        # directly off the set -- Python randomizes set iteration order
+        # for strings per-process by default, so without this, node
+        # order (and anything downstream that truncates by list
+        # position, e.g. llm_serializer's MAX_CONTEXT_ITEMS_PER_CATEGORY
+        # caps) would vary between separate runs of the same instance.
+        nodes_list = [self.engine.nodes_by_id[nid] for nid in sorted(visited_node_ids)]
 
         return nodes_list, traversed_edges
