@@ -1,14 +1,17 @@
 #!/bin/bash
 #SBATCH --job-name=build-kgs
 #SBATCH --partition=comp
-#SBATCH --time=6:00:00
-#SBATCH --cpus-per-task=16
-#SBATCH --mem=32G
+#SBATCH --time=12:00:00
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=8G
 #SBATCH --output=build-kgs-%j.out
 
 # Runs scripts/build_kgs_for_instances.py directly on M3, no GitHub
-# Actions involved. More CPU cores for RepoASTParser's ProcessPoolExecutor
-# than a GitHub-hosted runner gets, and no GitHub-hosted time/disk limits.
+# Actions involved. cpus-per-task feeds RepoASTParser's
+# ProcessPoolExecutor directly (more cores = more files parsed in
+# parallel), tune it up if a smaller request queues but runs too slowly,
+# or down further if this still queues too long -- it's not a hard
+# requirement, just parallelism, a single core still works, just slower.
 #
 # KG construction is depth-independent -- BFS depth only affects the
 # separate prompt-building step (see m3_build_kg_prompts.slurm), so this
