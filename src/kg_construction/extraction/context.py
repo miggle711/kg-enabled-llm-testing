@@ -261,9 +261,17 @@ class TestContextExtractor:
             raise ValueError(f"Code file not found: {instance['code_file']}")
         code_file_node = code_file_results[0]
 
-        # Find seed nodes: changed functions in code_file
+        # Find seed nodes: changed functions in code_file. Sorted, not
+        # iterated off the set directly -- Python randomizes set
+        # iteration order for strings per-process by default, so without
+        # this, seed_ids' order (and therefore the order seed blocks
+        # appear in the rendered prompt for a multi-function-patch
+        # instance) would vary between separate builds of the same
+        # instance. enclosing_class can be None, sorted() on a plain
+        # (str, Optional[str]) tuple would raise TypeError comparing
+        # None to str, so sort on a key that substitutes "" for None.
         seed_ids: List[str] = []
-        for name, enclosing_class in changed:
+        for name, enclosing_class in sorted(changed, key=lambda pair: (pair[0], pair[1] or "")):
             funcs = self.engine.find_function_by_name(name)
             # Filter to only those in the code_file
             matches = [
